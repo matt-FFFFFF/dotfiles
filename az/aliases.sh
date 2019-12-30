@@ -1,0 +1,1 @@
+alias az='noglob az $*'
