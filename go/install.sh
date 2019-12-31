@@ -24,7 +24,7 @@ fail () {
 # Ensure paths are correctly set
 source $ZSH/go/path.zsh
 
-COMMANDS="wget"
+COMMANDS="wget tar"
  
 # Read the array values with space
 for COMMAND in $COMMANDS; do
@@ -35,7 +35,7 @@ for COMMAND in $COMMANDS; do
   fi
 done
 
-set -euf -o pipefail
+set -e #-o pipefail
 # Install pre-reqs
 ##sudo apt-get install python3 git -y
 ##o=$(python3 -c $'import os\nprint(os.get_blocking(0))\nos.set_blocking(0, True)')
@@ -57,9 +57,12 @@ sudo rm -rf /usr/local/go
 info 'Install new Go'
 sudo tar -C /usr/local -xzf go"${latest}".linux-amd64.tar.gz
 info "Create the skeleton for your local user $GOPATH directory"
-mkdir -vp $GOPATH/{bin,pkg,src}
+for d in "bin pkg src"; do
+  mkdir -vp $GPPATH/$d
+done
+##mkdir -vp $GOPATH/{bin,pkg,src}
 info 'Configuring Go paths'
-source $ZSH/go/path.zsh
+. $ZSH/go/path.zsh
 info "Installing dep for dependency management"
 go get -u github.com/golang/dep/cmd/dep
 
