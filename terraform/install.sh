@@ -18,17 +18,18 @@ fail () {
   exit
 }
 
-if [ ! $(command -v jq) ]; then
-    fail 'Could not find "jq" command'
-fi
+COMMANDS="jq curl unzip"
+ 
+# Read the array values with space
+for COMMAND in $COMMANDS; do
+  if [ ! $(command -v $COMMAND) ]; then
+    fail "Could not find '$COMMAND' command. Is it installed?"
+  else
+    info "Found command $COMMAND: $(command -v $COMMAND)"
+  fi
+done
 
-if [ ! $(command -v curl) ]; then
-    fail 'Could not find "curl" command'
-fi
-
-if [ ! $(command -v unzip) ]; then
-    fail 'Could not find "unzuip" command'
-fi
+unset COMMANDS
 
 user ' - What verison of Terraform would you like? (press <enter> for latest)'
 read TF_VER

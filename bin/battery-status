@@ -12,9 +12,6 @@ time_left=$(upower -i /org/freedesktop/UPower/devices/DisplayDevice |
   awk '{$1=$1};1'
 )
 
-echo $battstat
-echo $time_left
-
 if [[ $(upower -i /org/freedesktop/UPower/devices/line_power_ADP1 | grep online: ) == *"no"* ]]
 then
   emoji='🔋'

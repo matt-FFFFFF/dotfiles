@@ -1,0 +1,11 @@
+#!/bin/sh
+
+COMMANDS="az"
+ 
+for COMMAND in $COMMANDS; do
+  if [ ! $(command -v $COMMAND) ]; then
+    fail "Could not find '$COMMAND' command. Is it installed?"
+  fi
+done
+
+az keyvault secret show --vault-name $TFKEYVAULT --name azurerm-client-id --query value --output tsv
