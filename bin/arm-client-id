@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#
+# arm-client-id
+#
+# Gets the above secret from Azure key vault. Needs TFKEYVAULT set by local env file.
+
 COMMANDS="az"
  
 for COMMAND in $COMMANDS; do
