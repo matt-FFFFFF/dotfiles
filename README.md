@@ -3,6 +3,8 @@
 
 Your dotfiles are how you personalize your system. These are mine.
 
+**Designed to be used on Ubuntu**
+
 Time and time again I found myself recreating aliases, install scripts,etc.
 This is a way of standardising things :)
 
@@ -19,6 +21,12 @@ included into your shell. Anything with an extension of `.symlink` will get
 symlinked without extension into `$HOME` when you run `script/bootstrap`.
 
 ## what's inside
+
+- Azure CLI
+- Terraform
+- Golang
+- Teams for Linux
+- Regolith (i3 Windows Manager for Ubuntu)
 
 A lot of stuff. Seriously, a lot of stuff. Check them out in the file browser
 above and see what components may mesh up with you.
