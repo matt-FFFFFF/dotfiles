@@ -58,8 +58,9 @@ info 'Install new Go'
 sudo tar -C /usr/local -xzf go"${latest}".linux-amd64.tar.gz
 info "Create the skeleton for your local user $GOPATH directory"
 for d in "bin pkg src"; do
-  mkdir -vp $GPPATH/$d
+  mkdir -vp $GOPATH/$d
 done
+
 ##mkdir -vp $GOPATH/{bin,pkg,src}
 info 'Configuring Go paths'
 . $ZSH/go/path.zsh

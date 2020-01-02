@@ -35,4 +35,8 @@ fi
 info 'Creating symlink'
 ln -s $ROOT/regolith/.config/i3/config $i3CONFIG/config
 
+info 'Installing Regolith'
+sudo add-apt-repository -y ppa:kgilmer/regolith-stable
+sudo apt install regolith-desktop
+
 success 'Done!'
