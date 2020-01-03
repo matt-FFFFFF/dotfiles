@@ -6,8 +6,8 @@
 !#include "/etc/regolith/styles/color-solarized-dark"
 !#include "/etc/regolith/styles/color-solarized-light"
 !#include "/etc/regolith/styles/color-gruvbox"
-#include "/etc/regolith/styles/color-nord"
-!#include "/etc/regolith/styles/color-ayu"
+!#include "/etc/regolith/styles/color-nord"
+#include "/home/matt/.Xresources.d/color-ayu"
 !#include "/etc/regolith/styles/color-ayu-dark"
 !#include "/etc/regolith/styles/color-ayu-mirage"
 
@@ -29,11 +29,11 @@
 !#include "/etc/regolith/styles/theme-ubuntu-dark"
 !
 ! The following theme requires nordic and paper-icon-theme to be installed
-#include "/etc/regolith/styles/theme-nordic"
+!#include "/etc/regolith/styles/theme-nordic"
 
 ! The following theme requires Ayu and Arc-icon-theme to be installed
 ! (https://github.com/appelgriebsch/ayu-theme/releases/tag/ayu-0.1.0)
-!#include "/etc/regolith/styles/theme-ayu"
+#include "/home/matt/.Xresources.d/theme-ayu"
 
 ! The following theme requires Ayu and Arc-icon-theme to be installed
 ! (https://github.com/appelgriebsch/ayu-theme/releases/tag/ayu-0.1.0)

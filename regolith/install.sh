@@ -39,4 +39,10 @@ info 'Installing Regolith'
 sudo add-apt-repository -y ppa:kgilmer/regolith-stable
 sudo apt install regolith-desktop
 
+info 'Installing Ayu GTK3 theme'
+export DEBIAN_FRONTEND=noninteractive
+curl -L https://github.com/appelgriebsch/ayu-theme/releases/download/ayu-0.1.0/ayu-theme_0.1.0-1_amd64.deb --output $HOME/ayu-theme_0.1.0-1_amd64.deb
+cd $HOME
+sudo dpkg -i ./ayu-theme_0.1.0-1_amd64.deb && rm ./ayu-theme_0.1.0-1_amd64.deb
+
 success 'Done!'
