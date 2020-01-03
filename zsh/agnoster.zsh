@@ -75,6 +75,8 @@ prompt_end() {
   fi
   print -n "%{%f%}"
   CURRENT_BG=''
+  # Add a newline
+  print -n "\n$SEGMENT_SEPARATOR"
 }
 
 ### Prompt components
