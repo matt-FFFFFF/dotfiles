@@ -1,0 +1,1 @@
+alias k='noglob kubectl $*'
