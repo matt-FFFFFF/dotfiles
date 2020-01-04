@@ -200,7 +200,7 @@ bindsym $mod+v split v
 bindsym $mod+$alt+Left exec gdbus call --session --dest org.gnome.SettingsDaemon.Power --object-path /org/gnome/SettingsDaemon/Power --method org.gnome.SettingsDaemon.Power.Screen.StepDown
 bindsym $mod+$alt+Right exec gdbus call --session --dest org.gnome.SettingsDaemon.Power --object-path /org/gnome/SettingsDaemon/Power --method org.gnome.SettingsDaemon.Power.Screen.StepUp
 
-# screenshot
+# screenshot (disable Gnome hotkeys)
 bindsym Print exec --no-startup-id scrot '%Y-%m-%d-%s_screenshot.png' --quality 80 --exec 'mv $f ~/Pictures/'
 bindsym --release Ctrl+Print exec --no-startup-id scrot '%Y-%m-%d-%s_screenshot.png' --select  --quality 80 --exec 'mv $f ~/Pictures/'
 
