@@ -18,6 +18,10 @@ fail () {
   exit
 }
 
+user 'The Xresources files do not support environment variables - update the paths to point to your home dir!'
+user 'press <enter> to confirm'
+read
+
 cd "$(dirname "$0")/.."
 ROOT=$(pwd -P)
 i3CONFIG=$HOME/.config/regolith/i3
