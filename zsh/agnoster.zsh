@@ -73,7 +73,7 @@ prompt_end() {
   else
     print -n "%{%k%}"
   fi
-  print -n "%{%f%}"
+  print -n "%{%f%}%E"
   CURRENT_BG=''
   # Add a newline
   print -n "\n$SEGMENT_SEPARATOR"
