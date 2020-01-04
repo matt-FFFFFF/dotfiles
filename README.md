@@ -24,6 +24,7 @@ symlinked without extension into `$HOME` when you run `script/bootstrap`.
 
 - Azure CLI
 - Terraform
+- Kubernetes (kubectl)
 - Golang
 - Teams for Linux
 - Regolith (i3 Windows Manager for Ubuntu)
@@ -74,14 +75,11 @@ this script in `bin/`.
 
 ## bugs
 
-I want this to work for everyone; that means when you clone it down it should
-work for you even though you may not have `rbenv` installed, for example. That
-said, I do use this as _my_ dotfiles, so there's a good chance I may break
-something if I forget to make a check for a dependency.
+This is designed to work on **Ubuntu**, so no surprises that this might not work on Mac OS.
+That said, I do use this as _my_ dotfiles, so there's a good chance I may break something if I forget to make a check for a dependency.
 
 If you're brand-new to the project and run into any blockers, please
-[open an issue](https://github.com/matt-FFFFFF/dotfiles/issues) on this repository
-and I'd love to get it fixed for you!
+[open an issue](https://github.com/matt-FFFFFF/dotfiles/issues) on this repository.
 
 ## thanks
 
