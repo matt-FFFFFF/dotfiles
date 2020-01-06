@@ -204,6 +204,13 @@ bindsym $mod+$alt+Right exec gdbus call --session --dest org.gnome.SettingsDaemo
 bindsym Print exec --no-startup-id scrot '%Y-%m-%d-%s_screenshot.png' --quality 80 --exec 'mv $f ~/Pictures/'
 bindsym --release Ctrl+Print exec --no-startup-id scrot '%Y-%m-%d-%s_screenshot.png' --select  --quality 80 --exec 'mv $f ~/Pictures/'
 
+# assignments
+for_window [class="microsoft teams - preview"] → 10
+for_window [class="gpaste-ui"] → 9
+
+# Fix notifications being full screen
+for_window [window_type="notification"] floating enable
+
 # resize window (you can also use the mouse for that)
 mode "Resize Mode" {
         # These bindings trigger as soon as you enter the resize mode
@@ -239,7 +246,7 @@ new_window pixel 1
 new_float pixel 1
 
 # Gaps (i3-gaps)
-gaps inner 5
+gaps inner 3
 gaps outer 0
 
 # Only enable gaps on a workspace when there is at least one container
@@ -336,3 +343,5 @@ exec --no-startup-id /usr/bin/regolith-ftue
 
 # Hide the mouse pointer if unused for a duration
 exec --no-startup-id /usr/bin/unclutter -b
+
+
