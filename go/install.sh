@@ -21,8 +21,10 @@ fail () {
   exit
 }
 
+info 'Begin go'
+
 # Ensure paths are correctly set
-source $ZSH/go/path.zsh
+. "$(dirname $0)/path.zsh"
 
 COMMANDS="wget tar"
  
@@ -65,7 +67,7 @@ done
 info 'Configuring Go paths'
 . $ZSH/go/path.zsh
 info "Installing dep for dependency management"
-go get -u github.com/golang/dep/cmd/dep
+go get -vu github.com/golang/dep/cmd/dep
 
 # Remove Download
 info 'Remove download'
@@ -73,3 +75,5 @@ rm ~/go"${latest}".linux-amd64.tar.gz
 
 # Print Go Version
 info "$(/usr/local/go/bin/go version)"
+
+success 'Finish go'

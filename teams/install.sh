@@ -17,6 +17,7 @@ fail () {
   echo ''
   exit
 }
+info 'Begin Teams'
 
 COMMANDS="wget"
  
@@ -39,4 +40,4 @@ export DEBIAN_FRONTEND=noninteractive
 info 'Installing Teams for Linux'
 sudo dpkg -i ./TeamsLinux.deb && rm ./TeamsLinux.deb
 
-success 'Done!'
+success 'Finish Teams'

@@ -18,9 +18,11 @@ fail () {
   exit
 }
 
+info 'Begin Docker'
+
 export DEBIAN_FRONTEND=noninteractive
 
-COMMANDS="curl lsb_release tee"
+COMMANDS="curl lsb_release tee gpasswd"
  
 # Read the array values with space
 for COMMAND in $COMMANDS; do
@@ -58,3 +60,8 @@ echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $LSB_RELEASE sta
 sudo apt-get update
 
 sudo apt-get install --yes docker-ce docker-ce-cli containerd.io
+
+info 'Adding user to docker group'
+sudo gpasswd -a $(id -un) docker
+
+success 'Finish Docker'

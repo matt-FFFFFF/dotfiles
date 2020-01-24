@@ -18,6 +18,8 @@ fail () {
   exit
 }
 
+info 'Begin Kubernetes'
+
 COMMANDS="curl"
  
 # Read the array values with space
@@ -38,7 +40,7 @@ if [ ! -d ~/bin ]; then
     mkdir ~/bin
 fi
 
-user ' - What verison of kubectl would you like? (press <enter> for latest)'
+user 'What verison of kubectl would you like? (press <enter> for latest)'
 read KUBECTL_VER
 
 if [ -z "$KUBECTL_VER" ]; then
@@ -55,4 +57,6 @@ curl --silent -L https://storage.googleapis.com/kubernetes-release/release/$KUBE
 
 chmod ug+x ~/bin/kubectl
 
-info "$(kubectl version)"
+info "$(~/bin/kubectl version)"
+
+success 'Finish Kubernetes'

@@ -6,7 +6,13 @@ set -e
 
 cd "$(dirname $0)"/..
 
+# shortcut to this dotfiles path is $ZSH
+export ZSH=$HOME/.dotfiles
+
+# your project folder that we can `c [tab]` to
+export PROJECTS=$HOME/code
+
 # find the installers and run them iteratively
 # use _install.sh to run first
-find . -name _install.sh | while read installer ; do sh -c "${installer}" ; done
-find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+find . -name _install.sh -exec sh -c {} \;
+find . -name install.sh -exec sh -c {} \;

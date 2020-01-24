@@ -18,6 +18,8 @@ fail () {
   exit
 }
 
+info 'Begin terraform'
+
 COMMANDS="jq curl unzip"
  
 # Read the array values with space
@@ -31,7 +33,7 @@ done
 
 unset COMMANDS
 
-user ' - What verison of Terraform would you like? (press <enter> for latest)'
+user 'What verison of Terraform would you like? (press <enter> for latest)'
 read TF_VER
 
 if [ -z "$TF_VER" ]; then
@@ -53,3 +55,5 @@ unzip ~/terraform_${TF_VER}_linux_amd64.zip
 
 info 'Removing download'
 rm ~/terraform_${TF_VER}_linux_amd64.zip
+
+success 'Finish terraform'

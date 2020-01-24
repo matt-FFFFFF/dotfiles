@@ -18,6 +18,8 @@ fail () {
   exit
 }
 
+info 'Begin az cli'
+
 COMMANDS="gpg tee curl"
  
 # Read the array values with space
@@ -69,3 +71,5 @@ set +v
 
 info "Installing the Azure CLI"
 sudo apt-get install -y azure-cli
+
+success 'Finish az cli'

@@ -20,6 +20,7 @@ fail () {
 
 cd $HOME
 
+info 'Begin cascadiacode'
 
 COMMANDS="curl"
  
@@ -72,3 +73,5 @@ sudo chmod -R o+rX /usr/local/share/fonts/truetype
 
 # copy fonts to /usr/share/fonts/truetype/cascadia-code/*
 success 'Done!'
+
+success 'Finish cascadiacode'
