@@ -20,7 +20,7 @@ fail () {
 
 cd $HOME
 
-info 'Begin cascadiacode'
+info 'Begin delugiacode'
 
 COMMANDS="curl"
  
@@ -44,10 +44,10 @@ if [ ! "$PAGE" ]; then
     fail 'Could not connect to GitHub'
 fi
 
-FONTS="Cascadia CascadiaMono CascadiaPL CascadiaMonoPL"
+FONTS="Delugia.Nerd.Font.Complete"
 
 for f in $FONTS; do
-    URL="https://github.com/microsoft/cascadia-code/releases/latest/download/"
+    URL="https://github.com/adam7/delugia-code/releases/latest/download/"
     URL="https://github.com${f}.ttf"
     OUT="$f.ttf"
     info "Downloading $URL to $OUT"
@@ -56,21 +56,18 @@ done
 
 unset PAGE BASEURL PATTERN URL
 
-if [ ! -d /usr/local/share/fonts/truetype/cascadia-code ]; then
-  info 'Creating directory: /usr/local/share/fonts/truetype/cascadia-code'
+if [ ! -d /usr/local/share/fonts/truetype/delugia-code ]; then
+  info 'Creating directory: /usr/local/share/fonts/truetype/delugia-code'
   sudo mkdir -pv /usr/local/share/fonts/truetype/cascadia-code
 fi
 
 info 'Installing fonts to /usr/share/local/fonts'
 
 for f in $FONTS; do
-  sudo cp $f.ttf /usr/local/share/fonts/truetype/cascadia-code && rm $f.ttf
+  sudo cp $f.ttf /usr/local/share/fonts/truetype/delugia-code && rm $f.ttf
 done
 
-info 'Setting /usr/local/share/fonts/truetype/cascadia-code to be world readable'
+info 'Setting /usr/local/share/fonts/truetype/delugia-code to be world readable'
 sudo chmod -R o+rX /usr/local/share/fonts/truetype
 
-# copy fonts to /usr/share/fonts/truetype/cascadia-code/*
-success 'Done!'
-
-success 'Finish cascadiacode'
+success 'Finish delugiacode'

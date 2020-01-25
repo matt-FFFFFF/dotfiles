@@ -1,8 +1,8 @@
 ! Typeface: Cascadia Code 
-#define typeface_bar_glyph  Cascadia Code PL 13
-#define typeface_bar        pango:Cascadia Code PL 13, FontAwesome 13
-#define typeface_rofi       Cascadia Code PL 16
-#define typeface_terminal   Cascadia Mono PL:pixelsize=24:antialias=true:autohint=true
+#define typeface_bar_glyph  Delugia Nerd Font 13
+#define typeface_bar        pango:Delugia Nerd Font 13, FontAwesome 13
+#define typeface_rofi       Delugia Nerd Font 16
+#define typeface_terminal   Delugia Nerd Font:pixelsize=18:antialias=true:autohint=true
 
 #define typeface_bar_glyph_wifi 
 #define typeface_bar_glyph_wired 

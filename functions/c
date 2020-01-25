@@ -13,4 +13,10 @@
 #
 # ...to quickly jump into holman/boom, for example.
 
-cd "$PROJECTS/$1"
+if [ -d "$PROJECTS/$1" ]; then
+    cd "$PROJECTS/$1"
+fi
+
+if [ -d "$GOPATH/src/github.com/$1" ]; then
+    cd "$GOPATH/src/github.com/$1"
+fi
