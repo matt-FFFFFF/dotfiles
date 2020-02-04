@@ -43,10 +43,13 @@
 ! (https://github.com/appelgriebsch/ayu-theme/releases/tag/ayu-mirage-0.1.0)
 !#include "/etc/regolith/styles/theme-ayu-mirage"
 
+! -- HiDPI
+#include "/home/matt/.Xresources.d/hidpi"
+
 ! -- Applications
 ! These files map values defined above into specific app settings.
-#include "/etc/regolith/styles/st-term"
-#include "/etc/regolith/styles/i3-wm"
+!#include "/etc/regolith/styles/st-term"
+!#include "/etc/regolith/styles/i3-wm"
 #include "/home/matt/.Xresources.d/i3xrocks"
-#include "/etc/regolith/styles/rofi"
-#include "/etc/regolith/styles/gnome"
+!#include "/etc/regolith/styles/rofi"
+!#include "/etc/regolith/styles/gnome"
