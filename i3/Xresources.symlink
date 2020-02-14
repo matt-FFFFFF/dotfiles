@@ -1,55 +1,55 @@
-! This is the Regolith root-level Xresources file.
-!
-! -- Styles - Colors
-!
-! Uncomment one and only one of the following color definitions: 
-!#include "/etc/regolith/styles/color-solarized-dark"
-!#include "/etc/regolith/styles/color-solarized-light"
-!#include "/etc/regolith/styles/color-gruvbox"
-!#include "/etc/regolith/styles/color-nord"
-#include "/home/matt/.Xresources.d/color-ayu"
-!#include "/etc/regolith/styles/color-ayu-dark"
-!#include "/etc/regolith/styles/color-ayu-mirage"
+! ------------------------------------------------------------------------------
+! Colour Configuration
+! ------------------------------------------------------------------------------
 
-! -- Styles - Fonts
-! NOTE: Font packages may need to be installed when enabling typefaces.
-! Uncomment one and only one of the following font definitions:
-#include "/home/matt/.Xresources.d/typeface-cascadiacode"
-!#include "/etc/regolith/styles/typeface-sourcecodepro"
-!#include "/etc/regolith/styles/typeface-ubuntu"
+! special
+*.foreground:   #d8dee8
+*.background:   #2f343f
+*.cursorColor:  #b48ead
 
-! -- Styles - Theme
-! NOTE: GTK theme and icon packages may need to be installed when enabling themes.
-! Uncomment one and only one of the following theme definitions:
-!
-! The following theme requires solarc-theme and arc-icon-theme to be installed.
-!#include "/etc/regolith/styles/theme-regolith"
-!
-! The following theme requires gnome-themes-extra-data and adwaita-icon-theme to be installed.
-!#include "/etc/regolith/styles/theme-ubuntu-dark"
-!
-! The following theme requires nordic and paper-icon-theme to be installed
-!#include "/etc/regolith/styles/theme-nordic"
+! black
+*.color0  : #4b5262
+*.color8  : #434a5a
 
-! The following theme requires Ayu and Arc-icon-theme to be installed
-! (https://github.com/appelgriebsch/ayu-theme/releases/tag/ayu-0.1.0)
-#include "/home/matt/.Xresources.d/theme-ayu"
+! red
+*.color1  : #bf616a
+*.color9  : #b3555e
 
-! The following theme requires Ayu and Arc-icon-theme to be installed
-! (https://github.com/appelgriebsch/ayu-theme/releases/tag/ayu-0.1.0)
-!#include "/etc/regolith/styles/theme-ayu-dark"
+! green
+*.color2  : #a3be8c
+*.color10 : #93ae7c
 
-! The following theme requires Ayu-Mirage and Arc-icon-theme to be installed
-! (https://github.com/appelgriebsch/ayu-theme/releases/tag/ayu-mirage-0.1.0)
-!#include "/etc/regolith/styles/theme-ayu-mirage"
+! yellow
+*.color3  : #ebcb8b
+*.color11 : #dbbb7b
 
-! -- HiDPI
-#include "/home/matt/.Xresources.d/hidpi"
+! blue
+*.color4  : #81a1c1
+*.color12 : #7191b1
 
-! -- Applications
-! These files map values defined above into specific app settings.
-!#include "/etc/regolith/styles/st-term"
-!#include "/etc/regolith/styles/i3-wm"
-#include "/home/matt/.Xresources.d/i3xrocks"
-!#include "/etc/regolith/styles/rofi"
-!#include "/etc/regolith/styles/gnome"
+! magenta
+*.color5  : #b48ead
+*.color13 : #a6809f
+
+! cyan
+*.color6  : #89d0bA
+*.color14 : #7dbba8
+
+! white
+*.color7  : #e5e9f0
+*.color15 : #d1d5dc
+
+
+! ------------------------------------------------------------------------------
+! High DPI configs
+! ------------------------------------------------------------------------------
+
+!! Xft.dpi: 192
+
+! These might also be useful depending on your monitor and personal preference:
+! Xft.autohint: 0
+! Xft.lcdfilter:  lcddefault
+! Xft.hintstyle:  hintfull
+! Xft.hinting: 1
+! Xft.antialias: 1
+! Xft.rgba: rgb

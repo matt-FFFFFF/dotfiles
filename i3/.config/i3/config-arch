@@ -7,11 +7,34 @@
 set $mod Mod4
 set $alt Mod1
 
-# i3xrocks config file
+# i3blocks config file
 set $i3blocks_config ~/.config/i3blocks/i3blocks.conf
 
 # path to terminal. Override this to specify a custom terminal.
 set $terminal_path /usr/bin/st
+
+## Font
+font -xos4-terminus-bold-r-normal--28-280-72-72-c-140-iso10646-1
+font pango:DejaVu Sans 11
+
+## Autorun
+# Start autostart Desktop files
+exec --no-startup-id dex -a >/dev/null 2>&1
+# PolKit agent
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & >/dev/null 2>&1
+# Keyring
+exec --no-startup-id /usr/bin/gnome-keyring-daemon >/dev/null 2>&1
+# Hide the mouse pointer if unused for a duration
+exec --no-startup-id /usr/bin/unclutter -b
+# Screensaver
+exec --no-startup-id xautolock -time 15 -locker $Locker >/dev/null 2>&1 &
+# Wallpaper
+exec --no-startup-id hsetroot -cover ~/.wallpaper.jpg >/dev/null 2>&1
+# dunst notification
+exec --no-startup-id dunst >/dev/null 2>&1 &
+# Start the composite manager
+exec --no-startup-id picom -b --config ~/.config/picom/config >/dev/null 2>&1 &
+
 
 # These are the labels which define each i3 workspace.
 set $ws1  "1"
@@ -48,13 +71,10 @@ bindsym $mod+Shift+Return exec /usr/bin/microsoft-edge-stable
 # kill focused window
 bindsym $mod+Shift+q kill
 
-#set_from_resource $rofiTheme rofi.theme "regolith-theme"
-set $rofiTheme /home/matt/.config/rofi/glue_pro_blue.rasi
-
 # rofi app and window launchers
-bindsym $mod+space exec rofi -show drun -theme $rofiTheme
-bindsym $mod+Shift+space exec rofi -show run -theme $rofiTheme
-bindsym $mod+Ctrl+space exec rofi -show window -theme $rofiTheme
+bindsym $mod+space exec rofi -show drun -font 'Delugia Nerd Font 16'
+bindsym $mod+Shift+space exec rofi -show run -font 'Delugia Nerd Font 16'
+bindsym $mod+Ctrl+space exec rofi -show window -font 'Delugia Nerd Font 16'
 
 # change focus
 bindsym $mod+Left focus left
@@ -75,11 +95,8 @@ bindsym $mod+BackSpace split toggle
 bindsym $mod+f fullscreen toggle
 
 # change gaps interactively
-bindsym $mod+minus gaps inner current minus 6
-bindsym $mod+plus gaps inner current plus 6
-
-# show/hide keybindings
-bindsym $mod+Shift+question exec --no-startup-id /usr/bin/conky-toggle
+bindsym $mod+minus gaps inner current minus 3
+bindsym $mod+plus gaps inner current plus 3
 
 # toggle tiling / floating
 bindsym $mod+Shift+f floating toggle
@@ -163,31 +180,43 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
+# Create Log out, Reboot, Poweroff bindings
+mode "Exit (L)ogout, (R)eboot, (P)oweroff" {
+        bindsym $mod+r exec --no-startup-id systemctl reboot
+        bindsym $mod+l exit
+        bindsym $mod+p exec --no-startup-id systemctl poweroff
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+e mode "Exit (L)ogout, (R)eboot, (P)oweroff"
+
 # Logout of session
-bindsym $mod+Shift+e exec /usr/bin/i3-msg exit
+#bindsym $mod+Shift+e exec --no-startup-id i3-nagbar -m "Exit?" -t warning -B Ok 'i3-msg exit'
 
 # Reboot computer
-bindsym $mod+Shift+b exec /usr/bin/gnome-session-quit --reboot
+bindsym $mod+Shift+b exec --no-startup-id i3-nagbar -m "Reboot?" -t warning -B Ok 'systemctl reboot'
 
 # Power off computer
-bindsym $mod+Shift+p exec /usr/bin/gnome-session-quit --power-off
-
+bindsym $mod+Shift+p exec --no-startup-id i3-nagbar -m "Power off?" -t warning -B Ok 'systemctl poweroff'
 
 # lock the screen
-set $Locker ~/bin/lock_screen.sh
+set $Locker /usr/local/bin/lock_screen.sh
 bindsym $mod+l exec --no-startup-id $Locker 
 
 # put the system to sleep
 bindsym $mod+Shift+s exec systemctl suspend
 
 # shortcuts for common system configuration tasks
-bindsym $mod+c exec gnome-control-center
-bindsym $mod+w exec gnome-control-center wifi
-bindsym $mod+b exec gnome-control-center bluetooth
-bindsym $mod+d exec gnome-control-center display
-bindsym $mod+n exec gnome-control-center network
-bindsym $mod+p exec gnome-control-center power
-bindsym $mod+s exec gnome-control-center sound
+bindsym $mod+c exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center
+bindsym $mod+w exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center wifi
+bindsym $mod+b exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center bluetooth
+bindsym $mod+d exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center display
+bindsym $mod+n exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center network
+bindsym $mod+p exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center power
+bindsym $mod+s exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center sound
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -195,20 +224,34 @@ bindsym $mod+h split h
 # split in vertical orientation
 bindsym $mod+v split v
 
-# screen brightness
-bindsym $mod+$alt+Left exec gdbus call --session --dest org.gnome.SettingsDaemon.Power --object-path /org/gnome/SettingsDaemon/Power --method org.gnome.SettingsDaemon.Power.Screen.StepDown
-bindsym $mod+$alt+Right exec gdbus call --session --dest org.gnome.SettingsDaemon.Power --object-path /org/gnome/SettingsDaemon/Power --method org.gnome.SettingsDaemon.Power.Screen.StepUp
+# screen brightness/backlight
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 3
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 3
+
+# volume
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks 
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
 
 # screenshot (disable Gnome hotkeys)
 bindsym Print exec --no-startup-id scrot '%Y-%m-%d-%s_screenshot.png' --quality 80 --exec 'mv $f ~/Pictures/'
 bindsym --release Ctrl+Print exec --no-startup-id scrot '%Y-%m-%d-%s_screenshot.png' --select  --quality 80 --exec 'mv $f ~/Pictures/'
 
 # assignments
-for_window [class="microsoft teams - preview"] → 10
-for_window [class="gpaste-ui"] → 9
+for_window [class="Microsoft Teams - Preview"] → $ws10
+
 
 # Fix notifications being full screen
 for_window [window_type="notification"] floating enable
+
+# Floating windows
+for_window [class="Nautilus"] floating enable
+for_window [class="Remmina"] floating enable
+for_window [class="Gnome-tweaks"] floating enable
+for_window [class="Gnome-control-center"] floating enable
+for_window [class="Virt-manager"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [window_role="pop-up"] floating enable
 
 # resize window (you can also use the mouse for that)
 mode "Resize Mode" {
@@ -251,37 +294,17 @@ gaps outer 0
 # Only enable gaps on a workspace when there is at least one container
 smart_gaps on
 
-set $focused.color.border #fafafa
-set $focused.color.background #cbccc6
-set $focused.color.text #6c7680
-set $focused.color.indicator #73d0ff
-#set $focused.color.child_border
-
-set $focused_inactive.color.border #fafafa
-set $focused_inactive.color.background #eee8d5
-set $focused_inactive.color.text #cbccc6
-set $focused_inactive.color.indicator #eee8d5
-#set $focused_inactive.color.child_border 
-
-set $unfocused.color.border #fafafa
-set $unfocused.color.background #ff3333
-set $unfocused.color.text #6c7680
-set $unfocused.color.indicator #ff3333
-#set $unfocused.color.child_border
-
-set $urgent.color.border #fafafa
-set $urgent.color.background #ff3333
-set $urgent.color.text #6c7680
-set $urgent.color.indicator #ff3333
-#set $urgent.color.child_border
-
-
 # Window Border color
-# class                 border                             background                         text                               indicator                          child_border
-client.focused          $focused.color.border              $focused.color.background          $focused.color.text                $focused.color.indicator           $focused.color.child_border
-client.focused_inactive $focused_inactive.color.border     $focused_inactive.color.background $focused_inactive.color.text       $focused_inactive.color.indicator  $focused_inactive.color.child_border
-client.unfocused        $unfocused.color.border            $unfocused.color.background        $unfocused.color.text              $unfocused.color.indicator         $unfocused.color.child_border
-client.urgent           $urgent.color.border               $urgent.color.background           $urgent.color.text                 $urgent.color.indicator            $urgent.color.child_border
+client.focused              #bf616a #2f343f #d8dee8 #bf616a #d8dee8
+client.focused_inactive     #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.unfocused            #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.urgent               #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.background           #2f343f
+
+# Floating sizes
+floating_minimum_size 450 x 450
+floating_maximum_size 1500 x 1500
 
 # Enable popup during fullscreen
 popup_during_fullscreen smart
@@ -309,7 +332,7 @@ set $i3-wm.bar.workspace.urgent.border.color #ff3333
 set $i3-wm.bar.workspace.urgent.background.color #ff3333
 set $i3-wm.bar.workspace.urgent.text.color #6c7680
 
-set $i3-wm.bar.font "pango:Delugia Nerd Font 13, Delugia Nerd Font 13"
+set $i3-wm.bar.font "pango:Delugia Nerd Font 14, Delugia Nerd Font 14"
 
 # Configure the bar
 bar {
@@ -320,29 +343,14 @@ bar {
   strip_workspace_numbers yes
 
   colors {
-      background $i3-wm.bar.background.color
-      statusline $i3-wm.bar.statusline.color
-      separator  $i3-wm.bar.separator.color
+        background #2f343f
+        statusline #2f343f
+        separator #4b5262
 
-#                        BORDER  BACKGROUND TEXT
-      focused_workspace  $i3-wm.bar.workspace.focused.border.color      $i3-wm.bar.workspace.focused.background.color   $i3-wm.bar.workspace.focused.text.color
-      active_workspace   $i3-wm.bar.workspace.active.border.color       $i3-wm.bar.workspace.active.background.color    $i3-wm.bar.workspace.active.text.color
-      inactive_workspace $i3-wm.bar.workspace.inactive.border.color     $i3-wm.bar.workspace.inactive.background.color  $i3-wm.bar.workspace.inactive.text.color
-      urgent_workspace   $i3-wm.bar.workspace.urgent.border.color       $i3-wm.bar.workspace.urgent.background.color    $i3-wm.bar.workspace.urgent.text.color
+        # colour of border, background, and text
+        focused_workspace       #2f343f #bf616a #d8dee8
+        active_workspace        #2f343f #2f343f #d8dee8
+        inactive_workspace      #2f343f #2f343f #d8dee8
+        urgent_workspacei       #2f343f #ebcb8b #2f343f
   }
 }
-
-# Run programs when i3 starts
-
-# Hide the mouse pointer if unused for a duration
-exec --no-startup-id /usr/bin/unclutter -b
-
-# Set display scaling to reduce size from the 2x scaling in hidpi
-exec --no-startup-id /sbin/xrandr --output eDP-1 --scale 1.33x1.33
-
-# Start the composite manager
-exec --no-startup-id picom -b --config ~/.config/picom/config
-
-# Screensaver
-
-exec --no-startup-id xautolock -time 15 -locker $Locker &

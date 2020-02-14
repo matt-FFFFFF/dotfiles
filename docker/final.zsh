@@ -1,0 +1,2 @@
+compdef d=docker
+
