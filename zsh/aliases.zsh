@@ -7,3 +7,5 @@ alias ll='ls -la $*'
 ## Show hidden files ##
 alias l.='ls -d .* --color=auto $*'
 alias ll.='ls -ld .* --color=auto $*'
+## for when you forgot to ask nicely
+alias pls='sudo $(fc -ln -1)'
