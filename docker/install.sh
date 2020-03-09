@@ -64,4 +64,9 @@ sudo apt-get install --yes docker-ce docker-ce-cli containerd.io
 info 'Adding user to docker group'
 sudo gpasswd -a $(id -un) docker
 
+if [ -d $ZSH/docker }; then
+ info 'Getting zsh completion'
+  curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker -o $ZSH/docker/completion.zsh
+fi
+
 success 'Finish Docker'

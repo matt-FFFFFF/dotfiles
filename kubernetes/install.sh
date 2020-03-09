@@ -59,4 +59,9 @@ chmod ug+x ~/bin/kubectl
 
 info "$(~/bin/kubectl version)"
 
+if [ -d $ZSH/kubernetes ]; then
+  info "Creating kubectl zsh completion"
+  ~/bin/kubectl completion zsh > $ZSH/kubernetes/completion.zsh
+fi
+
 success 'Finish Kubernetes'
