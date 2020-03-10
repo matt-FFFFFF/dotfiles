@@ -3,7 +3,8 @@
 
 Your dotfiles are how you personalize your system. These are mine.
 
-**Designed to be used on Ubuntu**
+**Designed to be used on Ubuntu**  
+*(though working on incorporating Arch)*
 
 Time and time again I found myself recreating aliases, install scripts,etc.
 This is a way of standardising things :)
