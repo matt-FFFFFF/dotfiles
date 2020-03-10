@@ -36,18 +36,23 @@ use, and build on what you do use.
 
 ## components
 
-There's a few special files in the hierarchy.
+There's a few special items in the hierarchy.
 
 - **bin/**: Anything in `bin/` will get added to your `$PATH` and be made
   available everywhere.
+- **functions/**: A place to keep the zsh functions that don't belong anywhere else.
+  Actually, they can be anywhere as each directory is placed into ```fpath``` by ```zsh/fpath.zsh```.
 - **topic/\*.zsh**: Any files ending in `.zsh` get loaded into your
   environment.
 - **topic/path.zsh**: Any file named `path.zsh` is loaded first and is
   expected to setup `$PATH` or similar.
 - **topic/completion.zsh**: Any file named `completion.zsh` is loaded
-  last and is expected to setup autocomplete.
-- **topic/install.sh**: Any file named `install.sh` is executed when you run `script/install`. To avoid being loaded automatically, its extension is `.sh`, not `.zsh`.
-- **topic/\*.symlink**: Any file ending in `*.symlink` gets symlinked into
+  second to last and is expected to setup autocomplete.
+- **topic/final.zsh**: Any file named `final.zsh` is loaded
+  last and is used for tasks that depend on completion.
+- **topic/install.sh**: Any file named `install.sh` is executed when you run `script/install`.
+  To avoid being loaded automatically, its extension is `.sh`, not `.zsh`.
+- **topic/\*.symlink**: Any file dor directory ending in `*.symlink` gets symlinked into
   your `$HOME`. This is so you can keep all of those versioned in your dotfiles
   but still keep those autoloaded files in your home directory. These get
   symlinked in when you run `script/bootstrap`.
@@ -75,7 +80,8 @@ this script in `bin/`.
 
 ## bugs
 
-This is designed to work on **Ubuntu**, so no surprises that this might not work on Mac OS.
+Many of the install scripts are designed to work on **Ubuntu**, so no surprises that this might not work on Mac OS.
+I'm now using Arch so I need to refactor this to cope with the two package systems.
 That said, I do use this as _my_ dotfiles, so there's a good chance I may break something if I forget to make a check for a dependency.
 
 If you're brand-new to the project and run into any blockers, please
