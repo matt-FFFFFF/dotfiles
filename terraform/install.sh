@@ -48,12 +48,35 @@ if [ ! -d ~/bin ]; then
     mkdir ~/bin
 fi
 
+user 'What verison of tflint would you like? (press <enter> for latest)'
+read TFLINT_VER
+
+if [ -z "$TFLINT_VER" ]; then
+    TFLINT_URL="https://github.com/terraform-linters/tflint/releases/latest/download/tflint_linux_amd64.zip"
+else
+    TFLINT_URL="https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VER}/tflint_linux_amd64.zip"
+fi
+
+info "Getting ${TFLINT_URL}"
+curl -L $TFLINT_URL --output ~/tflint_linux_amd64.zip
+
+if [ ! -d ~/bin ]; then
+    info 'Creating ~/bin'
+    mkdir ~/binerraform_${TF_VER}
+fi
+
 cd ~/bin
 
 info 'Unzipping Terraform'
 unzip ~/terraform_${TF_VER}_linux_amd64.zip
 
-info 'Removing download'
+info 'Unzipping tflint'
+unzip ~/tflint_linux_amd64.zip
+
+info 'Removing Terraform download'
 rm ~/terraform_${TF_VER}_linux_amd64.zip
+
+info 'Removing tflint download'
+rm ~/tflint_linux_amd64.zip
 
 success 'Finish terraform'
