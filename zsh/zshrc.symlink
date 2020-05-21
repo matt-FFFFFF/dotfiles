@@ -63,10 +63,6 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
-# Word navigation with CTRL+left/right arrow
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-
 # create a zkbd compatible hash;
 # # to add other keys to this hash, see: man 5 terminfo
 typeset -g -A key
@@ -108,8 +104,14 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
+# Arch
 if [ -e /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
 	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# Ubuntu
+if [ -e /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+	source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 
