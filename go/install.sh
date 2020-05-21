@@ -67,7 +67,7 @@ done
 info 'Configuring Go paths'
 . $ZSH/go/path.zsh
 info "Installing dep for dependency management"
-go get -vu github.com/golang/dep/cmd/dep
+go get -v -u github.com/golang/dep/cmd/dep
 
 # Remove Download
 info 'Remove download'
