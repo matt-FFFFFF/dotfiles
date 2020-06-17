@@ -49,11 +49,6 @@ LSB_RELEASE=$(lsb_release -cs)
 
 info "LSB_RELEASE is: $LSB_RELEASE"
 
-if test "$LSB_RELEASE" = 'eoan'; then
-  info "Setting LSB_RELEASE to disco as no eoan Docker release as yet"
-  LSB_RELEASE="disco"
-fi
-
 echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $LSB_RELEASE stable" |
     sudo tee /etc/apt/sources.list.d/docker.list
 
