@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #
 # bootstrap installs things.
+# This script should not require any user interaction
+# This way we can bootstrap new dev environments automatically
+# Use the install.sh files to make changes
 
 cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd -P)
@@ -130,7 +133,7 @@ link_file () {
 install_dotfiles () {
   info 'installing dotfiles'
 
-  local overwrite_all=false backup_all=false skip_all=false
+  local overwrite_all=false backup_all=true skip_all=false
 
   for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
   do
@@ -149,14 +152,6 @@ install_p10k () {
 setup_gitconfig
 install_dotfiles
 install_p10k
-
-if [ "$(lsb_release -is)" = "Ubuntu" ] || [ "$(lsb_release -is)" = "Debian" ] ; then
-  info "installing zsh"
-  sudo apt-get update
-  sudo apt-get -y install zsh zsh-syntax-highlighting zsh-autosuggestions
-  info 'Setting shell to zsh'
-  sudo usermod -s $(which zsh) $(id -un)
-fi
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" = "Darwin" ]

@@ -54,7 +54,7 @@ read TFLINT_VER
 if [ -z "$TFLINT_VER" ]; then
     TFLINT_URL="https://github.com/terraform-linters/tflint/releases/latest/download/tflint_linux_amd64.zip"
 else
-    TFLINT_URL="https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VER}/tflint_linux_amd64.zip"
+    TFLINT_URL="https://github.com/terraform-linters/tflint/releases/download/${TFLINT_VER}/tflint_linux_amd64.zip"
 fi
 
 info "Getting ${TFLINT_URL}"
@@ -74,9 +74,9 @@ info 'Unzipping tflint'
 unzip ~/tflint_linux_amd64.zip
 
 info 'Removing Terraform download'
-rm ~/terraform_${TF_VER}_linux_amd64.zip
+rm -f ~/terraform_${TF_VER}_linux_amd64.zip
 
 info 'Removing tflint download'
-rm ~/tflint_linux_amd64.zip
+rm -f ~/tflint_linux_amd64.zip
 
 success 'Finish terraform'

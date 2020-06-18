@@ -54,12 +54,15 @@ echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $LSB_RELEASE sta
 
 sudo apt-get update
 
-sudo apt-get install --yes docker-ce docker-ce-cli containerd.io
+sudo apt-get install --yes docker-ce-cli 
+if [ ! $(uname -a | grep microsoft-standard) ]; then
+    sudo apt-get install docker-ce containerd.io
+fi
 
 info 'Adding user to docker group'
 sudo gpasswd -a $(id -un) docker
 
-if [ -d $ZSH/docker }; then
+if [ -d $ZSH/docker ]; then
  info 'Getting zsh completion'
   curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker -o $ZSH/docker/completion.zsh
 fi
