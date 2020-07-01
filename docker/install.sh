@@ -22,7 +22,7 @@ info 'Begin Docker'
 
 export DEBIAN_FRONTEND=noninteractive
 
-COMMANDS="curl lsb_release tee gpasswd"
+COMMANDS="lsb_release tee gpasswd"
  
 # Read the array values with space
 for COMMAND in $COMMANDS; do
@@ -41,7 +41,8 @@ sudo apt-get --yes install \
     ca-certificates \
     curl \
     gnupg-agent \
-    software-properties-common
+    software-properties-common \
+    curl
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 

@@ -20,7 +20,7 @@ fail () {
 
 info 'Begin az cli'
 
-COMMANDS="gpg tee curl"
+COMMANDS="tee"
  
 # Read the array values with space
 for COMMAND in $COMMANDS; do
@@ -53,7 +53,7 @@ info "Adding packages necessary to modify your apt-package sources"
 set -v
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install -y apt-transport-https lsb-release gnupg curl
+sudo apt-get install -y apt-transport-https lsb-release gnupg curl gpg curl
 set +v
 
 info "Adding Microsoft as a trusted package signer"

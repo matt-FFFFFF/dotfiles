@@ -20,18 +20,7 @@ fail () {
 
 info 'Begin terraform'
 
-COMMANDS="jq curl unzip"
- 
-# Read the array values with space
-for COMMAND in $COMMANDS; do
-  if [ ! $(command -v $COMMAND) ]; then
-    fail "Could not find '$COMMAND' command. Is it installed?"
-  else
-    info "Found command $COMMAND: $(command -v $COMMAND)"
-  fi
-done
-
-unset COMMANDS
+sudo apt-get install -y jq curl unzip
 
 user 'What verison of Terraform would you like? (press <enter> for latest)'
 read TF_VER

@@ -20,18 +20,7 @@ fail () {
 
 info 'Begin Kubernetes'
 
-COMMANDS="curl"
- 
-# Read the array values with space
-for COMMAND in $COMMANDS; do
-  if [ ! $(command -v $COMMAND) ]; then
-    fail "Could not find '$COMMAND' command. Is it installed?"
-  else
-    info "Found command $COMMAND: $(command -v $COMMAND)"
-  fi
-done
-
-unset COMMANDS
+sudo apt-get install -y curl
 
 cd $HOME
 
