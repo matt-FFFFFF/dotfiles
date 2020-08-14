@@ -35,3 +35,5 @@
 	helper = store
 [user]
 	signingKey = C6DB19DEDDE66995
+[init]
+	defaultBranch = main
