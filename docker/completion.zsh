@@ -750,6 +750,7 @@ __docker_container_subcommand() {
                 $opts_attach_exec_run_start \
                 "($help -d --detach)"{-d,--detach}"[Detached mode: leave the container running in the background]" \
                 "($help)*"{-e=,--env=}"[Set environment variables]:environment variable: " \
+                "($help)*--env-file=[Read environment variables from a file]:environment file:_files" \
                 "($help -i --interactive)"{-i,--interactive}"[Keep stdin open even if not attached]" \
                 "($help)--privileged[Give extended Linux capabilities to the command]" \
                 "($help -t --tty)"{-t,--tty}"[Allocate a pseudo-tty]" \
@@ -1018,6 +1019,7 @@ __docker_image_subcommand() {
                 "($help)*--shm-size=[Size of '/dev/shm' (format is '<number><unit>')]:shm size: " \
                 "($help)--squash[Squash newly built layers into a single new layer]" \
                 "($help -t --tag)*"{-t=,--tag=}"[Repository, name and tag for the image]: :__docker_complete_repositories_with_tags" \
+                "($help)--target=[Set the target build stage to build.]" \
                 "($help)*--ulimit=[ulimit options]:ulimit: " \
                 "($help)--userns=[Container user namespace]:user namespace:(host)" \
                 "($help -):path or URL:_directories" && ret=0
@@ -1970,6 +1972,7 @@ __docker_service_subcommand() {
         "($help)*--label=[Service labels]:label: "
         "($help)--limit-cpu=[Limit CPUs]:value: "
         "($help)--limit-memory=[Limit Memory]:value: "
+        "($help)--limit-pids[Limit maximum number of processes (default 0 = unlimited)]"
         "($help)--log-driver=[Logging driver for service]:logging driver:__docker_complete_log_drivers"
         "($help)*--log-opt=[Logging driver options]:log driver options:__docker_complete_log_options"
         "($help)*--mount=[Attach a filesystem mount to the service]:mount: "
