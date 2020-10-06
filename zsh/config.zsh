@@ -5,6 +5,10 @@ fpath=($ZSH/functions $fpath)
 
 autoload -U $ZSH/functions/*(:t)
 
+# use bash word styles
+autoload -U select-word-style
+select-word-style bash
+
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -37,3 +41,5 @@ bindkey '^[[1;6D' beginning-of-line
 bindkey '^[[1;6C' end-of-line
 bindkey '^[[3~' delete-char
 bindkey '^?' backward-delete-char
+bindkey '^[[3;5~' kill-word
+bindkey '^H' backward-kill-word
