@@ -33,7 +33,12 @@
         default = simple
 [credential]
 	helper = store
+	interactive = auto
 [user]
-	signingKey = C6DB19DEDDE66995
+	signingkey = 585923B22EDFC179
 [init]
 	defaultBranch = main
+[gpg]
+	program = /mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe
+[commit]
+	gpgsign = true
