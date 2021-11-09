@@ -4,7 +4,7 @@
 [hub]
   protocol = https
 [alias]
-  co = checkout
+  co      = checkout
   promote = !$ZSH/bin/git-promote
   wtf     = !$ZSH/bin/git-wtf
   rank-contributors = !$ZSH/bin/git-rank-contributors
@@ -16,7 +16,7 @@
   ui = true
 [core]
   excludesfile = ~/.gitignore
-  editor = vim
+  editor = code
 [apply]
   whitespace = nowarn
 [mergetool]
@@ -32,13 +32,8 @@
   # Setting to git 2.0 default to suppress warning message
   default = simple
 [credential]
-	helper = store
 	interactive = auto
-[user]
-	signingkey = 585923B22EDFC179
 [init]
 	defaultBranch = main
-[gpg]
-	program = /mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe
 [commit]
 	gpgsign = true
