@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Script to switch .terraformrc from its disabled version
+# Used to enable local terraform provider development
+
+if [ -e ~/.terraformrc ]; then
+  echo "==> .terraformrc already present"
+  exit 0
+fi
+
+
+if [ -e ~/.terraformrc.disabled ]; then
+  echo "==> renaming .terraformrc.disabled to enable local development"
+  mv ~/.terraformrc.disabled ~/.terraformrc
+  exit 0
+fi
+
+echo "==> cannot find .terraformrc.disabled"
+exit 1
