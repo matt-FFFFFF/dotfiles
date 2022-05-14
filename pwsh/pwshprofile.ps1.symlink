@@ -1,5 +1,5 @@
 # Prompt
-/usr/local/bin/oh-my-posh `
+oh-my-posh `
   --init `
   --shell pwsh `
   --config ~/.matt-FFFFFF.omp.json `

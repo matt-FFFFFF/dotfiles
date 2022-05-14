@@ -2,98 +2,98 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "blocks": [
     {
-      "type": "prompt",
       "alignment": "left",
       "newline": true,
       "segments": [
         {
-          "type": "shell",
-          "style": "powerline",
-          "powerline_symbol": "",
-          "invert_powerline": true,
-          "foreground": "#100e23",
           "background": "#d1d1d1",
+          "foreground": "#100e23",
+          "invert_powerline": true,
+          "powerline_symbol": "\ue0ba",
           "properties": {
             "mapped_shell_names": {
-              "pwsh": "",
-              "zsh": ""
-            }
-          }
-        },
-        {
-          "type": "path",
-          "style": "powerline",
-          "powerline_symbol": "",
-          "invert_powerline": true,
-          "foreground": "#ffffff",
-          "background": "#0059ff",
-          "properties": {
-            "home_icon": "",
-            "folder_icon": "",
-            "mapped_locations": {
-              "/": ""
+              "pwsh": "\uf871",
+              "zsh": "\uf31a"
             },
-            "folder_separator_icon": "",
-            "style": "agnoster_short",
-            "max_depth": 4
-          }
+            "template": " {{ .Name }} "
+          },
+          "style": "powerline",
+          "type": "shell"
         },
         {
-          "type": "git",
-          "style": "powerline",
-          "powerline_symbol": "",
+          "background": "#0059ff",
+          "foreground": "#ffffff",
           "invert_powerline": true,
-          "foreground": "#100e23",
-          "background": "#26e035",
-          "leading_diamond": "",
-          "trailing_diamond": "",
+          "powerline_symbol": "\ue0ba",
           "properties": {
-            "display_status": true,
-            "display_stash_count": true,
-            "display_upstream_icon": true
-          }
+            "folder_icon": "\uf115",
+            "folder_separator_icon": "\ue0bb",
+            "home_icon": "\uf7db",
+            "mapped_locations": {
+              "/": "\ue0bb"
+            },
+            "max_depth": 4,
+            "style": "agnoster_short",
+            "template": " {{ .Path }} "
+          },
+          "style": "powerline",
+          "type": "path"
+        },
+        {
+          "background": "#26e035",
+          "foreground": "#100e23",
+          "invert_powerline": true,
+          "powerline_symbol": "\ue0ba",
+          "properties": {
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "template": " {{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} "
+          },
+          "style": "powerline",
+          "type": "git"
         }
-      ]
+      ],
+      "type": "prompt"
     },
     {
-      "type": "prompt",
       "alignment": "right",
       "segments": [
         {
-          "type": "executiontime",
-          "style": "powerline",
-          "powerline_symbol": "",
-          "invert_powerline": true,
-          "foreground": "#000000",
           "background": "#a40deb",
+          "foreground": "#000000",
+          "invert_powerline": true,
+          "powerline_symbol": "\ue0ba",
           "properties": {
-            "postfix": " \uF252 "
-          }
+            "template": " {{ .FormattedMs }} \uf252 "
+          },
+          "style": "powerline",
+          "type": "executiontime"
         }
-      ]
+      ],
+      "type": "prompt"
     },
     {
-      "type": "prompt",
       "alignment": "left",
       "newline": true,
       "segments": [
         {
-          "type": "exit",
-          "style":"plain",
           "background": "#000000",
           "foreground": "#38f157",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#ff0000{{ end }}"
+          ],
           "properties": {
             "always_enabled": true,
-            "error_color": "#ff0000",
-            "display_exit_code": false,
-            "color_background": false,
-            "always_numeric": true,
-            "prefix": "",
-            "postfix": "❯"
-          }
+            "template": "\u276f"
+          },
+          "style": "plain",
+          "type": "exit"
         }
-      ]
+      ],
+      "type": "prompt"
     }
   ],
-  "final_space": true
+  "final_space": true,
+  "version": 1
 }

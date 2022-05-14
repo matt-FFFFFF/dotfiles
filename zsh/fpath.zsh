@@ -4,6 +4,6 @@ for topic_folder ($ZSH/*) if [ -d $topic_folder ]; then  fpath=($topic_folder $f
 # brew zsh-completions
 if [ "$(uname)" = "Darwin" ]; then
   if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    fpath=($(brew --prefix)/share/zsh-completions $fpath)
   fi
 fi
