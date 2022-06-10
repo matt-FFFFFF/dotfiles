@@ -48,6 +48,3 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[user]
-	name = Matt White
-	email = matt.white@microsoft.com
