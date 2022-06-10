@@ -42,3 +42,5 @@
 	program = /mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe
 [commit]
 	gpgsign = true
+[http]
+	cookiefile = /home/matt/.gitcookies
