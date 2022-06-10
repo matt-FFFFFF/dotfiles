@@ -22,7 +22,14 @@ do
   source $file
 done
 
-# load everything but the path, completion and final files
+# # load the fpath files
+# for file in ${(M)config_files:#*/fpath.zsh}
+# do
+# 	source $file
+# done
+
+# load everything but the path, completion, fpath and final files
+##for file in ${${${${${config_files:#*/final.zsh}:#*config_files:#*/path.zsh}:#*/completion.zsh}:#*/completion_bash.zsh}:#*/fpath.zsh}
 for file in ${${${${config_files:#*/final.zsh}:#*config_files:#*/path.zsh}:#*/completion.zsh}:#*/completion_bash.zsh}
 do
   source $file
@@ -32,7 +39,7 @@ done
 unsetopt BEEP
 
 # initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit && compinit
+autoload -Uz compinit && compinit
 
 # load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}
@@ -109,16 +116,27 @@ fi
 
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-# Arch
-if [ -e /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ "$(uname)" = "Linux" ]; then
+	# Arch
+	if [ -e /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+		source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	fi
+
+	# Ubuntu
+	if [ -e /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+		source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	fi
+
+	if [ -e /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+		source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+	fi
 fi
 
-# Ubuntu
-if [ -e /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-	source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if [ -e /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ "$(uname)" = "Darwin" ]; then
+	if [ -e /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+		source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+	fi
+	if [ -e /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+		source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	fi
 fi
