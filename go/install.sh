@@ -27,7 +27,7 @@ info 'Begin go'
 . "$(dirname $0)/path.zsh"
 
 COMMANDS="wget tar"
- 
+
 # Read the array values with space
 for COMMAND in $COMMANDS; do
   if [ ! $(command -v $COMMAND) ]; then
@@ -45,11 +45,12 @@ set -e #-o pipefail
 #Download Latest Go
 ##GOURLREGEX='https://dl.google.com/go/go[0-9\.]+\.linux-amd64.tar.gz'
 cd ~
+GODEV="https://go.dev"
 info "Finding latest version of Go for AMD64..."
-url="$(wget -qO- https://golang.org/dl/ | grep -oP 'https:\/\/dl\.google\.com\/go\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n 1 )"
+url="$(wget -qO- $GODEV/dl/ | grep -oP '/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n 1 )"
 latest="$(echo $url | grep -oP 'go[0-9\.]+' | grep -oP '[0-9\.]+' | head -c -2 )"
 info "Downloading latest Go for AMD64: ${latest}"
-wget --quiet --continue --show-progress "${url}"
+wget --quiet --continue --show-progress "${GODEV}${url}"
 unset url
 ##unset GOURLREGEX
 
@@ -66,8 +67,6 @@ done
 ##mkdir -vp $GOPATH/{bin,pkg,src}
 info 'Configuring Go paths'
 . $ZSH/go/path.zsh
-info "Installing dep for dependency management"
-go get -v -u github.com/golang/dep/cmd/dep
 
 # Remove Download
 info 'Remove download'

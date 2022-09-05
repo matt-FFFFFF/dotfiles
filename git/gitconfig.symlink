@@ -37,6 +37,8 @@
 	defaultBranch = main
 [commit]
 	gpgsign = true
+[http]
+	cookiefile = /home/matt/.gitcookies
 [pull]
   rebase = false
 [http]

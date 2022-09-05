@@ -16,6 +16,9 @@ SAVEHIST=10000
 setopt NO_BG_NICE # don't nice background tasks
 setopt NO_HUP
 setopt NO_LIST_BEEP
+setopt NO_EQUALS # don't set unquopted equals to find files
+#setopt NO_GLOB # don't glob
+#setopt NO_EXTENDED_GLOB #
 setopt LOCAL_OPTIONS # allow functions to have local options
 setopt LOCAL_TRAPS # allow functions to have local traps
 setopt HIST_VERIFY
