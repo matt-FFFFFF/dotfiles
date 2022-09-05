@@ -14,10 +14,10 @@
             "mapped_shell_names": {
               "pwsh": "\uf871",
               "zsh": "\uf31a"
-            },
-            "template": " {{ .Name }} "
+            }
           },
           "style": "powerline",
+          "template": " {{ .Name }} ",
           "type": "shell"
         },
         {
@@ -33,10 +33,10 @@
               "/": "\ue0bb"
             },
             "max_depth": 4,
-            "style": "agnoster_short",
-            "template": " {{ .Path }} "
+            "style": "agnoster_short"
           },
           "style": "powerline",
+          "template": " {{ .Path }} ",
           "type": "path"
         },
         {
@@ -47,10 +47,10 @@
           "properties": {
             "fetch_stash_count": true,
             "fetch_status": true,
-            "fetch_upstream_icon": true,
-            "template": " {{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} "
+            "fetch_upstream_icon": true
           },
           "style": "powerline",
+          "template": " {{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -64,10 +64,8 @@
           "foreground": "#000000",
           "invert_powerline": true,
           "powerline_symbol": "\ue0ba",
-          "properties": {
-            "template": " {{ .FormattedMs }} \uf252 "
-          },
           "style": "powerline",
+          "template": " {{ .FormattedMs }} \uf252 ",
           "type": "executiontime"
         }
       ],
@@ -84,10 +82,10 @@
             "{{ if gt .Code 0 }}#ff0000{{ end }}"
           ],
           "properties": {
-            "always_enabled": true,
-            "template": "\u276f"
+            "always_enabled": true
           },
           "style": "plain",
+          "template": "\u276f",
           "type": "exit"
         }
       ],
@@ -95,5 +93,5 @@
     }
   ],
   "final_space": true,
-  "version": 1
+  "version": 2
 }

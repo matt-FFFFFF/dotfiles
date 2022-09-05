@@ -22,3 +22,9 @@ if [ "$(uname)" != "Darwin" ]; then
   }
   complete -o nospace -o default -o bashdefault -F _python_argcomplete "az"
 fi
+
+if type brew >/dev/null; then
+  if [ -f $(brew --prefix)/etc/bash_completion.d/az ]; then
+    . $(brew --prefix)/etc/bash_completion.d/az
+  fi
+fi
