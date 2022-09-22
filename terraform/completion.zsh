@@ -1,1 +1,1 @@
-complete -o nospace -C ~/bin/terraform terraform
+complete -o nospace -C $(which terraform) terraform
