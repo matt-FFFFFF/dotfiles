@@ -1,6 +1,9 @@
 # Local/private config goes in the include
 [include]
   path = ~/.gitconfig.local
+[user]
+	name = Matt White
+	email = 16320656+matt-FFFFFF@users.noreply.github.com
 [hub]
   protocol = https
 [alias]

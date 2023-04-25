@@ -1,4 +1,14 @@
 # shortcut to this dotfiles path is $ZSH
+thisdir=${0:a:h}
+wantdir=${HOME:a}/.dotfiles/zsh
+
+if [[ "$thisdir" != "$wantdir" ]]; then
+	dotfiles=$wantdir/..
+	export ZSH=${dotfiles:a}
+else
+	export ZSH=$HOME/.dotfiles
+fi
+
 export ZSH=$HOME/.dotfiles
 
 # your project folder that we can `c [tab]` to
@@ -140,3 +150,7 @@ if [ "$(uname)" = "Darwin" ]; then
 		source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 	fi
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
