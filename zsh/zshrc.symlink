@@ -3,7 +3,7 @@ thisdir=${0:A:h}
 wantdir=${HOME:a}/.dotfiles/zsh
 
 if [[ "$thisdir" != "$wantdir" ]]; then
-	dotfiles=$wantdir/..
+	dotfiles=$thisdir/..
 	export ZSH=${dotfiles:a}
 else
 	export ZSH=$HOME/.dotfiles
