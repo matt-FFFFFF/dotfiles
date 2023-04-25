@@ -45,10 +45,10 @@ setup_gitconfig () {
     #read -e git_authorname
     #user ' - What is your github author email?'
     #read -e git_authoremail
-    
+
     git_authorname="Matt White"
-    git_authoremail="matt.white@microsoft.com"
-    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
+    git_authoremail=""
+    sed -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.example > git/gitconfig.local.symlink
 
     success 'gitconfig'
   fi

@@ -1,6 +1,2 @@
-[user]
-  name = My Name
-  email = myemail@something.com
-  signingkey = 1234123412341234
 [credential]
-	helper = osxkeychain
+	helper = GIT_CREDENTIAL_HELPER
