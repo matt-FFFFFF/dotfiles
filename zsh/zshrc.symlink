@@ -1,13 +1,8 @@
-# shortcut to this dotfiles path is $ZSH
-thisdir=${0:A:h}
-wantdir=${HOME:a}/.dotfiles/zsh
-
-if [[ "$thisdir" != "$wantdir" ]]; then
-	dotfiles=$thisdir/..
-	export ZSH=${dotfiles:a}
-else
-	export ZSH=$HOME/.dotfiles
-fi
+export ZSH="$HOME/.dotfiles"
+zshrc=$HOME/.zshrc
+zshactual=${zshrc:A:h}
+dotfiles=${zshactual}/..
+export ZSH=${dotfiles:a}
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=$HOME/code
