@@ -4,6 +4,7 @@
 format = """\
 [](fg:#C2B4DF)\
 $os\
+$sudo\
 $shell\
 [](fg:#C2B4DF bg:#8A5A7F)\
 $directory\
@@ -14,16 +15,37 @@ $git_status\
 $git_state\
 [](fg:#8AAE7F bg:#FBF39F)\
 ($git_metrics)\
-[](fg:#FBF39F)
+[](fg:#FBF39F)\
+$fill\
+$status$all\
+$line_break\
 $character"""
 
-right_format = '$status$all'
+# disabled due to fill module
+# right_format = ''
 add_newline = true
+
+[line_break]
+disabled = false
+
+[fill]
+symbol = ' '
 
 [os]
 disabled = false
 format = '[$symbol]($style)'
 style = "#C2B4DF inverted"
+
+[os.symbols]
+Macos = " "
+Windows = " "
+Ubuntu = " "
+
+[sudo]
+disabled = false
+symbol = "🧙"
+format = '[$symbol ]($style)'
+style = "bg:#C2B4DF"
 
 [shell]
 disabled = false
@@ -32,10 +54,6 @@ powershell_indicator = ''
 style = 'fg:#C2B4DF inverted'
 format = '[$indicator ]($style)'
 
-[os.symbols]
-Macos = " "
-Windows = " "
-Ubuntu = " "
 
 [directory]
 format = "[ \uf07c  $path ]($style)"
@@ -80,7 +98,7 @@ format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
 [azure]
 disabled = false
 format = '[](fg:#3376CD)[$symbol($subscription)]($style)[](fg:#3376CD)'
-style = 'fg:#3376CD inverted'
+style = 'fg:#3376CD bold inverted'
 symbol = '󰠅 '
 
 [golang]
