@@ -142,16 +142,23 @@ install_dotfiles () {
   done
 }
 
-install_p10k () {
-  info 'installing p10k'
-  if [ ! -d ~/powerlevel10k ]; then
-    git clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+# install_p10k () {
+#   info 'installing p10k'
+#   if [ ! -d ~/powerlevel10k ]; then
+#     git clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+#   fi
+# }
+
+install_starship () {
+  info 'installing starship'
+  if [ -z "$(command -v starship)" ]; then
+    curl -fsSL https://starship.rs/install.sh | sh
   fi
 }
 
 setup_gitconfig
 install_dotfiles
-install_p10k
+install_starship
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" = "Darwin" ]

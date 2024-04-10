@@ -1,2 +1,2 @@
-precmd_functions+=(set_win_title)
+precmd_functions+=(title)
 eval "$(starship init zsh)"

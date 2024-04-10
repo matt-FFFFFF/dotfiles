@@ -2,52 +2,66 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """\
-[](bg:#030B16 fg:#7DF9AA)\
-[󰀵 ](bg:#7DF9AA fg:#090c0c)\
-[](fg:#7DF9AA bg:#1C3A5E)\
-$time\
-[](fg:#1C3A5E bg:#3B76F0)\
+[](fg:#C2B4DF)\
+$os\
+[](fg:#C2B4DF bg:#8A5A7F)\
 $directory\
-[](fg:#3B76F0 bg:#FCF392)\
+[](fg:#8A5A7F bg:#8AAE7F)\
 $git_branch\
+$git_commit\
 $git_status\
-$git_metrics\
-[](fg:#FCF392 bg:#030B16)
+$git_state\
+[](fg:#8AAE7F bg:#FBF39F)\
+($git_metrics)\
+[](fg:#FBF39F)
 $character"""
 
-right_format = '$all'
+right_format = '$status$all'
 add_newline = true
 
+[os]
+disabled = false
+format = '[$symbol]($style)'
+style = "#C2B4DF inverted"
+
+[os.symbols]
+Macos = " "
+Windows = " "
+Ubuntu = " "
+
 [directory]
-format = "[ ﱮ $path ]($style)"
-style = "fg:#E4E4E4 bg:#3B76F0"
+format = "[ \uf07c  $path ]($style)"
+style = "fg:#E4E4E4 bg:#8A5A7F"
 
 [git_branch]
 format = '[ $symbol$branch(:$remote_branch) ]($style)'
 symbol = "  "
-style = "fg:#1C3A5E bg:#FCF392"
+style = "fg:#1C3A5E bg:#8AAE7F"
 
 [git_status]
-format = '[$all_status]($style)'
-style = "fg:#1C3A5E bg:#FCF392"
+format = '([\[$all_status$ahead_behind\]]($style))'
+style = "fg:#1C3A5E bg:#8AAE7F"
+
+[git_commit]
+disabled = false
+format = '[\((#$hash)$tag\)]($style)'
+tag_disabled = false
+only_detached = true
+style = "fg:#1C3A5E bg:#8AAE7F"
 
 [git_metrics]
-format = "([+$added]($added_style))[]($added_style)"
-added_style = "fg:#1C3A5E bg:#FCF392"
-deleted_style = "fg:bright-red bg:235"
+format = '([ +$added ]($added_style))([-$deleted ]($deleted_style))'
+added_style = "fg:#1C3A5E bg:#FBF39F"
+deleted_style = "fg:red bg:#FBF39F"
 disabled = false
 
-[hg_branch]
-format = "[ $symbol$branch ]($style)"
-symbol = " "
-
 [cmd_duration]
-format = "[  $duration ]($style)"
-style = "fg:bright-white bg:18"
+format = "[[](fg:#5C7F6A) ⏱️  $duration ]($style)[](fg:#5C7F6A)"
+style = "#5C7F6A inverted"
 
 [character]
-success_symbol = '[ ➜](bold green) '
-error_symbol = '[ ✗](#E84D44) '
+success_symbol = '[❯](bold #C2B4DF) '
+error_symbol = '[❯](bold purple) '
 
 [time]
 disabled = true
@@ -57,6 +71,24 @@ format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
 
 [azure]
 disabled = false
-format = '[$symbol($subscription)]($style) '
+format = '[](fg:#3376CD)[$symbol($subscription)]($style)[](fg:#3376CD)'
+style = 'fg:#3376CD inverted'
 symbol = '󰠅 '
-style = 'blue bold'
+
+[golang]
+disabled = false
+format = '[](fg:cyan)[$symbol($version )]($style)[](fg:cyan)'
+style = 'fg:cyan inverted'
+symbol = ' '
+
+[status]
+disabled = false
+symbol = '🔴 '
+success_symbol = ''
+format = '[$symbol( $common_meaning )$signal_name$maybe_int]($style) '
+map_symbol = true
+
+[terraform]
+symbol = '󱁢 '
+format = '[](fg:105)[$symbol$version( $workspace)]($style)[](fg:105)'
+style = 'fg:105 inverted'
