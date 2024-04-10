@@ -17,7 +17,9 @@ $git_state\
 ($git_metrics)\
 [](fg:#FBF39F)\
 $fill\
-$status$all\
+$status\
+$all\
+$cmd_duration\
 $line_break\
 $character"""
 
@@ -54,7 +56,6 @@ powershell_indicator = ''
 style = 'fg:#C2B4DF inverted'
 format = '[$indicator ]($style)'
 
-
 [directory]
 format = "[ \uf07c  $path ]($style)"
 style = "fg:#E4E4E4 bg:#8A5A7F"
@@ -82,7 +83,8 @@ deleted_style = "fg:red bg:#FBF39F"
 disabled = false
 
 [cmd_duration]
-format = "[[](fg:#5C7F6A) ⏱️  $duration ]($style)[](fg:#5C7F6A)"
+disabled = false
+format = "[[](fg:#5C7F6A)⏱️ $duration[](fg:#5C7F6A)]($style)"
 style = "#5C7F6A inverted"
 
 [character]
