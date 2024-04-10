@@ -4,6 +4,7 @@
 format = """\
 [](fg:#C2B4DF)\
 $os\
+$shell\
 [](fg:#C2B4DF bg:#8A5A7F)\
 $directory\
 [](fg:#8A5A7F bg:#8AAE7F)\
@@ -23,6 +24,13 @@ add_newline = true
 disabled = false
 format = '[$symbol]($style)'
 style = "#C2B4DF inverted"
+
+[shell]
+disabled = false
+zsh_indicator = ''
+powershell_indicator = ''
+style = 'fg:#C2B4DF inverted'
+format = '[$indicator ]($style)'
 
 [os.symbols]
 Macos = " "
