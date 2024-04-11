@@ -1,5 +1,0 @@
-! Ayu theme 
-#define gtk_theme           Ayu
-#define icon_theme          Arc
-#define desktop_wallpaper   
-#define rofi_theme          /home/matt/.Xresource.d/rofi-ayu.rasi

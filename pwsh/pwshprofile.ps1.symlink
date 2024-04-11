@@ -1,9 +1,5 @@
 # Prompt
-oh-my-posh `
-  --init `
-  --shell pwsh `
-  --config ~/.matt-FFFFFF.omp.json `
-  | Invoke-Expression
+Invoke-Expression (&starship init powershell)
 
 
 # PSReadLine

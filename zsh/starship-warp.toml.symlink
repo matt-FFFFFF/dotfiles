@@ -25,16 +25,14 @@ $git_state\
 $fill\
 $status\
 $all\
-$cmd_duration\
-$line_break\
-$character"""
+$cmd_duration"""
 
 # disabled due to fill module
-# right_format = ''
+#right_format = '$line_break$cmd_duration'
 add_newline = true
 
 [line_break]
-disabled = false
+disabled = true
 
 [fill]
 symbol = ' '
@@ -94,9 +92,9 @@ format = "[[](fg:#5C7F6A)⏱️ $duration[](fg:#5C7F6A)]($style)"
 style = "#5C7F6A inverted"
 
 [character]
-disabled = false
-success_symbol = '[❯](bold #F2F2F2) '
-error_symbol = '[❯](bold red) '
+disabled = true
+success_symbol = '[❯](bold #C2B4DF) '
+error_symbol = '[❯](bold purple) '
 
 [time]
 disabled = true
@@ -124,6 +122,6 @@ format = '[$symbol( $common_meaning )$signal_name$maybe_int]($style) '
 map_symbol = true
 
 [terraform]
-symbol = '󱁢 '
-format = '[](fg:105)[$symbol$version( $workspace)]($style)[](fg:105)'
-style = 'fg:105 inverted'
+symbol = ' '
+format = '[](fg:105)[$symbol$version( \($workspace\))]($style)[](fg:105)'
+style = 'inverted fg:105'
