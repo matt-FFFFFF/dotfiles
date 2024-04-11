@@ -1,2 +1,2 @@
-alias t='noglob terraform $*'
+alias t='terraform'
 alias tenvs='source $ZSH/terraform/tenvs'

@@ -1,4 +1,4 @@
-#compdef kubectl
+#compdef kubectl k
 
 # Copyright 2016 The Kubernetes Authors.
 #
