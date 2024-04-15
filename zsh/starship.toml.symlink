@@ -53,12 +53,13 @@ Ubuntu = " "
 disabled = false
 symbol = "🧙"
 format = '[$symbol ]($style)'
-style = "bg:#C2B4DF"
+style = "bg:#659CD9"
 
 [shell]
 disabled = false
 zsh_indicator = ''
 powershell_indicator = ''
+cmd_indicator = ''
 style = 'fg:#F2F2F2 bg:#659CD9'
 format = '[$indicator ]($style)'
 
