@@ -125,3 +125,6 @@ map_symbol = true
 symbol = ' '
 format = '[](fg:105)[$symbol$version( \($workspace\))]($style)[](fg:105)'
 style = 'inverted fg:105'
+
+[battery]
+disabled = true
