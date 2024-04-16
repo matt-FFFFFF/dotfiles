@@ -115,7 +115,7 @@ style = 'fg:cyan inverted'
 symbol = ' '
 
 [status]
-disabled = false
+disabled = true
 symbol = '🔴 '
 success_symbol = ''
 format = '[$symbol( $common_meaning )$signal_name$maybe_int]($style) '
