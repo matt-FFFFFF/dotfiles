@@ -116,7 +116,13 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
+# Exit zsh func bound to ctrl+D
+exit_zsh() { exit }
+zle -N exit_zsh
+bindkey '^D' exit_zsh
 
+
+# Highlighting and autosuggestions
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 if [ "$(uname)" = "Linux" ]; then
 	# Arch
