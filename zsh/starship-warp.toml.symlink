@@ -25,11 +25,13 @@ $git_state\
 $fill\
 $status\
 $all\
-$cmd_duration"""
+$cmd_duration\
+$line_break\
+$character"""
 
 # disabled due to fill module
 #right_format = '$line_break$cmd_duration'
-add_newline = true
+add_newline = false
 
 [line_break]
 disabled = true
@@ -51,7 +53,7 @@ Ubuntu = " "
 disabled = false
 symbol = "🧙"
 format = '[$symbol ]($style)'
-style = "bg:#C2B4DF"
+style = "bg:#659CD9"
 
 [shell]
 disabled = false
@@ -93,8 +95,8 @@ style = "#5C7F6A inverted"
 
 [character]
 disabled = true
-success_symbol = '[❯](bold #C2B4DF) '
-error_symbol = '[❯](bold purple) '
+success_symbol = '[❯](bold #F2F2F2) '
+error_symbol = '[❯](bold red) '
 
 [time]
 disabled = true
