@@ -44,6 +44,15 @@ set -e #-o pipefail
 
 #Download Latest Go
 ##GOURLREGEX='https://dl.google.com/go/go[0-9\.]+\.linux-amd64.tar.gz'
+
+if test "$(uname)" = "Darwin"
+  then
+  info 'Installing Go via Homebrew'
+  brew install go
+  success 'Finish go'
+  exit 0
+fi
+
 cd ~
 GODEV="https://go.dev"
 info "Finding latest version of Go for AMD64..."
