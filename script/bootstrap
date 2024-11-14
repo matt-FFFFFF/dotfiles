@@ -150,15 +150,19 @@ install_dotfiles () {
 # }
 
 install_starship () {
-  info 'installing starship'
-  if [ -z "$(command -v starship)" ]; then
-    curl -fsSL https://starship.rs/install.sh | sh
+  if [ "$(command -v starship)" ]; then
+    return 0
   fi
+  info 'installing starship'
+  if [ "$(uname -s)" == "Darwin" ]; then
+    brew install starship
+    return 0
+  fi
+  curl -sS https://starship.rs/install.sh | sh
 }
 
-setup_gitconfig
 install_dotfiles
-install_starship
+setup_gitconfig
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" = "Darwin" ]
@@ -174,3 +178,5 @@ fi
 
 echo ''
 echo '  All installed!'
+
+install_starship
