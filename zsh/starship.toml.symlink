@@ -1,5 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+command_timeout = 1000
 # colors
 # #3960A7 - dark blue
 # #659CD9 - mid blue
