@@ -4,7 +4,7 @@ command_timeout = 1000
 # colors
 # #3960A7 - dark blue
 # #659CD9 - mid blue
-# #4A4A4A - dary grey
+# #4A4A4A - dark grey
 # #F2F2F2 - near white
 # #9C9C9C - mid gray
 
@@ -127,7 +127,7 @@ map_symbol = true
 
 [terraform]
 symbol = '󱁢 '
-format = '[](fg:105)[$symbol$version( $workspace)]($style)[](fg:105)'
+format = '[](fg:105)[$symbol$version]($style)[](fg:105)'
 style = 'fg:105 inverted'
 
 [battery]
