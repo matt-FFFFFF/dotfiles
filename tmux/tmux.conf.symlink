@@ -2,6 +2,12 @@
 unbind C-b
 set-option -g prefix C-a
 bind-key C-a send-prefi
+# send C-a to applications
+bind-key a send-keys C-a
+
+set -gq allow-passthrough on
+set-option -g extended-keys on
+set-option -g terminal-features 'xterm*:extkeys'
 
 setw -g mode-keys vi
 setw -g mouse on
@@ -14,6 +20,9 @@ bind P paste-buffer
 bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
 
 set-option -g status-right ""  # Hide right status
+set-option -g status-left "[#S] "   # Hide left status
+set-option -g status-left-length 25
+set-option -g status-right-length 0
 
 set -g history-limit 1000000
 
@@ -56,3 +65,18 @@ set-option -g display-panes-active-colour colour33 #blue
 set-option -g display-panes-colour colour166 #orange
 # clock
 set-window-option -g clock-mode-colour green #green
+
+bind-key "S" run-shell "sesh connect \"$(
+  sesh list --icons | fzf-tmux -p 80%,70% \
+    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
+    --bind 'tab:down,btab:up' \
+    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+    --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -d1 -td . /Volumes/code)' \
+    --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+    --preview-window 'right:55%' \
+    --preview 'sesh preview {}'
+)\""

@@ -77,7 +77,7 @@ link_file () {
       else
 
         user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+          [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
         read -n 1 action
 
         case "$action" in
@@ -142,12 +142,17 @@ install_dotfiles () {
   done
 }
 
-# install_p10k () {
-#   info 'installing p10k'
-#   if [ ! -d ~/powerlevel10k ]; then
-#     git clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-#   fi
-# }
+install_config_dirs () {
+  info 'installing config dirs'
+
+  local overwrite_all=false backup_all=true skip_all=false
+
+  for dir in $(find -H "$DOTFILES_ROOT" -mindepth 2 -maxdepth 2 -name 'config')
+  do
+    dst="$HOME/.config/$(basename "$(dirname "$dir")")"
+    link_file "$dir" "$dst"
+  done
+}
 
 install_starship () {
   if [ "$(command -v starship)" ]; then
@@ -162,19 +167,8 @@ install_starship () {
 }
 
 install_dotfiles
+install_config_dirs
 setup_gitconfig
-
-# If we're on a Mac, let's install and setup homebrew.
-if [ "$(uname -s)" = "Darwin" ]
-then
-  info "installing dependencies"
-  if source bin/dot | while read -r data; do info "$data"; done
-  then
-    success "dependencies installed"
-  else
-    fail "error installing dependencies"
-  fi
-fi
 
 echo ''
 echo '  All installed!'

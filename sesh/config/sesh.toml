@@ -1,0 +1,22 @@
+[default_session]
+startup_command = "nvim . -c 'autocmd VimEnter * Telescope find_files'"
+
+[[session]]
+name = "dotfiles"
+path = "~/.dotfiles"
+startup_command = "nvim . -c 'autocmd VimEnter * Telescope find_files'"
+
+[[session]]
+name = "neovim config"
+path = "~/.config/nvim"
+startup_command = "nvim . -c 'autocmd VimEnter * Telescope find_files'"
+
+[[session]]
+name = "sesh config"
+path = "~/.config/sesh"
+startup_command = "nvim sesh.toml"
+
+[[session]]
+name = "kitty config"
+path = "~/.config/kitty"
+startup_command = "nvim kitty.conf"
