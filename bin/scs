@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+
+local session
+local dirs
+local seshlist
+local -a fzf_args
+
+dirs="$(fd -td -d1 . '/Volumes/code')"
+session="$(sesh list -t -c --icons)"
+seshlist=$(printf "%s\n%s\n" "$session" "$dirs" )
+
+fzf_args=(
+  --no-sort
+  --ansi
+  --border-label ' sesh '
+  --prompt '⚡  '
+  --header ' ^d tmux kill '
+  --bind 'tab:down,btab:up'
+  --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(fd -td -d1 . /Volumes/code && sesh list -t -c --icons)'
+  --preview-window 'right:55%'
+  --preview 'sesh preview {}'
+)
+
+if [[ -n "$TMUX" ]]; then
+  session=$(echo "$seshlist" | fzf-tmux -p 80%,70% -- "${fzf_args[@]}")
+else
+  session=$(echo "$seshlist" | fzf --height 40% "${fzf_args[@]}")
+fi
+
+[[ -n "$session" ]] && sesh connect "$session"
+exit 0

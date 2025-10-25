@@ -1,0 +1,387 @@
++sesh-connect-session:2> local session
++sesh-connect-session:3> local dirs
++sesh-connect-session:4> local seshlist
++sesh-connect-session:5> local fzfcmd
++sesh-connect-session:7> echo 'DEBUG: Getting directories...'
+DEBUG: Getting directories...
++sesh-connect-session:8> dirs=+sesh-connect-session:8> fd -td -d1 . /Volumes/code
++sesh-connect-session:8> dirs=$'/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/' 
++sesh-connect-session:9> echo $'DEBUG: dirs=\'/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\''
+DEBUG: dirs='/Volumes/code/ALZ-Powershell-Module/
+/Volumes/code/AVM-Powershell-Module/
+/Volumes/code/Azure-Landing-Zones/
+/Volumes/code/Azure-Landing-Zones-Library/
+/Volumes/code/Azure-Verified-Modules-Grept/
+/Volumes/code/BCCWEB/
+/Volumes/code/BCC_AZ/
+/Volumes/code/Enterprise-Scale/
+/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/
+/Volumes/code/UAENESLZ/
+/Volumes/code/accel/
+/Volumes/code/accelerator-bootstrap-modules/
+/Volumes/code/acceltest/
+/Volumes/code/alz-terraform-accelerator/
+/Volumes/code/alzarchitectureedit/
+/Volumes/code/alzarchitectureeditor/
+/Volumes/code/alzlib/
+/Volumes/code/aoc2024/
+/Volumes/code/architecture-center-pr/
+/Volumes/code/arm-template-parser/
+/Volumes/code/avm-applz-demo/
+/Volumes/code/avm-terraform-governance/
+/Volumes/code/avmfix/
+/Volumes/code/azapi-best-practices/
+/Volumes/code/azapi-vnetsubnet-repro/
+/Volumes/code/azapiTestGeneral/
+/Volumes/code/azapitest-datas/
+/Volumes/code/azapitestimportpd/
+/Volumes/code/azure-sdk-for-go/
+/Volumes/code/azure-verified-modules/
+/Volumes/code/bicepExtTest/
+/Volumes/code/canyouassignapolicywithaemptyversionstring/
+/Volumes/code/cloud-adoption-framework-pr/
+/Volumes/code/container/
+/Volumes/code/entrauth/
+/Volumes/code/github-operations/
+/Volumes/code/githubapptoken/
+/Volumes/code/go/
+/Volumes/code/go-getter/
+/Volumes/code/go-isatty/
+/Volumes/code/goarmfunctions/
+/Volumes/code/golden/
+/Volumes/code/gothingy/
+/Volumes/code/hcledit/
+/Volumes/code/hugo-shortcode-roneo-collection/
+/Volumes/code/jcd/
+/Volumes/code/librarydemo/
+/Volumes/code/linkedlist/
+/Volumes/code/mapotf/
+/Volumes/code/msgraph-sharepoint/
+/Volumes/code/msgraph-test/
+/Volumes/code/mstfauth/
+/Volumes/code/mwdemo-appsvc-template/
+/Volumes/code/mwdemo-lz1/
+/Volumes/code/nestedmaptest/
+/Volumes/code/openai-end-to-end-basic/
+/Volumes/code/opentofu/
+/Volumes/code/otelcli/
+/Volumes/code/porch/
+/Volumes/code/pporch/
+/Volumes/code/retrytest/
+/Volumes/code/siginttest/
+/Volumes/code/stinger/
+/Volumes/code/terraform/
+/Volumes/code/terraform-azapi-mg-hierarchysettings/
+/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/
+/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/
+/Volumes/code/terraform-azure-avm-utl-interfaces/
+/Volumes/code/terraform-azure-avm-utl-roledefinitions/
+/Volumes/code/terraform-azure-minecraft-server/
+/Volumes/code/terraform-azure-modules/
+/Volumes/code/terraform-azurerm-avm-ptn-aks-production/
+/Volumes/code/terraform-azurerm-avm-ptn-alz/
+/Volumes/code/terraform-azurerm-avm-ptn-alz-management/
+/Volumes/code/terraform-azurerm-avm-ptn-example-repo/
+/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/
+/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/
+/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/
+/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/
+/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/
+/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/
+/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/
+/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/
+/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/
+/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/
+/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/
+/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/
+/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/
+/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/
+/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/
+/Volumes/code/terraform-azurerm-avm-res-sql-server/
+/Volumes/code/terraform-azurerm-avm-template/
+/Volumes/code/terraform-azurerm-avm-utl-regions/
+/Volumes/code/terraform-azurerm-caf-enterprise-scale/
+/Volumes/code/terraform-azurerm-lz-vending/
+/Volumes/code/terraform-docs/
+/Volumes/code/terraform-mcp-eva/
+/Volumes/code/terraform-module-authoring/
+/Volumes/code/terraform-provider-alz/
+/Volumes/code/terraform-provider-azapi/
+/Volumes/code/terraform-provider-modtm/
+/Volumes/code/terraform-provider-msgraph/
+/Volumes/code/terramate/
+/Volumes/code/terratest-terraform-fluent/
+/Volumes/code/testRepoDelete/
+/Volumes/code/tflint-ruleset-avm/
+/Volumes/code/tflintenv/
+/Volumes/code/tfmod-scaffold/
+/Volumes/code/tfmodstats/
+/Volumes/code/tfpluginschema/
+/Volumes/code/tfprovupgrade/
+/Volumes/code/tm-test/
+/Volumes/code/tmp-alzlibDeps/'
++sesh-connect-session:11> echo 'DEBUG: Getting sesh list...'
+DEBUG: Getting sesh list...
++sesh-connect-session:12> session=+sesh-connect-session:12> sesh list -t -c --icons
++sesh-connect-session:12> session=$'\C-[[34m\C-[[39m dotfiles\n\C-[[34m\C-[[39m neovim config\n\C-[[34m\C-[[39m alzlib\n\C-[[34m\C-[[39m terraform-azurerm-avm-res-management-servicegroup\n\C-[[90m\C-[[39m dotfiles\n\C-[[90m\C-[[39m neovim config\n\C-[[90m\C-[[39m sesh config\n\C-[[90m\C-[[39m kitty config' 
++sesh-connect-session:13> echo $'DEBUG: session=\'\C-[[34m\C-[[39m dotfiles\n\C-[[34m\C-[[39m neovim config\n\C-[[34m\C-[[39m alzlib\n\C-[[34m\C-[[39m terraform-azurerm-avm-res-management-servicegroup\n\C-[[90m\C-[[39m dotfiles\n\C-[[90m\C-[[39m neovim config\n\C-[[90m\C-[[39m sesh config\n\C-[[90m\C-[[39m kitty config\''
+DEBUG: session='[34m[39m dotfiles
+[34m[39m neovim config
+[34m[39m alzlib
+[34m[39m terraform-azurerm-avm-res-management-servicegroup
+[90m[39m dotfiles
+[90m[39m neovim config
+[90m[39m sesh config
+[90m[39m kitty config'
++sesh-connect-session:15> echo 'DEBUG: Building session list...'
+DEBUG: Building session list...
++sesh-connect-session:16> seshlist=+sesh-connect-session:16> printf $'/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\\n\C-[[34m\C-[[39m dotfiles\n\C-[[34m\C-[[39m neovim config\n\C-[[34m\C-[[39m alzlib\n\C-[[34m\C-[[39m terraform-azurerm-avm-res-management-servicegroup\n\C-[[90m\C-[[39m dotfiles\n\C-[[90m\C-[[39m neovim config\n\C-[[90m\C-[[39m sesh config\n\C-[[90m\C-[[39m kitty config\\n'
++sesh-connect-session:16> seshlist=$'/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\n\C-[[34m\C-[[39m dotfiles\n\C-[[34m\C-[[39m neovim config\n\C-[[34m\C-[[39m alzlib\n\C-[[34m\C-[[39m terraform-azurerm-avm-res-management-servicegroup\n\C-[[90m\C-[[39m dotfiles\n\C-[[90m\C-[[39m neovim config\n\C-[[90m\C-[[39m sesh config\n\C-[[90m\C-[[39m kitty config' 
++sesh-connect-session:17> echo $'DEBUG: seshlist=\'/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\n\C-[[34m\C-[[39m dotfiles\n\C-[[34m\C-[[39m neovim config\n\C-[[34m\C-[[39m alzlib\n\C-[[34m\C-[[39m terraform-azurerm-avm-res-management-servicegroup\n\C-[[90m\C-[[39m dotfiles\n\C-[[90m\C-[[39m neovim config\n\C-[[90m\C-[[39m sesh config\n\C-[[90m\C-[[39m kitty config\''
+DEBUG: seshlist='/Volumes/code/ALZ-Powershell-Module/
+/Volumes/code/AVM-Powershell-Module/
+/Volumes/code/Azure-Landing-Zones/
+/Volumes/code/Azure-Landing-Zones-Library/
+/Volumes/code/Azure-Verified-Modules-Grept/
+/Volumes/code/BCCWEB/
+/Volumes/code/BCC_AZ/
+/Volumes/code/Enterprise-Scale/
+/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/
+/Volumes/code/UAENESLZ/
+/Volumes/code/accel/
+/Volumes/code/accelerator-bootstrap-modules/
+/Volumes/code/acceltest/
+/Volumes/code/alz-terraform-accelerator/
+/Volumes/code/alzarchitectureedit/
+/Volumes/code/alzarchitectureeditor/
+/Volumes/code/alzlib/
+/Volumes/code/aoc2024/
+/Volumes/code/architecture-center-pr/
+/Volumes/code/arm-template-parser/
+/Volumes/code/avm-applz-demo/
+/Volumes/code/avm-terraform-governance/
+/Volumes/code/avmfix/
+/Volumes/code/azapi-best-practices/
+/Volumes/code/azapi-vnetsubnet-repro/
+/Volumes/code/azapiTestGeneral/
+/Volumes/code/azapitest-datas/
+/Volumes/code/azapitestimportpd/
+/Volumes/code/azure-sdk-for-go/
+/Volumes/code/azure-verified-modules/
+/Volumes/code/bicepExtTest/
+/Volumes/code/canyouassignapolicywithaemptyversionstring/
+/Volumes/code/cloud-adoption-framework-pr/
+/Volumes/code/container/
+/Volumes/code/entrauth/
+/Volumes/code/github-operations/
+/Volumes/code/githubapptoken/
+/Volumes/code/go/
+/Volumes/code/go-getter/
+/Volumes/code/go-isatty/
+/Volumes/code/goarmfunctions/
+/Volumes/code/golden/
+/Volumes/code/gothingy/
+/Volumes/code/hcledit/
+/Volumes/code/hugo-shortcode-roneo-collection/
+/Volumes/code/jcd/
+/Volumes/code/librarydemo/
+/Volumes/code/linkedlist/
+/Volumes/code/mapotf/
+/Volumes/code/msgraph-sharepoint/
+/Volumes/code/msgraph-test/
+/Volumes/code/mstfauth/
+/Volumes/code/mwdemo-appsvc-template/
+/Volumes/code/mwdemo-lz1/
+/Volumes/code/nestedmaptest/
+/Volumes/code/openai-end-to-end-basic/
+/Volumes/code/opentofu/
+/Volumes/code/otelcli/
+/Volumes/code/porch/
+/Volumes/code/pporch/
+/Volumes/code/retrytest/
+/Volumes/code/siginttest/
+/Volumes/code/stinger/
+/Volumes/code/terraform/
+/Volumes/code/terraform-azapi-mg-hierarchysettings/
+/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/
+/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/
+/Volumes/code/terraform-azure-avm-utl-interfaces/
+/Volumes/code/terraform-azure-avm-utl-roledefinitions/
+/Volumes/code/terraform-azure-minecraft-server/
+/Volumes/code/terraform-azure-modules/
+/Volumes/code/terraform-azurerm-avm-ptn-aks-production/
+/Volumes/code/terraform-azurerm-avm-ptn-alz/
+/Volumes/code/terraform-azurerm-avm-ptn-alz-management/
+/Volumes/code/terraform-azurerm-avm-ptn-example-repo/
+/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/
+/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/
+/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/
+/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/
+/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/
+/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/
+/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/
+/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/
+/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/
+/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/
+/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/
+/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/
+/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/
+/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/
+/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/
+/Volumes/code/terraform-azurerm-avm-res-sql-server/
+/Volumes/code/terraform-azurerm-avm-template/
+/Volumes/code/terraform-azurerm-avm-utl-regions/
+/Volumes/code/terraform-azurerm-caf-enterprise-scale/
+/Volumes/code/terraform-azurerm-lz-vending/
+/Volumes/code/terraform-docs/
+/Volumes/code/terraform-mcp-eva/
+/Volumes/code/terraform-module-authoring/
+/Volumes/code/terraform-provider-alz/
+/Volumes/code/terraform-provider-azapi/
+/Volumes/code/terraform-provider-modtm/
+/Volumes/code/terraform-provider-msgraph/
+/Volumes/code/terramate/
+/Volumes/code/terratest-terraform-fluent/
+/Volumes/code/testRepoDelete/
+/Volumes/code/tflint-ruleset-avm/
+/Volumes/code/tflintenv/
+/Volumes/code/tfmod-scaffold/
+/Volumes/code/tfmodstats/
+/Volumes/code/tfpluginschema/
+/Volumes/code/tfprovupgrade/
+/Volumes/code/tm-test/
+/Volumes/code/tmp-alzlibDeps/
+[34m[39m dotfiles
+[34m[39m neovim config
+[34m[39m alzlib
+[34m[39m terraform-azurerm-avm-res-management-servicegroup
+[90m[39m dotfiles
+[90m[39m neovim config
+[90m[39m sesh config
+[90m[39m kitty config'
++sesh-connect-session:19> fzfcmd=$'--no-sort --ansi --border-label \' sesh \' --prompt \'⚡  \' --header \' ^d tmux kill \' --bind \'tab:down,btab:up\' --bind \'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(printf "/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\\n" && sesh list -t -c --icons)\' --preview-window \'right:55%\' --preview \'sesh preview {}\'' 
++sesh-connect-session:20> echo $'DEBUG: fzfcmd=\'--no-sort --ansi --border-label \' sesh \' --prompt \'⚡  \' --header \' ^d tmux kill \' --bind \'tab:down,btab:up\' --bind \'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(printf "/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\\n" && sesh list -t -c --icons)\' --preview-window \'right:55%\' --preview \'sesh preview {}\'\''
+DEBUG: fzfcmd='--no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' --header ' ^d tmux kill ' --bind 'tab:down,btab:up' --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(printf "/Volumes/code/ALZ-Powershell-Module/
+/Volumes/code/AVM-Powershell-Module/
+/Volumes/code/Azure-Landing-Zones/
+/Volumes/code/Azure-Landing-Zones-Library/
+/Volumes/code/Azure-Verified-Modules-Grept/
+/Volumes/code/BCCWEB/
+/Volumes/code/BCC_AZ/
+/Volumes/code/Enterprise-Scale/
+/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/
+/Volumes/code/UAENESLZ/
+/Volumes/code/accel/
+/Volumes/code/accelerator-bootstrap-modules/
+/Volumes/code/acceltest/
+/Volumes/code/alz-terraform-accelerator/
+/Volumes/code/alzarchitectureedit/
+/Volumes/code/alzarchitectureeditor/
+/Volumes/code/alzlib/
+/Volumes/code/aoc2024/
+/Volumes/code/architecture-center-pr/
+/Volumes/code/arm-template-parser/
+/Volumes/code/avm-applz-demo/
+/Volumes/code/avm-terraform-governance/
+/Volumes/code/avmfix/
+/Volumes/code/azapi-best-practices/
+/Volumes/code/azapi-vnetsubnet-repro/
+/Volumes/code/azapiTestGeneral/
+/Volumes/code/azapitest-datas/
+/Volumes/code/azapitestimportpd/
+/Volumes/code/azure-sdk-for-go/
+/Volumes/code/azure-verified-modules/
+/Volumes/code/bicepExtTest/
+/Volumes/code/canyouassignapolicywithaemptyversionstring/
+/Volumes/code/cloud-adoption-framework-pr/
+/Volumes/code/container/
+/Volumes/code/entrauth/
+/Volumes/code/github-operations/
+/Volumes/code/githubapptoken/
+/Volumes/code/go/
+/Volumes/code/go-getter/
+/Volumes/code/go-isatty/
+/Volumes/code/goarmfunctions/
+/Volumes/code/golden/
+/Volumes/code/gothingy/
+/Volumes/code/hcledit/
+/Volumes/code/hugo-shortcode-roneo-collection/
+/Volumes/code/jcd/
+/Volumes/code/librarydemo/
+/Volumes/code/linkedlist/
+/Volumes/code/mapotf/
+/Volumes/code/msgraph-sharepoint/
+/Volumes/code/msgraph-test/
+/Volumes/code/mstfauth/
+/Volumes/code/mwdemo-appsvc-template/
+/Volumes/code/mwdemo-lz1/
+/Volumes/code/nestedmaptest/
+/Volumes/code/openai-end-to-end-basic/
+/Volumes/code/opentofu/
+/Volumes/code/otelcli/
+/Volumes/code/porch/
+/Volumes/code/pporch/
+/Volumes/code/retrytest/
+/Volumes/code/siginttest/
+/Volumes/code/stinger/
+/Volumes/code/terraform/
+/Volumes/code/terraform-azapi-mg-hierarchysettings/
+/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/
+/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/
+/Volumes/code/terraform-azure-avm-utl-interfaces/
+/Volumes/code/terraform-azure-avm-utl-roledefinitions/
+/Volumes/code/terraform-azure-minecraft-server/
+/Volumes/code/terraform-azure-modules/
+/Volumes/code/terraform-azurerm-avm-ptn-aks-production/
+/Volumes/code/terraform-azurerm-avm-ptn-alz/
+/Volumes/code/terraform-azurerm-avm-ptn-alz-management/
+/Volumes/code/terraform-azurerm-avm-ptn-example-repo/
+/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/
+/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/
+/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/
+/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/
+/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/
+/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/
+/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/
+/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/
+/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/
+/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/
+/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/
+/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/
+/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/
+/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/
+/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/
+/Volumes/code/terraform-azurerm-avm-res-sql-server/
+/Volumes/code/terraform-azurerm-avm-template/
+/Volumes/code/terraform-azurerm-avm-utl-regions/
+/Volumes/code/terraform-azurerm-caf-enterprise-scale/
+/Volumes/code/terraform-azurerm-lz-vending/
+/Volumes/code/terraform-docs/
+/Volumes/code/terraform-mcp-eva/
+/Volumes/code/terraform-module-authoring/
+/Volumes/code/terraform-provider-alz/
+/Volumes/code/terraform-provider-azapi/
+/Volumes/code/terraform-provider-modtm/
+/Volumes/code/terraform-provider-msgraph/
+/Volumes/code/terramate/
+/Volumes/code/terratest-terraform-fluent/
+/Volumes/code/testRepoDelete/
+/Volumes/code/tflint-ruleset-avm/
+/Volumes/code/tflintenv/
+/Volumes/code/tfmod-scaffold/
+/Volumes/code/tfmodstats/
+/Volumes/code/tfpluginschema/
+/Volumes/code/tfprovupgrade/
+/Volumes/code/tm-test/
+/Volumes/code/tmp-alzlibDeps/
+" && sesh list -t -c --icons)' --preview-window 'right:55%' --preview 'sesh preview {}''
++sesh-connect-session:22> [[ -n /private/tmp/tmux-501/default,82743,4 ]]
++sesh-connect-session:23> echo 'DEBUG: Running fzf-tmux...'
+DEBUG: Running fzf-tmux...
++sesh-connect-session:24> session=+sesh-connect-session:24> echo $'/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\n\C-[[34m\C-[[39m dotfiles\n\C-[[34m\C-[[39m neovim config\n\C-[[34m\C-[[39m alzlib\n\C-[[34m\C-[[39m terraform-azurerm-avm-res-management-servicegroup\n\C-[[90m\C-[[39m dotfiles\n\C-[[90m\C-[[39m neovim config\n\C-[[90m\C-[[39m sesh config\n\C-[[90m\C-[[39m kitty config'
++sesh-connect-session:24> session=+sesh-connect-session:24> fzf-tmux -p 80%,80% $'--no-sort --ansi --border-label \' sesh \' --prompt \'⚡  \' --header \' ^d tmux kill \' --bind \'tab:down,btab:up\' --bind \'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(printf "/Volumes/code/ALZ-Powershell-Module/\n/Volumes/code/AVM-Powershell-Module/\n/Volumes/code/Azure-Landing-Zones/\n/Volumes/code/Azure-Landing-Zones-Library/\n/Volumes/code/Azure-Verified-Modules-Grept/\n/Volumes/code/BCCWEB/\n/Volumes/code/BCC_AZ/\n/Volumes/code/Enterprise-Scale/\n/Volumes/code/TechStrategy-Infra-ALZPwsh-CodeSign/\n/Volumes/code/UAENESLZ/\n/Volumes/code/accel/\n/Volumes/code/accelerator-bootstrap-modules/\n/Volumes/code/acceltest/\n/Volumes/code/alz-terraform-accelerator/\n/Volumes/code/alzarchitectureedit/\n/Volumes/code/alzarchitectureeditor/\n/Volumes/code/alzlib/\n/Volumes/code/aoc2024/\n/Volumes/code/architecture-center-pr/\n/Volumes/code/arm-template-parser/\n/Volumes/code/avm-applz-demo/\n/Volumes/code/avm-terraform-governance/\n/Volumes/code/avmfix/\n/Volumes/code/azapi-best-practices/\n/Volumes/code/azapi-vnetsubnet-repro/\n/Volumes/code/azapiTestGeneral/\n/Volumes/code/azapitest-datas/\n/Volumes/code/azapitestimportpd/\n/Volumes/code/azure-sdk-for-go/\n/Volumes/code/azure-verified-modules/\n/Volumes/code/bicepExtTest/\n/Volumes/code/canyouassignapolicywithaemptyversionstring/\n/Volumes/code/cloud-adoption-framework-pr/\n/Volumes/code/container/\n/Volumes/code/entrauth/\n/Volumes/code/github-operations/\n/Volumes/code/githubapptoken/\n/Volumes/code/go/\n/Volumes/code/go-getter/\n/Volumes/code/go-isatty/\n/Volumes/code/goarmfunctions/\n/Volumes/code/golden/\n/Volumes/code/gothingy/\n/Volumes/code/hcledit/\n/Volumes/code/hugo-shortcode-roneo-collection/\n/Volumes/code/jcd/\n/Volumes/code/librarydemo/\n/Volumes/code/linkedlist/\n/Volumes/code/mapotf/\n/Volumes/code/msgraph-sharepoint/\n/Volumes/code/msgraph-test/\n/Volumes/code/mstfauth/\n/Volumes/code/mwdemo-appsvc-template/\n/Volumes/code/mwdemo-lz1/\n/Volumes/code/nestedmaptest/\n/Volumes/code/openai-end-to-end-basic/\n/Volumes/code/opentofu/\n/Volumes/code/otelcli/\n/Volumes/code/porch/\n/Volumes/code/pporch/\n/Volumes/code/retrytest/\n/Volumes/code/siginttest/\n/Volumes/code/stinger/\n/Volumes/code/terraform/\n/Volumes/code/terraform-azapi-mg-hierarchysettings/\n/Volumes/code/terraform-azure-avm-ptn-enterprise-minecraft/\n/Volumes/code/terraform-azure-avm-res-appconfiguration-configurationstore/\n/Volumes/code/terraform-azure-avm-utl-interfaces/\n/Volumes/code/terraform-azure-avm-utl-roledefinitions/\n/Volumes/code/terraform-azure-minecraft-server/\n/Volumes/code/terraform-azure-modules/\n/Volumes/code/terraform-azurerm-avm-ptn-aks-production/\n/Volumes/code/terraform-azurerm-avm-ptn-alz/\n/Volumes/code/terraform-azurerm-avm-ptn-alz-management/\n/Volumes/code/terraform-azurerm-avm-ptn-example-repo/\n/Volumes/code/terraform-azurerm-avm-ptn-hubnetworking/\n/Volumes/code/terraform-azurerm-avm-ptn-network-private-link-private-dns-zones/\n/Volumes/code/terraform-azurerm-avm-ptn-virtualwan/\n/Volumes/code/terraform-azurerm-avm-ptn-vnetgateway/\n/Volumes/code/terraform-azurerm-avm-res-app-managedenvironment/\n/Volumes/code/terraform-azurerm-avm-res-containerinstance-containergroup/\n/Volumes/code/terraform-azurerm-avm-res-containerservice-managedcluster/\n/Volumes/code/terraform-azurerm-avm-res-keyvault-vault/\n/Volumes/code/terraform-azurerm-avm-res-management-servicegroup/\n/Volumes/code/terraform-azurerm-avm-res-network-applicationgatewaywebapplicationfirewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-bastionhost/\n/Volumes/code/terraform-azurerm-avm-res-network-firewallpolicy/\n/Volumes/code/terraform-azurerm-avm-res-network-privateendpoint/\n/Volumes/code/terraform-azurerm-avm-res-network-virtualnetwork/\n/Volumes/code/terraform-azurerm-avm-res-sql-managedinstance/\n/Volumes/code/terraform-azurerm-avm-res-sql-server/\n/Volumes/code/terraform-azurerm-avm-template/\n/Volumes/code/terraform-azurerm-avm-utl-regions/\n/Volumes/code/terraform-azurerm-caf-enterprise-scale/\n/Volumes/code/terraform-azurerm-lz-vending/\n/Volumes/code/terraform-docs/\n/Volumes/code/terraform-mcp-eva/\n/Volumes/code/terraform-module-authoring/\n/Volumes/code/terraform-provider-alz/\n/Volumes/code/terraform-provider-azapi/\n/Volumes/code/terraform-provider-modtm/\n/Volumes/code/terraform-provider-msgraph/\n/Volumes/code/terramate/\n/Volumes/code/terratest-terraform-fluent/\n/Volumes/code/testRepoDelete/\n/Volumes/code/tflint-ruleset-avm/\n/Volumes/code/tflintenv/\n/Volumes/code/tfmod-scaffold/\n/Volumes/code/tfmodstats/\n/Volumes/code/tfpluginschema/\n/Volumes/code/tfprovupgrade/\n/Volumes/code/tm-test/\n/Volumes/code/tmp-alzlibDeps/\\n" && sesh list -t -c --icons)\' --preview-window \'right:55%\' --preview \'sesh preview {}\''
++sesh-connect-session:24> session='' 
++sesh-connect-session:29> echo 'DEBUG: Selected session='\'\'
+DEBUG: Selected session=''
++sesh-connect-session:31> [[ -n '' ]]
++sesh-connect-session:32> set +x
