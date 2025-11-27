@@ -8,16 +8,16 @@ $git_branch\
 $git_state\
 $git_status\
 $azure\
+$golang\
 $cmd_duration\
 $line_break\
-$python\
 $character"""
 
 [directory]
-style = "blue"
+style = "purple"
 
 [character]
-success_symbol = "[❯](purple)"
+success_symbol = "[❯](bright-white)"
 error_symbol = "[❯](red)"
 vimcmd_symbol = "[❮](green)"
 
@@ -48,7 +48,4 @@ style = "yellow"
 disabled = false
 
 [golang]
-disabled = false
-
-[terrafrom]
 disabled = false
