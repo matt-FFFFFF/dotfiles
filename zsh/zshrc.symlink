@@ -1,10 +1,8 @@
-zshrc=$HOME/.zshrc
-zshactual=${zshrc:A:h}
-dotfiles=${zshactual}/..
-export ZSH=${dotfiles:a}
+export ZSH=$HOME/.dotfiles
 
 # your project folder that we can `c [tab]` to
-export PROJECTS=$HOME/code
+_projects_path=${HOME}/code
+export PROJECTS=${_projects_path:A}
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -24,14 +22,6 @@ do
   source $file
 done
 
-# # load the fpath files
-# for file in ${(M)config_files:#*/fpath.zsh}
-# do
-# 	source $file
-# done
-
-# load everything but the path, completion, fpath and final files
-##for file in ${${${${${config_files:#*/final.zsh}:#*config_files:#*/path.zsh}:#*/completion.zsh}:#*/completion_bash.zsh}:#*/fpath.zsh}
 for file in ${${${${config_files:#*/final.zsh}:#*/path.zsh}:#*/completion.zsh}:#*/completion_bash.zsh}
 do
   source $file
@@ -127,6 +117,8 @@ exit_zsh() { exit }
 zle -N exit_zsh
 bindkey '^D' exit_zsh
 
+# Vim motions
+bindkey -v
 
 # Highlighting and autosuggestions
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
@@ -150,7 +142,7 @@ if [ "$(uname)" = "Darwin" ]; then
 	if [ -e /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 		source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 	fi
-	if [ -e /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-		source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	if [ -e /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]; then
+		source /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 	fi
 fi

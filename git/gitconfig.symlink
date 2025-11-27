@@ -18,6 +18,7 @@
 [user]
 	name = Matt White
 	email = 16320656+matt-FFFFFF@users.noreply.github.com
+	signingKey = 5C4E2BE5EA007134F38BCB1823EF1B0546F3DB18
 
 [hub]
   protocol = https
@@ -40,7 +41,7 @@
 
 [core]
   excludesfile = ~/.gitignore
-  editor = code
+  editor = nvim
 
 [apply]
   whitespace = nowarn
@@ -93,3 +94,5 @@
   autoSquash = true
   autoStash = true
   updateRefs = true
+[gpg]
+	program = /opt/homebrew/bin/gpg

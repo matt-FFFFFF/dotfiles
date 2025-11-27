@@ -1,134 +1,54 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-command_timeout = 1000
-# colors
-# #3960A7 - dark blue
-# #659CD9 - mid blue
-# #4A4A4A - dark grey
-# #F2F2F2 - near white
-# #9C9C9C - mid gray
-
-format = """\
-[](fg:#659CD9)\
-$os\
-$sudo\
-$shell\
-[](fg:#659CD9 bg:#3960A7)\
+format = """
+$username\
+$hostname\
 $directory\
-[](fg:#3960A7 bg:#9C9C9C)\
 $git_branch\
-$git_commit\
-$git_status\
 $git_state\
-[](fg:#9C9C9C bg:#F2F2F2)\
-($git_metrics)\
-[](fg:#F2F2F2)\
-$fill\
-$status\
-$all\
+$git_status\
+$azure\
 $cmd_duration\
 $line_break\
+$python\
 $character"""
 
-# disabled due to fill module
-# right_format = ''
-add_newline = true
-
-[line_break]
-disabled = false
-
-[fill]
-symbol = ' '
-
-[os]
-disabled = false
-format = '[$symbol]($style)'
-style = 'fg:#659CD9 bg:#F2F2F2 inverted'
-
-[os.symbols]
-Macos = " "
-Windows = " "
-Ubuntu = " "
-
-[sudo]
-disabled = false
-symbol = "🧙"
-format = '[$symbol ]($style)'
-style = "bg:#659CD9"
-
-[shell]
-disabled = false
-zsh_indicator = ''
-powershell_indicator = ''
-cmd_indicator = ''
-style = 'fg:#F2F2F2 bg:#659CD9'
-format = '[$indicator ]($style)'
-
 [directory]
-format = "[ \uf07c  $path ]($style)"
-style = "fg:#F2F2F2 bg:#3960A7"
-
-[git_branch]
-format = '[ $symbol$branch(:$remote_branch) ]($style)'
-symbol = "  "
-style = "fg:#1C3A5E bg:#9C9C9C"
-
-[git_status]
-format = '([\[$all_status$ahead_behind\]]($style))'
-style = "fg:#1C3A5E bg:#9C9C9C"
-
-[git_commit]
-disabled = false
-format = '[\((#$hash)$tag\)]($style)'
-tag_disabled = false
-only_detached = true
-style = "fg:#1C3A5E bg:#9C9C9C"
-
-[git_metrics]
-format = '([ +$added ]($added_style))([-$deleted ]($deleted_style))'
-added_style = "fg:#1C3A5E bg:#F2F2F2"
-deleted_style = "fg:red bg:#F2F2F2"
-disabled = false
-
-[cmd_duration]
-disabled = false
-format = "[[](fg:#5C7F6A)⏱ $duration[](fg:#5C7F6A)]($style)"
-style = "#5C7F6A inverted"
+style = "blue"
 
 [character]
-disabled = false
-success_symbol = '[❯](bold #F2F2F2) '
-error_symbol = '[❯](bold red) '
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](green)"
 
-[time]
-disabled = true
-time_format = "%R"                                      # Hour:Minute Format
-style = "bg:#1d2230"
-format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
+[git_branch]
+format = "[$branch]($style)"
+style = "bright-black"
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+style = "cyan"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "yellow"
 
 [azure]
 disabled = false
-format = '[](fg:#3376CD)[$symbol($subscription)]($style)[](fg:#3376CD)'
-style = 'fg:#3376CD bold inverted'
-symbol = '󰠅 '
 
 [golang]
 disabled = false
-format = '[](fg:cyan)[$symbol($version )]($style)[](fg:cyan)'
-style = 'fg:cyan inverted'
-symbol = ' '
 
-[status]
-disabled = true
-symbol = '🔴 '
-success_symbol = ''
-format = '[$symbol( $common_meaning )$signal_name$maybe_int]($style) '
-map_symbol = true
-
-[terraform]
-symbol = '󱁢 '
-format = '[](fg:105)[$symbol$version]($style)[](fg:105)'
-style = 'fg:105 inverted'
-
-[battery]
-disabled = true
+[terrafrom]
+disabled = false

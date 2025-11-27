@@ -5,7 +5,7 @@ local dirs
 local seshlist
 local -a fzf_args
 
-dirs="$(fd -td -d1 . '/Volumes/code')"
+dirs="$(fd -td -d1 . "$PROJECTS")"
 session="$(sesh list -t -c --icons)"
 seshlist=$(printf "%s\n%s\n" "$session" "$dirs" )
 
