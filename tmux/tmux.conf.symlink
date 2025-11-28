@@ -7,7 +7,7 @@ bind-key a send-keys C-a
 
 set -gq allow-passthrough on
 set-option -g extended-keys on
-set-option -ag terminal-features 'xterm*:extkeys'
+set-option -ag terminal-features 'xterm-kitty*:extkeys'
 set -s set-clipboard on
 
 setw -g mode-keys vi
