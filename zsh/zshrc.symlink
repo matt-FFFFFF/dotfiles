@@ -3,6 +3,7 @@ export ZSH=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 _projects_path=${HOME}/code
 export PROJECTS=${_projects_path:A}
+unset _projects_path
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -62,6 +63,9 @@ done
 
 unset config_files
 
+# Vim motions
+bindkey -v
+
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
 autoload -U up-line-or-beginning-search
@@ -116,9 +120,6 @@ fi
 exit_zsh() { exit }
 zle -N exit_zsh
 bindkey '^D' exit_zsh
-
-# Vim motions
-bindkey -v
 
 # Highlighting and autosuggestions
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)

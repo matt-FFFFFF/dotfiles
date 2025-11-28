@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# Usage: gca <repo-name>
+# Description: Clone an Azure GitHub repository
+gca() {
+  if [ -z "$1" ]; then
+    echo "Usage: gca <repo-name>"
+    return 1
+  fi
+  git clone "https://github.com/Azure/$1"
+}
