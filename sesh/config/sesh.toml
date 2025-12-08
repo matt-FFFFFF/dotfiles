@@ -20,3 +20,8 @@ startup_command = "nvim sesh.toml"
 name = "kitty config"
 path = "~/.config/kitty"
 startup_command = "nvim kitty.conf"
+
+[[session]]
+name = "code"
+path = "/Volumes/code"
+startup_command = "echo 'What to do today?'"

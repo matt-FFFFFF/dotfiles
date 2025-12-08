@@ -9,3 +9,8 @@ alias l.='ls -d .* --color=auto $*'
 alias ll.='ls -ld .* --color=auto $*'
 ## for when you forgot to ask nicely
 alias pls='sudo $(fc -ln -1)'
+
+# Directories
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
