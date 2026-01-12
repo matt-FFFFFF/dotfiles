@@ -18,7 +18,7 @@
 [user]
 	name = Matt White
 	email = 16320656+matt-FFFFFF@users.noreply.github.com
-	signingKey = 5C4E2BE5EA007134F38BCB1823EF1B0546F3DB18
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPmpMwyB4GMBojL/nFxtOZldNjuXEyhBYGkpytzj4qK
 
 [hub]
   protocol = https
@@ -94,5 +94,6 @@
   autoSquash = true
   autoStash = true
   updateRefs = true
+
 [gpg]
-	program = /opt/homebrew/bin/gpg
+	format = ssh

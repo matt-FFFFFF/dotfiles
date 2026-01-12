@@ -1,5 +1,5 @@
 if test ! "$(uname)" = "Darwin"
   then
-  exit 0
+  return
 fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
