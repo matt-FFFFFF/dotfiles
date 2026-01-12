@@ -86,10 +86,6 @@
 	process = git-lfs filter-process
 	required = true
 
-[credential]
-	helper =
-	helper = /usr/local/share/gcm-core/git-credential-manager
-
 [rebase]
   autoSquash = true
   autoStash = true
