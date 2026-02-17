@@ -8,4 +8,10 @@ gca() {
     return 1
   fi
   git clone "https://github.com/Azure/$1"
+  EXITCODE=$?
+  if [ $EXITCODE -ne 0 ]; then
+    echo "Failed to clone repository: $1"
+    return $EXITCODE
+  fi
+  cd "$1" || return $?
 }

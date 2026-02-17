@@ -124,9 +124,9 @@ bindkey '^D' exit_zsh
 # Highlighting and autosuggestions
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 if [ "$(uname)" = "Linux" ]; then
-	# Arch
-	if [ -e /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-		source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	# Arch requires AUR package `zsh-fast-syntax-highlighting`
+	if [ -e /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]; then
+		source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 	fi
 
 	# Ubuntu

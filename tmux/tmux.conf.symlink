@@ -29,7 +29,7 @@ set -g history-limit 1000000
 
 bind-key x kill-pane
 set -g detach-on-destroy off
-bind -N "last session (via sesh) " L run shell "sesh last"
+bind -N "last session (via sesh) " L run-shell "sesh last"
 bind -N "switch to root session (via sesh) " 9 run-shell "sesh connect --root \'$(pwd)\'"
 set-option -g allow-rename off
 
