@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Three-pane dev layout:
+#   Top-left (2/3 width): nvim
+#   Top-right (1/3 width): opencode
+#   Bottom (full width): terminal
+
+# Only run on fresh sessions (single pane)
+pane_count=$(tmux list-panes -t "$TMUX_PANE" 2>/dev/null | wc -l)
+[[ "$pane_count" -gt 1 ]] && exit 0
+
+# Split right for opencode (1/3 of width)
+tmux split-window -h -l 33% 'opencode'
+
+# Go back to the left pane and split bottom
+tmux select-pane -L
+tmux split-window -v -l 25%
+
+# Focus back on the top-left pane and start nvim
+tmux select-pane -U
+tmux send-keys 'nvim' Enter

@@ -93,3 +93,5 @@
 
 [gpg]
 	format = ssh
+[credential]
+	useHttpPath = true
