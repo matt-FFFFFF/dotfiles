@@ -1,27 +1,19 @@
-[default_session]
-startup_command = "nvim"
-
 [[session]]
 name = "dotfiles"
 path = "~/.dotfiles"
-startup_command = "nvim"
 
 [[session]]
 name = "neovim config"
 path = "~/.config/nvim"
-startup_command = "nvim"
 
 [[session]]
 name = "sesh config"
 path = "~/.config/sesh"
-startup_command = "nvim sesh.toml"
 
 [[session]]
 name = "kitty config"
 path = "~/.config/kitty"
-startup_command = "nvim kitty.conf"
 
 [[session]]
 name = "code"
 path = "/Volumes/code"
-startup_command = "echo 'What to do today?'"
