@@ -1,3 +1,4 @@
+# vi: ft=gitconfig
 # Local/private config goes in the include
 [include]
   path = ~/.gitconfig.local
@@ -71,14 +72,8 @@
 [commit]
 	gpgsign = true
 
-[http]
-	cookiefile = /home/matt/.gitcookies
-
 [pull]
   rebase = false
-
-[http]
-	cookiefile = /Users/matt/.gitcookies
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -93,3 +88,7 @@
 
 [gpg]
 	format = ssh
+
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+

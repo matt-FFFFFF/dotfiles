@@ -9,6 +9,7 @@ $git_state\
 $git_status\
 $azure\
 $golang\
+$python\
 $cmd_duration\
 $line_break\
 $character"""
@@ -48,4 +49,7 @@ style = "yellow"
 disabled = false
 
 [golang]
+disabled = false
+
+[python]
 disabled = false
