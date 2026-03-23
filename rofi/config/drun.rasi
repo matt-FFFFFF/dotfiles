@@ -1,0 +1,107 @@
+/* Omarchy-inspired rofi theme
+ * Colours match the sway config:
+ *   background  #0d0d0d
+ *   active      #33ccff (cyan)
+ *   accent      #00ff99 (green)
+ *   text        #ffffff
+ *   inactive    #595959
+ */
+
+* {
+    bg:          #0d0d0d;
+    bg-alt:      #141414;
+    fg:          #ffffff;
+    fg-dim:      #999999;
+    accent:      #33ccff;
+    accent-dim:  #1a6680;
+    urgent:      #ff5555;
+    border:      2px;
+    spacing:     0;
+}
+
+window {
+    background-color: @bg;
+    border:           @border;
+    border-color:     @accent;
+    border-radius:    0px;
+    width:            480px;
+    padding:          8px;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, listview ];
+    spacing:          8px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border:           0 0 2px 0;
+    border-color:     @accent-dim;
+    padding:          8px 10px;
+    children:         [ prompt, entry ];
+    spacing:          6px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @accent;
+    font:             "monospace Bold 10";
+    enabled:          false;
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @fg;
+    placeholder:      "search...";
+    placeholder-color: @fg-dim;
+    font:             "monospace 10";
+}
+
+listview {
+    background-color: transparent;
+    lines:            8;
+    columns:          1;
+    fixed-height:     true;
+    spacing:          2px;
+}
+
+element {
+    background-color: transparent;
+    padding:          6px 10px;
+    border-radius:    0px;
+    spacing:          8px;
+    children:         [ element-icon, element-text ];
+}
+
+element selected.normal {
+    background-color: @accent-dim;
+    border:           0 0 0 2px;
+    border-color:     @accent;
+}
+
+element urgent {
+    text-color: @urgent;
+}
+
+element-icon {
+    background-color: transparent;
+    size:             1.2em;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       @fg-dim;
+    font:             "monospace 10";
+}
+
+element-text selected {
+    text-color: @fg;
+}
+
+scrollbar {
+    background-color: @bg-alt;
+    handle-color:     @accent-dim;
+    handle-width:     4px;
+    border:           0;
+}

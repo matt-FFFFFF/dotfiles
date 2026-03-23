@@ -1,0 +1,130 @@
+/* Omarchy-inspired waybar theme
+ * Palette mirrors sway config + rofi theme:
+ *   bg         #0d0d0d
+ *   bg-alt     #141414
+ *   accent     #33ccff  (cyan)
+ *   fg         #ffffff
+ *   fg-dim     #999999
+ *   urgent     #ff5555
+ */
+
+* {
+    border:        none;
+    border-radius: 0;
+    min-height:    0;
+    font-family:   "Cascadia Mono NF", "Cascadia Code NF", monospace;
+    font-size:     12px;
+    color:         #ffffff;
+    background:    transparent;
+}
+
+window#waybar {
+    background-color: #0d0d0d;
+    border-bottom:    1px solid #1f1f1f;
+}
+
+/* ── Left ─────────────────────────────────────────────────────────────── */
+
+#workspaces {
+    margin-left: 6px;
+}
+
+#workspaces button {
+    all:        initial;
+    font-family: "Cascadia Mono NF";
+    font-size:  12px;
+    color:      #999999;
+    padding:    0 8px;
+    min-width:  16px;
+}
+
+#workspaces button * {
+    color: inherit;
+}
+
+#workspaces button:hover {
+    color:      #ffffff;
+}
+
+#workspaces button.focused {
+    color:       #ffffff;
+    font-weight: bold;
+    padding:     0 8px;
+}
+
+#workspaces button.urgent {
+    color:      #ff5555;
+}
+
+#mode {
+    color:      #33ccff;
+    margin-left: 8px;
+    font-style: italic;
+}
+
+#window {
+    color:      #999999;
+    margin-left: 12px;
+}
+
+/* ── Center ───────────────────────────────────────────────────────────── */
+
+#clock {
+    color:      #ffffff;
+    font-weight: bold;
+}
+
+/* ── Right ────────────────────────────────────────────────────────────── */
+
+#pulseaudio,
+#network,
+#bluetooth,
+#cpu,
+#memory,
+#battery,
+#tray {
+    margin-right: 14px;
+    color:        #999999;
+}
+
+#pulseaudio.muted {
+    color: #595959;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #00ff99;
+}
+
+#battery.warning:not(.charging) {
+    color: #ffaa00;
+}
+
+#battery.critical:not(.charging) {
+    color:     #ff5555;
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    to { color: #595959; }
+}
+
+#network.disconnected {
+    color: #ff5555;
+}
+
+#tray {
+    margin-right: 8px;
+}
+
+tooltip {
+    background-color: #141414;
+    border:           1px solid #33ccff;
+    color:            #ffffff;
+    font-size:        11px;
+}
+
+tooltip label {
+    background-color: #141414;
+    color:            #ffffff;
+}

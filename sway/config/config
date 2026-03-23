@@ -1,0 +1,25 @@
+# Sway config inspired by omarchy (https://github.com/basecamp/omarchy)
+# Adapted for Fedora Atomic Sway with available tooling:
+#   terminal: kitty
+#   launcher: rofi
+#   bar: waybar
+#   notifications: dunst
+#   screenshot: grim + slurp
+#   screen lock: swaylock + swayidle
+#   brightness: brightnessctl
+#   media: playerctl
+#   nightlight: wlsunset
+#   clipboard: cliphist + wl-paste + wtype
+#   tiling: autotiling
+
+include ~/.config/sway/config.d/00-env.conf
+include ~/.config/sway/config.d/05-theme.conf
+include ~/.config/sway/config.d/10-input.conf
+include ~/.config/sway/config.d/20-output.conf
+include ~/.config/sway/config.d/30-keybinds.conf
+include ~/.config/sway/config.d/40-apps.conf
+include ~/.config/sway/config.d/50-services.conf
+include ~/.config/sway/config.d/60-clipboard.conf
+include ~/.config/sway/config.d/99-local.conf
+
+# vim: ft=swayconfig

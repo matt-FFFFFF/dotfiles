@@ -91,3 +91,7 @@
 
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[credential]
+	helper = 
+	helper = /usr/local/bin/git-credential-manager
+	credentialStore = secretservice

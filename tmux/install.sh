@@ -1,12 +1,7 @@
-
 #!/bin/sh
 
 info () {
   printf "\r  [ \033[00;34m..\033[0m ] $1\n"
-}
-
-user () {
-  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
 }
 
 success () {
@@ -19,11 +14,24 @@ fail () {
   exit
 }
 
-info 'Begin tmux'
+info 'Installing tmux'
 
-# if we are on macos, use brew to install tmux
 if [ "$(uname)" = "Darwin" ]; then
-    brew install tmux fzf sesh zoxide
+  brew install tmux
+  success 'tmux installed via Homebrew'
+  exit 0
 fi
 
-success 'Finish tfenv'
+if command -v dnf > /dev/null 2>&1; then
+  sudo dnf install -y tmux
+  success 'tmux installed via dnf'
+  exit 0
+fi
+
+if command -v apt-get > /dev/null 2>&1; then
+  sudo apt-get install -y tmux
+  success 'tmux installed via apt'
+  exit 0
+fi
+
+fail 'No supported package manager found (dnf, apt, brew)'

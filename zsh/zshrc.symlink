@@ -1,5 +1,12 @@
 export ZSH=$HOME/.dotfiles
 
+# Bootstrap mise early so its shims are on PATH before other config loads
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+elif [[ -x "$HOME/.local/bin/mise" ]]; then
+  eval "$($HOME/.local/bin/mise activate zsh)"
+fi
+
 # your project folder that we can `c [tab]` to
 _projects_path=${HOME}/code
 export PROJECTS=${_projects_path:A}

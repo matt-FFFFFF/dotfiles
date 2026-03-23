@@ -1,0 +1,18 @@
+/* cliphist clipboard history picker
+ * Extends drun.rasi — same palette, no icons, prompt visible
+ */
+
+@theme "drun"
+
+window {
+    width: 600px;
+}
+
+prompt {
+    enabled:    true;
+    text-color: @accent;
+}
+
+element {
+    children: [ element-text ];
+}

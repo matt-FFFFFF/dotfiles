@@ -1,0 +1,106 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 26,
+  "spacing": 0,
+  "reload_style_on_change": true,
+
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "network", "bluetooth", "cpu", "memory", "battery", "tray"],
+
+  "sway/workspaces": {
+    "disable-scroll": false,
+    "all-outputs": false,
+    "on-click": "activate",
+    "format": "{name}",
+    "persistent-workspaces": {
+      "1": [], "2": [], "3": [], "4": [], "5": []
+    }
+  },
+
+  "sway/mode": {
+    "format": "  {}"
+  },
+
+  "sway/window": {
+    "max-length": 60,
+    "tooltip": false
+  },
+
+  "clock": {
+    "format": "{:%a %H:%M}",
+    "format-alt": "{:%A %d %B  W%V  %Y}",
+    "tooltip": false
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "󰘚 {usage}%",
+    "tooltip": false
+  },
+
+  "memory": {
+    "interval": 10,
+    "format": "󰍛 {percentage}%",
+    "tooltip-format": "{used:0.1f}G / {total:0.1f}G"
+  },
+
+  "network": {
+    "interface": "wlp0s20f3",
+    "format": "󰖩 {essid}",
+    "format-wifi": "󰖩 {essid}",
+    "format-ethernet": "󰈀 {ifname}",
+    "format-linked": "󰈀 (no IP)",
+    "format-disconnected": "󰖪 disconnected",
+    "tooltip-format": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "/usr/bin/nm-connection-editor",
+    "interval": 3
+  },
+
+  "battery": {
+    "bat": "BAT1",
+    "interval": 5,
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰚥 {capacity}%",
+    "format-full": "󰁹 {capacity}%",
+    "format-icons": ["󰁺", "󰁼", "󰁾", "󰂀", "󰂂"],
+    "tooltip-format": "{power:.1f}W  {capacity}%",
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+
+  "pulseaudio": {
+    "format": "󰕾 {volume}%",
+    "format-muted": "󰖁 muted",
+    "format-icons": {
+      "headphone": "󰋋",
+      "headset": "󰋎",
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "scroll-step": 5,
+    "tooltip-format": "{desc} — {volume}%"
+  },
+
+  "bluetooth": {
+    "format": "󰂯",
+    "format-connected": "󰂱 {device_alias}",
+    "format-connected-scroll": "󰂱 {device_alias}",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "on-click": "/usr/bin/blueman-manager"
+  },
+
+  "tray": {
+    "icon-size": 12,
+    "spacing": 10
+  }
+}

@@ -1,0 +1,13 @@
+font=Cascadia Mono NF 11
+
+[warning]
+background=0d0d0d
+text=ffffff
+border=33ccff
+border-bottom=1f1f1f
+border-bottom-size=1
+button-background=141414
+button-text=ffffff
+button-border-size=0
+button-gap=8
+message-padding=12

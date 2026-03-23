@@ -154,23 +154,9 @@ install_config_dirs () {
   done
 }
 
-install_starship () {
-  if [ "$(command -v starship)" ]; then
-    return 0
-  fi
-  info 'installing starship'
-  if [ "$(uname -s)" == "Darwin" ]; then
-    brew install starship
-    return 0
-  fi
-  curl -sS https://starship.rs/install.sh | sh
-}
-
 install_dotfiles
 install_config_dirs
 setup_gitconfig
 
 echo ''
 echo '  All installed!'
-
-install_starship

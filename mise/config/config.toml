@@ -1,0 +1,13 @@
+[tools]
+"aqua:joshmedeski/sesh" = "latest"
+azure = { version = "latest", uvx_args = "--prerelease=allow" }
+eza = "latest"
+fzf = "latest"
+gh = "latest"
+go = "latest"
+helm = "latest"
+kubectl = "latest"
+starship = "latest"
+terraform = "latest"
+terramate = "latest"
+zoxide = "latest"
