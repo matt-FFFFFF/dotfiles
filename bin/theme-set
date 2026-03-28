@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+# theme-set — apply a dotfiles theme
+# Usage: theme-set <theme-name>
+
+set -euo pipefail
+
+DOTFILES="${DOTFILES_ROOT:-$HOME/.dotfiles}"
+THEMES_DIR="$DOTFILES/themes"
+THEMED_DIR="$DOTFILES/themed"
+WAYBAR_STATIC="$DOTFILES/waybar/config/style-static.css"
+
+# ── helpers ────────────────────────────────────────────────────────────────
+
+die()  { printf '\033[31mERROR\033[0m %s\n' "$*" >&2; exit 1; }
+info() { printf '\033[34m  ..\033[0m %s\n' "$*"; }
+ok()   { printf '\033[32m  OK\033[0m %s\n' "$*"; }
+
+# ── validate ───────────────────────────────────────────────────────────────
+
+[[ $# -eq 1 ]] || die "Usage: theme-set <theme-name>"
+THEME="$1"
+THEME_DIR="$THEMES_DIR/$THEME"
+[[ -d "$THEME_DIR" ]]            || die "Theme not found: $THEME_DIR"
+[[ -f "$THEME_DIR/colors.toml" ]] || die "Missing colors.toml in $THEME_DIR"
+
+info "Applying theme: $THEME"
+
+# ── parse colors.toml → build sed script ──────────────────────────────────
+
+# hex_to_rgb "33ccff" → "51,204,255"
+hex_to_rgb() {
+  local h="$1"
+  printf '%d,%d,%d' "0x${h:0:2}" "0x${h:2:2}" "0x${h:4:2}"
+}
+
+SED_SCRIPT=$(mktemp)
+trap 'rm -f "$SED_SCRIPT"' EXIT
+
+while IFS= read -r line; do
+  # skip comments and blank lines
+  [[ "$line" =~ ^[[:space:]]*# ]] && continue
+  [[ "$line" =~ ^[[:space:]]*$  ]] && continue
+
+  # parse: key = "#rrggbb"  (quotes optional, # optional)
+  if [[ "$line" =~ ^([a-zA-Z_][a-zA-Z0-9_]*)\ *=\ *\"?#?([0-9a-fA-F]{6})\"? ]]; then
+    key="${BASH_REMATCH[1]}"
+    hex="${BASH_REMATCH[2]}"
+    rgb=$(hex_to_rgb "$hex")
+
+    # {{ key }}        → #rrggbb
+    printf 's|{{ %s }}|#%s|g\n' "$key" "$hex" >> "$SED_SCRIPT"
+    # {{ key_strip }}  → rrggbb
+    printf 's|{{ %s_strip }}|%s|g\n' "$key" "$hex" >> "$SED_SCRIPT"
+    # {{ key_rgb }}    → R,G,B
+    printf 's|{{ %s_rgb }}|%s|g\n' "$key" "$rgb" >> "$SED_SCRIPT"
+  fi
+done < "$THEME_DIR/colors.toml"
+
+# ── wallpaper_line ─────────────────────────────────────────────────────────
+
+BG_DIR="$THEME_DIR/backgrounds"
+if [[ -d "$BG_DIR" ]]; then
+  # first image file alphabetically
+  WALLPAPER=$(ls -1 "$BG_DIR" | sort | head -n1)
+  if [[ -n "$WALLPAPER" ]]; then
+    printf 's|{{ wallpaper_line }}|"%s" fill|g\n' "$BG_DIR/$WALLPAPER" >> "$SED_SCRIPT"
+  else
+    # empty backgrounds dir — fall back to solid color
+    BG_HEX=$(grep '^background ' "$THEME_DIR/colors.toml" | sed 's/.*#\([0-9a-fA-F]*\).*/\1/')
+    printf 's|{{ wallpaper_line }}|#%s solid_color|g\n' "$BG_HEX" >> "$SED_SCRIPT"
+  fi
+else
+  BG_HEX=$(grep '^background ' "$THEME_DIR/colors.toml" | sed 's/.*#\([0-9a-fA-F]*\).*/\1/')
+  printf 's|{{ wallpaper_line }}|#%s solid_color|g\n' "$BG_HEX" >> "$SED_SCRIPT"
+fi
+
+# ── apply templates ────────────────────────────────────────────────────────
+
+apply_tpl() {
+  local tpl="$1" dst="$2"
+  local dst_dir
+  dst_dir="$(dirname "$dst")"
+  mkdir -p "$dst_dir"
+  sed -f "$SED_SCRIPT" "$tpl" > "$dst"
+}
+
+apply_tpl "$THEMED_DIR/sway-theme.conf.tpl"   "$HOME/.config/sway/config.d/05-theme.conf"
+apply_tpl "$THEMED_DIR/sway-output.conf.tpl"  "$HOME/.config/sway/config.d/20-output.conf"
+apply_tpl "$THEMED_DIR/rofi-vars.rasi.tpl"    "$HOME/.config/rofi/theme.rasi"
+apply_tpl "$THEMED_DIR/dunstrc.tpl"           "$HOME/.config/dunst/dunstrc"
+apply_tpl "$THEMED_DIR/swaylock.conf.tpl"     "$HOME/.config/swaylock/config"
+apply_tpl "$THEMED_DIR/kitty-colors.conf.tpl" "$HOME/.config/kitty/colors.conf"
+
+# waybar: generated header + static body
+mkdir -p "$HOME/.config/waybar"
+sed -f "$SED_SCRIPT" "$THEMED_DIR/waybar.css.tpl" > "$HOME/.config/waybar/style.css"
+cat "$WAYBAR_STATIC" >> "$HOME/.config/waybar/style.css"
+
+ok "Templates rendered"
+
+# ── record current theme ───────────────────────────────────────────────────
+
+mkdir -p "$HOME/.config/themes"
+printf '%s' "$THEME" > "$HOME/.config/themes/current.name"
+printf '0' > "$HOME/.config/themes/wallpaper.index"
+ok "Theme set to: $THEME"
+
+# ── reload running components ──────────────────────────────────────────────
+
+# Sway — only if running
+if command -v swaymsg &>/dev/null && swaymsg -q nop 2>/dev/null; then
+  swaymsg reload 2>/dev/null && ok "sway reloaded" || true
+fi
+
+# Waybar
+if pgrep -x waybar &>/dev/null; then
+  pkill -SIGUSR1 waybar && ok "waybar reloaded" || true
+fi
+
+# Dunst
+if pgrep -x dunst &>/dev/null; then
+  pkill -x dunst
+  dunst &>/dev/null &
+  disown
+  ok "dunst restarted"
+fi
+
+# Kitty — live-apply colors to all open windows
+# The socket path has a PID suffix, so glob for it
+if command -v kitty &>/dev/null && [[ -f "$HOME/.config/kitty/colors.conf" ]]; then
+  for kitty_sock in "/run/user/$(id -u)/kitty.sock"*; do
+    [[ -S "$kitty_sock" ]] && kitty @ --to "unix:$kitty_sock" \
+      set-colors --all --configured "$HOME/.config/kitty/colors.conf" 2>/dev/null && ok "kitty colors applied" || true
+  done
+fi
+
+# Neovim — hot-reload colorscheme in any running instances
+# Plugin name and colorscheme name come from colors.toml (single source of truth)
+toml_str() { grep "^$1" "$THEME_DIR/colors.toml" | sed 's/.*= *"\(.*\)"/\1/'; }
+NVIM_PLUGIN=$(toml_str nvim_plugin)
+NVIM_COLORSCHEME=$(toml_str nvim_colorscheme)
+# nvim_plugin_name overrides when the lazy name differs from the repo slug basename
+_derived="${NVIM_PLUGIN##*/}"
+NVIM_PLUGIN_NAME=$(toml_str nvim_plugin_name)
+NVIM_PLUGIN_NAME="${NVIM_PLUGIN_NAME:-$_derived}"
+if [[ -n "$NVIM_COLORSCHEME" ]]; then
+  for sock in "/run/user/$(id -u)/nvim.*.0" /tmp/nvim*; do
+    for s in $sock; do
+      if [[ -S "$s" ]]; then
+        # Load the plugin into the running session first, then apply the colorscheme.
+        # This ensures the plugin is sourced even if it was lazy (not yet loaded).
+        nvim --server "$s" --remote-expr \
+          "nvim_exec2('Lazy load ${NVIM_PLUGIN_NAME} | colorscheme ${NVIM_COLORSCHEME} | redraw!', {})" \
+          2>/dev/null || true
+      fi
+    done
+  done
+  ok "neovim colorscheme: $NVIM_COLORSCHEME"
+fi
+
+echo ""
+info "Done — theme '$THEME' is active"

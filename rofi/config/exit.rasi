@@ -1,0 +1,6 @@
+@import "theme.rasi"
+
+window    { width: 160px; }
+listview  { lines: 2; }
+inputbar  { enabled: false; }
+element-text { vertical-align: 0.5; }

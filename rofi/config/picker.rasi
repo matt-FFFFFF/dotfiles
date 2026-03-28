@@ -1,0 +1,63 @@
+@import "theme.rasi"
+
+window {
+    background-color: @bg;
+    border:           @border;
+    border-color:     @accent;
+    border-radius:    0px;
+    width:            300px;
+    padding:          8px;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, listview ];
+    spacing:          8px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border:           0 0 2px 0;
+    border-color:     @accent-dim;
+    padding:          8px 10px;
+    children:         [ entry ];
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @fg;
+    placeholder:      "filter themes...";
+    placeholder-color: @fg-dim;
+    font:             "monospace 10";
+}
+
+listview {
+    background-color: transparent;
+    lines:            8;
+    columns:          1;
+    fixed-height:     true;
+    spacing:          2px;
+}
+
+element {
+    background-color: transparent;
+    padding:          6px 10px;
+    border-radius:    0px;
+    children:         [ element-text ];
+}
+
+element selected.normal {
+    background-color: @accent-dim;
+    border:           0 0 0 2px;
+    border-color:     @accent;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       @fg-dim;
+    font:             "monospace 10";
+}
+
+element-text selected {
+    text-color: @fg;
+}

@@ -158,5 +158,13 @@ install_dotfiles
 install_config_dirs
 setup_gitconfig
 
+# Apply the default (cyan) theme to generate all configs under ~/.config/
+info 'applying initial theme (cyan)'
+if "$DOTFILES_ROOT/bin/theme-set" cyan; then
+  success 'theme applied'
+else
+  info 'theme-set exited non-zero — sway/waybar/dunst may not be running yet, configs still written'
+fi
+
 echo ''
 echo '  All installed!'

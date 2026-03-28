@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# wallpaper-cycle — rotate through the current theme's backgrounds every hour
+
+DOTFILES="$HOME/.dotfiles"
+STATE_FILE="$HOME/.config/themes/wallpaper.index"
+
+while true; do
+  THEME=$("$DOTFILES/bin/theme-current")
+  BG_DIR="$DOTFILES/themes/$THEME/backgrounds"
+
+  if [[ -d "$BG_DIR" ]]; then
+    mapfile -t WALLS < <(ls -1 "$BG_DIR" | sort)
+    COUNT=${#WALLS[@]}
+
+    if [[ $COUNT -gt 0 ]]; then
+      # Read and advance index
+      IDX=$(cat "$STATE_FILE" 2>/dev/null || echo 0)
+      IDX=$(( IDX % COUNT ))
+      WALLPAPER="$BG_DIR/${WALLS[$IDX]}"
+
+      swaymsg "output * bg \"$WALLPAPER\" fill"
+
+      # Persist next index
+      echo $(( (IDX + 1) % COUNT )) > "$STATE_FILE"
+    fi
+  fi
+
+  sleep 3600
+done

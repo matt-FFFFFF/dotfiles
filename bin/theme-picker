@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# theme-picker — rofi launcher for theme switching
+DOTFILES="$HOME/.dotfiles"
+THEMES_DIR="$DOTFILES/themes"
+CURRENT=$("$DOTFILES/bin/theme-current")
+
+selected=$(ls -1 "$THEMES_DIR" \
+  | rofi -dmenu \
+      -p "Theme" \
+      -theme ~/.config/rofi/picker.rasi \
+      -select "$CURRENT")
+
+[[ -n $selected ]] && exec "$DOTFILES/bin/theme-set" "$selected"

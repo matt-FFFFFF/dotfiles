@@ -25,8 +25,24 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 if command -v dnf > /dev/null 2>&1; then
-  sudo dnf install -y jq curl wget vim zsh zsh-syntax-highlighting zsh-autosuggestions
+  sudo dnf install -y \
+    jq curl wget vim \
+    zsh zsh-syntax-highlighting zsh-autosuggestions \
+    tmux ripgrep \
+    fuse fuse-libs \
+    python3-pip \
+    libicu libsecret xdg-utils
   success 'Base tools installed via dnf'
+
+  if [ -n "$TOOLBOX_PATH" ]; then
+    SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+    TOOLBOX_SCRIPT="$SCRIPT_DIR/../fedora/toolbox.sh"
+    if [ -f "$TOOLBOX_SCRIPT" ]; then
+      info 'Detected Fedora toolbox — running toolbox setup'
+      bash "$TOOLBOX_SCRIPT"
+    fi
+  fi
+
   exit 0
 fi
 

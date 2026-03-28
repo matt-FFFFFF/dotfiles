@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# theme-current — print the active theme name
+cat "$HOME/.config/themes/current.name" 2>/dev/null || echo "(none)"

@@ -1,0 +1,122 @@
+/* Static waybar layout rules — appended after the generated @define-color header */
+
+* {
+    border:        none;
+    border-radius: 0;
+    min-height:    0;
+    font-family:   "Cascadia Mono NF", "Cascadia Code NF", monospace;
+    font-size:     12px;
+    color:         @foreground;
+    background:    transparent;
+}
+
+window#waybar {
+    background-color: @background;
+    border-bottom:    1px solid @background_subtle;
+}
+
+/* ── Left ─────────────────────────────────────────────────────────────── */
+
+#workspaces {
+    margin-left: 6px;
+}
+
+#workspaces button {
+    all:        initial;
+    font-family: "Cascadia Mono NF";
+    font-size:  12px;
+    color:      @foreground_dim;
+    padding:    0 8px;
+    min-width:  16px;
+}
+
+#workspaces button * {
+    color: inherit;
+}
+
+#workspaces button:hover {
+    color:      @foreground;
+}
+
+#workspaces button.focused {
+    color:       @foreground;
+    font-weight: bold;
+    padding:     0 8px;
+}
+
+#workspaces button.urgent {
+    color:      @urgent;
+}
+
+#mode {
+    color:      @accent;
+    margin-left: 8px;
+    font-style: italic;
+}
+
+#window {
+    color:      @foreground_dim;
+    margin-left: 12px;
+}
+
+/* ── Center ───────────────────────────────────────────────────────────── */
+
+#clock {
+    color:      @foreground;
+    font-weight: bold;
+}
+
+/* ── Right ────────────────────────────────────────────────────────────── */
+
+#pulseaudio,
+#network,
+#bluetooth,
+#cpu,
+#memory,
+#battery,
+#tray {
+    margin-right: 14px;
+    color:        @foreground_dim;
+}
+
+#pulseaudio.muted {
+    color: @inactive;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @success;
+}
+
+#battery.warning:not(.charging) {
+    color: @warning;
+}
+
+#battery.critical:not(.charging) {
+    color:     @urgent;
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    to { color: @inactive; }
+}
+
+#network.disconnected {
+    color: @urgent;
+}
+
+#tray {
+    margin-right: 8px;
+}
+
+tooltip {
+    background-color: @background_alt;
+    border:           1px solid @accent;
+    color:            @foreground;
+    font-size:        11px;
+}
+
+tooltip label {
+    background-color: @background_alt;
+    color:            @foreground;
+}

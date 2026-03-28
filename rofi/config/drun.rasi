@@ -1,23 +1,8 @@
 /* Omarchy-inspired rofi theme
- * Colours match the sway config:
- *   background  #0d0d0d
- *   active      #33ccff (cyan)
- *   accent      #00ff99 (green)
- *   text        #ffffff
- *   inactive    #595959
+ * Palette is provided by the generated theme.rasi (written by theme-set).
  */
 
-* {
-    bg:          #0d0d0d;
-    bg-alt:      #141414;
-    fg:          #ffffff;
-    fg-dim:      #999999;
-    accent:      #33ccff;
-    accent-dim:  #1a6680;
-    urgent:      #ff5555;
-    border:      2px;
-    spacing:     0;
-}
+@import "theme.rasi"
 
 window {
     background-color: @bg;

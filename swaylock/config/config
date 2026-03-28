@@ -1,38 +1,31 @@
-# swaylock config — omarchy colour palette
-# bg #0d0d0d  accent #33ccff (cyan)  green #00ff99  fg #ffffff
+color=1f1f28
+inside-color=1f1f28
+inside-clear-color=1f1f28
+inside-caps-lock-color=2a2a37
+inside-ver-color=1f1f28
+inside-wrong-color=1f1f28
 
-daemonize
-show-failed-attempts
-ignore-empty-password
+ring-color=54546d
+ring-clear-color=7e9cd8
+ring-caps-lock-color=c0a36e
+ring-ver-color=7e9cd8
+ring-wrong-color=c34043
 
-# Colours (no leading #)
-color=0d0d0d
-inside-color=0d0d0d
-inside-clear-color=0d0d0d
-inside-caps-lock-color=141414
-inside-ver-color=0d0d0d
-inside-wrong-color=0d0d0d
+key-hl-color=76946a
+caps-lock-key-hl-color=c0a36e
+bs-hl-color=c34043
+caps-lock-bs-hl-color=c34043
 
-ring-color=595959
-ring-clear-color=33ccff
-ring-caps-lock-color=ffaa00
-ring-ver-color=33ccff
-ring-wrong-color=ff5555
-
-key-hl-color=00ff99
-caps-lock-key-hl-color=ffaa00
-bs-hl-color=ff5555
-caps-lock-bs-hl-color=ff5555
-
-text-color=ffffff
-text-clear-color=33ccff
-text-caps-lock-color=ffaa00
-text-ver-color=33ccff
-text-wrong-color=ff5555
+text-color=dcd7ba
+text-clear-color=7e9cd8
+text-caps-lock-color=c0a36e
+text-ver-color=7e9cd8
+text-wrong-color=c34043
 
 line-uses-ring
 separator-color=00000000
-
-# Layout
+daemonize
+show-failed-attempts
+ignore-empty-password
 indicator-radius=80
 indicator-thickness=6
