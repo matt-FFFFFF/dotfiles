@@ -1,0 +1,8 @@
+theme-picker-widget() {
+  {
+    exec </dev/tty
+    exec <&1
+    theme-picker
+    zle reset-prompt > /dev/null 2>&1 || true
+  }
+}
