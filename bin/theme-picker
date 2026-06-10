@@ -1,12 +1,35 @@
 #!/usr/bin/env bash
 # theme-picker — interactive theme switcher
 # Uses rofi under a graphical Linux session (sway), falls back to fzf in a
-# plain terminal (e.g. macOS)
+# plain terminal (e.g. macOS), or fzf-tmux popup when inside tmux.
+#
+# Usage: theme-picker [-v]
+#   -v, --verbose   pass through theme-set output (silent by default)
+
+set -euo pipefail
+
+verbose=0
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -v|--verbose) verbose=1; shift ;;
+    -h|--help)
+      sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    *) printf 'theme-picker: unknown argument: %s\n' "$1" >&2; exit 2 ;;
+  esac
+done
+
 DOTFILES="$HOME/.dotfiles"
 THEMES_DIR="$DOTFILES/themes"
 CURRENT=$("$DOTFILES/bin/theme-current")
 
-if command -v rofi &>/dev/null && [[ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ]]; then
+if [[ -n "${TMUX:-}" ]] && command -v fzf &>/dev/null; then
+  selected=$(ls -1 "$THEMES_DIR" \
+    | fzf --tmux center,60%,50% \
+        --prompt "theme > " --header "current: $CURRENT" --reverse \
+        --border-label ' theme ')
+elif command -v rofi &>/dev/null && [[ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ]]; then
   selected=$(ls -1 "$THEMES_DIR" \
     | rofi -dmenu \
         -p "Theme" \
@@ -20,4 +43,10 @@ else
   exit 1
 fi
 
-[[ -n $selected ]] && exec "$DOTFILES/bin/theme-set" "$selected"
+[[ -n $selected ]] || exit 0
+
+if (( verbose )); then
+  exec "$DOTFILES/bin/theme-set" "$selected"
+else
+  exec "$DOTFILES/bin/theme-set" "$selected" >/dev/null 2>&1
+fi
