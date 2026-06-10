@@ -28,16 +28,16 @@ if [[ -n "${TMUX:-}" ]] && command -v fzf &>/dev/null; then
   selected=$(ls -1 "$THEMES_DIR" \
     | fzf --tmux center,60%,50% \
         --prompt "theme > " --header "current: $CURRENT" --reverse \
-        --border-label ' theme ')
+        --border-label ' theme ') || selected=""
 elif command -v rofi &>/dev/null && [[ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ]]; then
   selected=$(ls -1 "$THEMES_DIR" \
     | rofi -dmenu \
         -p "Theme" \
         -theme ~/.config/rofi/picker.rasi \
-        -select "$CURRENT")
+        -select "$CURRENT") || selected=""
 elif command -v fzf &>/dev/null; then
   selected=$(ls -1 "$THEMES_DIR" \
-    | fzf --prompt "theme > " --header "current: $CURRENT" --height 40% --reverse)
+    | fzf --prompt "theme > " --header "current: $CURRENT" --height 40% --reverse) || selected=""
 else
   echo "theme-picker: needs rofi (graphical) or fzf (terminal)" >&2
   exit 1
