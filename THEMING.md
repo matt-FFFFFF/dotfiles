@@ -47,22 +47,24 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
 └── bin/
     ├── theme-set                   # main switching script
     ├── theme-current               # prints active theme name
-    └── theme-picker                # rofi picker launcher
+    └── theme-picker                # multi-backend picker (tmux popup, rofi, inline fzf)
 ```
 
-**Generated outputs** — written to `~/.config/` by `theme-set`, not tracked in git:
+**Generated outputs** — written to `~/.config/` by `theme-set`:
 
-| Generated file | Template |
-|---|---|
-| `~/.config/sway/config.d/05-theme.conf` | `themed/sway-theme.conf.tpl` |
-| `~/.config/sway/config.d/20-output.conf` | `themed/sway-output.conf.tpl` |
-| `~/.config/waybar/style.css` | `themed/waybar.css.tpl` + static body |
-| `~/.config/rofi/theme.rasi` | `themed/rofi-vars.rasi.tpl` |
-| `~/.config/dunst/dunstrc` | `themed/dunstrc.tpl` |
-| `~/.config/swaylock/config` | `themed/swaylock.conf.tpl` |
-| `~/.config/kitty/colors.conf` | `themed/kitty-colors.conf.tpl` |
-| `~/.config/themes/neovim.lua` | copied from `themes/<name>/neovim.lua` |
-| `~/.config/themes/current.name` | written by `theme-set` |
+| Generated file | Template | Tracked in git? |
+|---|---|---|
+| `~/.config/sway/config.d/05-theme.conf` | `themed/sway-theme.conf.tpl` | no |
+| `~/.config/sway/config.d/20-output.conf` | `themed/sway-output.conf.tpl` | no |
+| `~/.config/waybar/style.css` | `themed/waybar.css.tpl` + static body | no |
+| `~/.config/rofi/theme.rasi` | `themed/rofi-vars.rasi.tpl` | no |
+| `~/.config/dunst/dunstrc` | `themed/dunstrc.tpl` | no |
+| `~/.config/swaylock/config` | `themed/swaylock.conf.tpl` | no |
+| `~/.config/kitty/colors.conf` | `themed/kitty-colors.conf.tpl` | **YES** (symlinked into repo) |
+| `~/.config/themes/current.name` | written by `theme-set` | no |
+| `~/.config/themes/wallpaper.index` | written by `theme-set` | no |
+
+`kitty/config/` is a topic-config dir, so it symlinks to `~/.config/kitty/`. Writing to `~/.config/kitty/colors.conf` therefore writes through the symlink into the repo at `kitty/config/colors.conf`, which **is** tracked. Expect `git status` to frequently show it dirty after running `theme-set`; do not commit unless intentional.
 
 ---
 
@@ -71,6 +73,15 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
 Every theme must have a `colors.toml` with these keys:
 
 ```toml
+# Neovim integration (consumed by bin/theme-set + the colour.lua shim)
+nvim_plugin       = "olimorris/onedarkpro.nvim"  # lazy.nvim repo slug
+nvim_colorscheme  = "onedark"                    # name passed to :colorscheme
+# nvim_plugin_name = "onedarkpro.nvim"           # OPTIONAL — only set if the
+                                                 # Lazy plugin name differs
+                                                 # from the basename of the
+                                                 # repo slug. Defaults to
+                                                 # basename(nvim_plugin).
+
 # Core palette
 accent             = "#33ccff"
 background         = "#0d0d0d"
@@ -327,20 +338,25 @@ Steps:
 3. Determine `wallpaper_line`: first image from `backgrounds/` or solid color fallback
 4. Run each template through `sed` and write to its output path
 5. Concatenate the generated CSS header + static CSS body into `~/.config/waybar/style.css`
-6. Copy `themes/<name>/neovim.lua` to `~/.config/themes/neovim.lua`
-7. Write theme name to `~/.config/themes/current.name`
-8. Reload running components:
+6. Write theme name to `~/.config/themes/current.name` and reset `~/.config/themes/wallpaper.index` to `0`
+7. Reload running components (each step is best-effort; skipped silently if the component is not running):
    - `swaymsg reload` — picks up new sway theme and output configs
    - `pkill -SIGUSR1 waybar` — live reload waybar CSS
    - `pkill -x dunst && dunst &` — restart dunst with new config
-   - `kitty @ set-colors --all --configured ~/.config/kitty/colors.conf` — live-apply to all open kitty windows
-9. Hot-reload neovim colorscheme in any running instances via their sockets:
+   - `kitty @ --to unix:/tmp/kitty.sock* set-colors --all --configured ~/.config/kitty/colors.conf` — live-apply to all open kitty windows. Requires `allow_remote_control yes` and the matching `listen_on unix:/tmp/kitty.sock` in `kitty.conf`.
+8. Hot-reload neovim colorscheme in any running instances via their sockets:
    ```bash
-   for sock in /run/user/$(id -u)/nvim.*.0 /tmp/nvim*; do
-     [[ -S $sock ]] && nvim --server "$sock" \
-       --remote-send ":colorscheme <name><CR>" 2>/dev/null || true
+   for sock in /run/user/$(id -u)/nvim.*.0 \
+               ${TMPDIR:-/tmp}/nvim.${USER}/*/nvim.*.0 \
+               /tmp/nvim*; do
+     [[ -S $sock ]] && nvim --server "$sock" --remote-expr \
+       "nvim_exec2('Lazy load <plugin> | colorscheme <name> | redraw!', {})" \
+       2>/dev/null || true
    done
    ```
+   `<plugin>` comes from `nvim_plugin_name` (falling back to `basename(nvim_plugin)`) and `<name>` comes from `nvim_colorscheme`. `Lazy load` is run before `colorscheme` so a not-yet-loaded lazy plugin gets sourced first.
+
+   **Note: `theme-set` does NOT copy `themes/<name>/neovim.lua` anywhere.** Neovim picks up the new theme via the `colour.lua` shim (see [Neovim Integration](#neovim-integration)).
 
 ### `bin/theme-current`
 
@@ -353,24 +369,26 @@ cat "$HOME/.config/themes/current.name" 2>/dev/null || echo "(none)"
 
 ### `bin/theme-picker`
 
-Opens a rofi dmenu listing all available themes, with the current theme pre-selected. Calls `theme-set` on selection.
+Lists themes (one per line from `~/.dotfiles/themes/`) with the current theme pre-selected, then calls `theme-set` on the selection.
 
-```bash
-#!/bin/bash
-THEMES_DIR="$HOME/.dotfiles/themes"
-CURRENT=$(theme-current)
+Picker backend is chosen at runtime:
 
-selected=$(ls -1 "$THEMES_DIR" \
-  | rofi -dmenu \
-      -p "Theme" \
-      -theme ~/.config/rofi/theme.rasi \
-      -theme-str 'window { width: 300px; } listview { lines: 8; } inputbar { enabled: false; }' \
-      -select "$CURRENT")
+1. **Inside tmux** (`$TMUX` set) and `fzf` available → `fzf --tmux center,60%,50%` popup.
+2. **Graphical Linux session** (`$WAYLAND_DISPLAY` or `$DISPLAY` set) and `rofi` available → rofi dmenu themed via `~/.config/rofi/picker.rasi`.
+3. **Plain terminal fallback** → inline `fzf --height 40%`.
 
-[[ -n $selected ]] && theme-set "$selected"
-```
+Flags:
 
-Bound in sway to `$mod+Shift+t`.
+- `-v` / `--verbose` — pass through `theme-set`'s output. Default is silent, because the picker is invoked from hotkeys (zsh widget, tmux popup) where any stdout corrupts the prompt redraw.
+- `-h` / `--help` — usage.
+
+Cancel handling: each picker branch appends `|| selected=""` so that an `ESC` (fzf exit 130, rofi cancel) falls through to `exit 0` and never leaks a non-zero exit into `tmux run-shell`.
+
+Bound from three places:
+
+- **Sway**: `$mod+Shift+t` (see [Sway Keybind](#sway-keybind))
+- **Native zsh prompt**: `Alt+T` via the `theme-picker-widget` zle widget in [theme/theme.zsh](theme/theme.zsh) (mirrors the `sesh-sessions` / `Alt+S` pattern in [sesh/sesh.zsh](sesh/sesh.zsh))
+- **Inside tmux**: `Alt+T` via the root-table bind `bind-key -n M-t run-shell "theme-picker"` in [tmux/tmux.conf.symlink](tmux/tmux.conf.symlink). Root-table means no prefix needed and the key is captured globally inside tmux — so it shadows any inner app's `Alt+T` binding. This is intentional so the same physical key works in native kitty and inside tmux.
 
 ---
 
@@ -407,7 +425,9 @@ element-text { vertical-align: 0.5; }
 
 ## Neovim Integration
 
-Each theme ships a `neovim.lua` that is a lazy.nvim plugin spec. It installs and activates the theme's colorscheme plugin:
+This dotfiles repo does **not** contain a neovim config — it lives in a separate repo at `~/.config/nvim/`. The integration is two-sided:
+
+**This repo provides** per-theme `themes/<name>/neovim.lua` lazy.nvim plugin specs:
 
 ```lua
 -- themes/tokyo-night/neovim.lua
@@ -417,31 +437,30 @@ return {
 }
 ```
 
-`~/.config/nvim/lua/plugins/colour.lua` is replaced with a shim that loads whichever `neovim.lua` is currently active:
+**The external nvim config provides** `~/.config/nvim/lua/plugins/colour.lua`, a shim that:
 
-```lua
-local theme_path = vim.fn.expand("~/.config/themes/neovim.lua")
-if vim.fn.filereadable(theme_path) == 1 then
-  return dofile(theme_path)
-end
--- Fallback if no theme has been applied yet
-return {
-  { "olimorris/onedarkpro.nvim" },
-  { "LazyVim/LazyVim", opts = { colorscheme = "onedark" } },
-}
-```
+1. Reads the active theme name from `~/.config/themes/current.name`
+2. Globs `~/.dotfiles/themes/*/neovim.lua` and `dofile()`'s each one
+3. Returns a merged lazy plugin spec: the **active** theme eager (`priority = 1000`); inactive themes installed but `lazy = true` with `config` / `opts` stripped (so their colorschemes are installed and switchable but don't auto-apply)
+4. Falls back to a sane default if `~/.dotfiles/themes/` is absent
 
-`theme-set` also sends `:colorscheme <name>` to any running nvim instances via their Unix sockets for immediate hot-reload, without needing to restart nvim.
+Active-theme detection is by file existence, so `theme-set` does **not** need to write anything into `~/.config/nvim/`. Updating `current.name` is enough for the *next* nvim start to pick up the new theme.
+
+For **live** hot-reload of already-running nvim instances, `theme-set` connects to each nvim Unix socket and runs `Lazy load <plugin> | colorscheme <name>` via `nvim --remote-expr`. The plugin name comes from `nvim_plugin_name` (falling back to `basename(nvim_plugin)`) and the colorscheme from `nvim_colorscheme` — both keys in `colors.toml`. `Lazy load` is run before `colorscheme` so a not-yet-sourced lazy plugin gets loaded first.
 
 ---
 
-## Sway Keybind
+## Picker Keybinds
 
-Add to `sway/config.d/40-apps.conf`:
+`bin/theme-picker` is bound from three layers so the same UX works in every context — see the [`bin/theme-picker`](#bintheme-picker) section above for details.
 
-```
-bindsym $mod+shift+t exec ~/.dotfiles/bin/theme-picker
-```
+| Layer | Binding | Where |
+|---|---|---|
+| Sway (graphical) | `$mod+Shift+t` | `sway/config.d/40-apps.conf`: `bindsym $mod+shift+t exec ~/.dotfiles/bin/theme-picker` |
+| Native zsh prompt | `Alt+T` | [`theme/theme.zsh`](theme/theme.zsh) → [`functions/theme-picker-widget`](functions/theme-picker-widget) |
+| Inside tmux | `Alt+T` | [`tmux/tmux.conf.symlink`](tmux/tmux.conf.symlink): `bind-key -n M-t run-shell "theme-picker"` |
+
+The same physical key (`Alt+T`) works inside tmux and at the native zsh prompt because the tmux root-table bind (`-n`) intercepts the key before any inner program (including zsh) sees it. Note this also means `Alt+T` will not reach editors / TUIs running inside tmux — chosen deliberately because it is not a common editor binding.
 
 ---
 
