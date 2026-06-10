@@ -77,4 +77,5 @@ set-option -g display-panes-colour colour166 #orange
 # clock
 set-window-option -g clock-mode-colour green #green
 
-bind-key C-s run-shell "scs"
+bind-key -n M-s run-shell "scs"
+bind-key -n M-t run-shell "theme-picker"
