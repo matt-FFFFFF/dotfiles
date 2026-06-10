@@ -88,10 +88,7 @@
 
 [gpg]
 	format = ssh
-
+[http]
+	postBuffer = 524288000
 [credential "https://dev.azure.com"]
 	useHttpPath = true
-[credential]
-	helper = 
-	helper = /usr/local/bin/git-credential-manager
-	credentialStore = secretservice

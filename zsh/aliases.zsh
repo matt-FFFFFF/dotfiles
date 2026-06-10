@@ -1,4 +1,6 @@
 alias reload!='. ~/.zshrc'
+# force a full completion-dump rebuild (e.g. after adding a new _completion file)
+alias reload-completions!='rm -f ${ZDOTDIR:-$HOME}/.zcompdump*(N) && exec zsh'
 alias cls='clear' # Good 'ol Clear Screen command
 alias grep='grep --color=auto $*'
 alias ls='ls --color=auto $*'

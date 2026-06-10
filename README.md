@@ -20,12 +20,32 @@ files in there. Anything with an extension of `.zsh` will get automatically
 included into your shell. Anything with an extension of `.symlink` will get
 symlinked without extension into `$HOME` when you run `script/bootstrap`.
 
+### OS and distro specific files
+
+`.zsh` files can be scoped to an OS or Linux distro with a filename suffix:
+
+- `*.zsh` — loaded everywhere
+- `*.darwin.zsh` — loaded on macOS only (e.g. `homebrew/path.darwin.zsh`)
+- `*.linux.zsh` — loaded on any Linux
+- `*.linux.<distro>.zsh` — loaded when `<distro>` matches `ID=` in
+  `/etc/os-release` (e.g. `aliases.linux.arch.zsh`, `path.linux.ubuntu.zsh`)
+
+The suffix is stripped before phase detection, so `path.darwin.zsh` still
+loads in the `path` phase, `completion.linux.arch.zsh` in the completion
+phase, and so on. `$DOTFILES_OS` (`darwin`/`linux`) and `$DOTFILES_DISTRO`
+are also set for ad-hoc checks inside shared files.
+
 ## what's inside
 
-- Azure CLI
-- Terraform
-- Kubernetes (kubectl)
-- Golang
+Most CLI tools are installed cross-platform via [mise](https://mise.jdx.dev)
+from `mise/config/config.toml` (symlinked to `~/.config/mise`): Azure CLI,
+Terraform, Terramate, kubectl, helm, Go, Node, .NET, PowerShell, fzf, fd,
+eza, zoxide, starship, gh, sesh (via the `aqua:` backend), uv and lua.
+Things mise can't provide — zsh plugins, tmux, kitty — come from the OS
+package manager in per-topic `install.sh` scripts.
+
+Also:
+
 - Teams for Linux
 - Regolith (i3 Windows Manager for Ubuntu)
 
@@ -50,8 +70,17 @@ There's a few special items in the hierarchy.
   second to last and is expected to setup autocomplete.
 - **topic/final.zsh**: Any file named `final.zsh` is loaded
   last and is used for tasks that depend on completion.
+- **topic/_command**: Completion files named after their command (e.g.
+  `kubernetes/_kubectl`) are autoloaded lazily via `fpath` on first
+  tab-complete instead of being parsed at startup — prefer this over
+  sourcing large generated completions in `completion.zsh`.
 - **topic/install.sh**: Any file named `install.sh` is executed when you run `script/install`.
   To avoid being loaded automatically, its extension is `.sh`, not `.zsh`.
+  Files named `_install.sh` run before all `install.sh` files — `mise/_install.sh`
+  uses this to install mise and its tools first.
+- **topic/config/**: Any directory named `config` gets symlinked to
+  `~/.config/<topic>` when you run `script/bootstrap` (e.g. `kitty/config` →
+  `~/.config/kitty`, `mise/config` → `~/.config/mise`).
 - **topic/\*.symlink**: Any file dor directory ending in `*.symlink` gets symlinked into
   your `$HOME`. This is so you can keep all of those versioned in your dotfiles
   but still keep those autoloaded files in your home directory. These get

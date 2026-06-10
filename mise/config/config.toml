@@ -1,3 +1,7 @@
+[settings]
+# python-based tools (azure-cli) install via uvx instead of pipx
+pipx.uvx = true
+
 [tools]
 "aqua:joshmedeski/sesh" = "latest"
 azure = { version = "latest", uvx_args = "--prerelease=allow" }
@@ -9,7 +13,9 @@ go = "latest"
 helm = "latest"
 kubectl = "latest"
 lua = "latest"
+powershell = "latest"
 starship = "latest"
 terraform = "latest"
 terramate = "latest"
+uv = "latest"
 zoxide = "latest"

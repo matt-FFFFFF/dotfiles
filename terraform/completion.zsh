@@ -1,4 +1,3 @@
-if command -v terraform &> /dev/null; then
-  complete -o nospace -C $(which terraform) terraform
-  complete -o nospace -C $(which terraform) t
+if (( $+commands[terraform] )); then
+  complete -o nospace -C $commands[terraform] terraform t
 fi

@@ -2,7 +2,7 @@
 #   http://defunkt.github.com/hub/
 if (( $+commands[hub] ))
 then
-  alias git=$(which hub)
+  alias git=$commands[hub]
 fi
 
 # The rest of my fun git aliases

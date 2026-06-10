@@ -1,9 +1,31 @@
 export ZSH=$HOME/.dotfiles
 
-# Bootstrap mise early so its shims are on PATH before other config loads
-if command -v mise &> /dev/null; then
-  eval "$(mise activate zsh)"
+# Cache the output of slow `tool init zsh`-style commands and source the cached
+# file instead of eval-ing a subshell on every startup. The cache regenerates
+# when the tool's binary moves (e.g. brew -> mise) or is newer than the cached
+# output — init scripts embed the absolute binary path, so a path change must
+# invalidate the cache. No-ops if the tool is not installed.
+# Usage: cached_eval starship init zsh --print-full-init
+typeset -g DOTFILES_CACHE=${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles
+cached_eval() {
+  (( $+commands[$1] )) || return 0
+  local cache=$DOTFILES_CACHE/$1.zsh src=$commands[$1] stamp=
+  [[ -s $cache ]] && read -r stamp < $cache
+  if [[ $stamp != "# $src" || $src -nt $cache ]]; then
+    mkdir -p $DOTFILES_CACHE
+    print -r -- "# $src" >| $cache
+    "$@" >> $cache
+  fi
+  source $cache
+}
+
+# Bootstrap mise early — its activate script runs the PATH hook immediately,
+# so mise-managed tools (starship, zoxide, fzf, ...) are resolvable by the
+# rest of this config
+if (( $+commands[mise] )); then
+  cached_eval mise activate zsh
 elif [[ -x "$HOME/.local/bin/mise" ]]; then
+  # fresh install: mise not on PATH yet
   eval "$($HOME/.local/bin/mise activate zsh)"
 fi
 
@@ -11,6 +33,24 @@ fi
 _projects_path=${HOME}/code
 export PROJECTS=${_projects_path:A}
 unset _projects_path
+
+# OS / distro detection (no subshells). Controls which .zsh files are loaded:
+#   *.zsh                  always
+#   *.darwin.zsh           macOS only
+#   *.linux.zsh            any Linux
+#   *.linux.<distro>.zsh   Linux where <distro> matches ID= in /etc/os-release
+#                          (e.g. aliases.linux.arch.zsh, path.linux.ubuntu.zsh)
+typeset -g DOTFILES_OS='' DOTFILES_DISTRO=''
+case "$OSTYPE" in
+  darwin*) DOTFILES_OS=darwin ;;
+  linux*)  DOTFILES_OS=linux ;;
+esac
+if [[ $DOTFILES_OS == linux && -r /etc/os-release ]]; then
+  while IFS='=' read -r _key _value; do
+    [[ $_key == ID ]] && DOTFILES_DISTRO=${${_value#[\"\']}%[\"\']}
+  done < /etc/os-release
+  unset _key _value
+fi
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -20,17 +60,29 @@ then
   source ~/.localrc
 fi
 
-# all of our zsh files
+# all of our zsh files, filtered by the OS/distro suffix rules above
 typeset -U config_files
 config_files=($ZSH/**/*.zsh)
+_matched_files=()
+for _file in $config_files; do
+  case ${_file:t} in
+    (*.darwin.zsh)  [[ $DOTFILES_OS == darwin ]] || continue ;;
+    (*.linux.zsh)   [[ $DOTFILES_OS == linux ]] || continue ;;
+    (*.linux.*.zsh) [[ $DOTFILES_OS == linux && ${${${_file:t}%.zsh}##*.} == $DOTFILES_DISTRO ]] || continue ;;
+  esac
+  _matched_files+=($_file)
+done
+config_files=($_matched_files)
+unset _file _matched_files
 
 # load the path files
-for file in ${(M)config_files:#*/path.zsh}
+for file in ${(M)config_files:#*/path(|.*).zsh}
 do
   source $file
 done
 
-for file in ${${${${config_files:#*/final.zsh}:#*/path.zsh}:#*/completion.zsh}:#*/completion_bash.zsh}
+# load everything but the path, completion and final files
+for file in ${config_files:#*/(path|completion|completion_bash|final)(|.*).zsh}
 do
   source $file
 done
@@ -39,36 +91,61 @@ done
 unsetopt BEEP
 
 # Add Homebrew completions to fpath on macOS
-if [ "$(uname)" = "Darwin" ] && command -v brew >/dev/null; then
+if [[ $DOTFILES_OS == darwin && -d /opt/homebrew/share ]]; then
   FPATH="/opt/homebrew/share/zsh/site-functions:${FPATH}"
   FPATH="/opt/homebrew/share/zsh-completions:${FPATH}"
 fi
 
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -Uz compinit && compinit
+# initialize autocomplete here, otherwise functions won't be loaded.
+# Trust the existing dump (-C) for instant startup; the full (slow) fpath scan
+# and dump rebuild happens in the background at most once a day, so new
+# completion files are picked up by the next shell without ever blocking one.
+# Run `reload-completions!` to force an immediate rebuild.
+autoload -Uz compinit
+_zcompdump=${ZDOTDIR:-$HOME}/.zcompdump
+if [[ -f $_zcompdump ]]; then
+  compinit -C -d $_zcompdump
+  _zcompdump_stale=($_zcompdump(N.mh+24))
+  if (( ${#_zcompdump_stale} )); then
+    {
+      compinit -d $_zcompdump.refresh
+      mv -f $_zcompdump.refresh $_zcompdump
+      zcompile $_zcompdump
+    } &!
+  elif [[ ! -s $_zcompdump.zwc || $_zcompdump -nt $_zcompdump.zwc ]]; then
+    # byte-compile the dump so the next startup parses it faster
+    { zcompile $_zcompdump } &!
+  fi
+else
+  # first run: no dump yet, build it synchronously
+  compinit -d $_zcompdump
+  { zcompile $_zcompdump } &!
+fi
+unset _zcompdump _zcompdump_stale
+
+# Add bash completion support (before the completion files load, as some use
+# the bash-style `complete` builtin)
+autoload -U +X bashcompinit && bashcompinit
 
 # load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}
+for file in ${(M)config_files:#*/completion(|.*).zsh}
 do
   source $file
 done
 
-# Add bash completion support
-autoload -U +X bashcompinit && bashcompinit
-
 # load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion_bash.zsh}
+for file in ${(M)config_files:#*/completion_bash(|.*).zsh}
 do
   source $file
 done
 
 # load every final.zsh after autocomplete loads
-for file in ${(M)config_files:#*/final.zsh}
+for file in ${(M)config_files:#*/final(|.*).zsh}
 do
   source $file
 done
 
-unset config_files
+unset config_files file
 
 # Vim motions
 bindkey -v
@@ -130,7 +207,7 @@ bindkey '^D' exit_zsh
 
 # Highlighting and autosuggestions
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-if [ "$(uname)" = "Linux" ]; then
+if [[ $DOTFILES_OS == linux ]]; then
 	# Arch requires AUR package `zsh-fast-syntax-highlighting`
 	if [ -e /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]; then
 		source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
@@ -146,7 +223,7 @@ if [ "$(uname)" = "Linux" ]; then
 	fi
 fi
 
-if [ "$(uname)" = "Darwin" ]; then
+if [[ $DOTFILES_OS == darwin ]]; then
 	if [ -e /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 		source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 	fi

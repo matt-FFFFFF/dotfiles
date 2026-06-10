@@ -128,7 +128,9 @@ fi
 # Kitty — live-apply colors to all open windows
 # The socket path has a PID suffix, so glob for it
 if command -v kitty &>/dev/null && [[ -f "$HOME/.config/kitty/colors.conf" ]]; then
-  for kitty_sock in "/run/user/$(id -u)/kitty.sock"*; do
+  # /tmp/kitty.sock* is the configured location (works on Linux and macOS);
+  # the /run/user path is kept for sessions started before the config change
+  for kitty_sock in /tmp/kitty.sock* "/run/user/$(id -u)/kitty.sock"*; do
     [[ -S "$kitty_sock" ]] && kitty @ --to "unix:$kitty_sock" \
       set-colors --all --configured "$HOME/.config/kitty/colors.conf" 2>/dev/null && ok "kitty colors applied" || true
   done
@@ -136,7 +138,8 @@ fi
 
 # Neovim — hot-reload colorscheme in any running instances
 # Plugin name and colorscheme name come from colors.toml (single source of truth)
-toml_str() { grep "^$1" "$THEME_DIR/colors.toml" | sed 's/.*= *"\(.*\)"/\1/'; }
+# tolerate missing keys: grep failing must not kill the script (set -e/pipefail)
+toml_str() { grep "^$1" "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*= *"\(.*\)"/\1/' || true; }
 NVIM_PLUGIN=$(toml_str nvim_plugin)
 NVIM_COLORSCHEME=$(toml_str nvim_colorscheme)
 # nvim_plugin_name overrides when the lazy name differs from the repo slug basename
@@ -144,7 +147,8 @@ _derived="${NVIM_PLUGIN##*/}"
 NVIM_PLUGIN_NAME=$(toml_str nvim_plugin_name)
 NVIM_PLUGIN_NAME="${NVIM_PLUGIN_NAME:-$_derived}"
 if [[ -n "$NVIM_COLORSCHEME" ]]; then
-  for sock in "/run/user/$(id -u)/nvim.*.0" /tmp/nvim*; do
+  # socket locations: Linux ($XDG_RUNTIME_DIR), macOS ($TMPDIR/nvim.$USER), /tmp
+  for sock in "/run/user/$(id -u)/nvim.*.0" "${TMPDIR:-/tmp}/nvim.${USER}/*/nvim.*.0" /tmp/nvim*; do
     for s in $sock; do
       if [[ -S "$s" ]]; then
         # Load the plugin into the running session first, then apply the colorscheme.

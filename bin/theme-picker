@@ -1,13 +1,23 @@
 #!/usr/bin/env bash
-# theme-picker — rofi launcher for theme switching
+# theme-picker — interactive theme switcher
+# Uses rofi under a graphical Linux session (sway), falls back to fzf in a
+# plain terminal (e.g. macOS)
 DOTFILES="$HOME/.dotfiles"
 THEMES_DIR="$DOTFILES/themes"
 CURRENT=$("$DOTFILES/bin/theme-current")
 
-selected=$(ls -1 "$THEMES_DIR" \
-  | rofi -dmenu \
-      -p "Theme" \
-      -theme ~/.config/rofi/picker.rasi \
-      -select "$CURRENT")
+if command -v rofi &>/dev/null && [[ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ]]; then
+  selected=$(ls -1 "$THEMES_DIR" \
+    | rofi -dmenu \
+        -p "Theme" \
+        -theme ~/.config/rofi/picker.rasi \
+        -select "$CURRENT")
+elif command -v fzf &>/dev/null; then
+  selected=$(ls -1 "$THEMES_DIR" \
+    | fzf --prompt "theme > " --header "current: $CURRENT" --height 40% --reverse)
+else
+  echo "theme-picker: needs rofi (graphical) or fzf (terminal)" >&2
+  exit 1
+fi
 
 [[ -n $selected ]] && exec "$DOTFILES/bin/theme-set" "$selected"
