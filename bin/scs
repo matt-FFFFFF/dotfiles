@@ -22,7 +22,7 @@ fzf_args=(
 )
 
 if [[ -n "$TMUX" ]]; then
-  session=$(echo "$seshlist" | fzf-tmux -p 80%,70% -- "${fzf_args[@]}")
+  session=$(echo "$seshlist" | fzf --tmux center,80%,70% "${fzf_args[@]}")
 else
   session=$(echo "$seshlist" | fzf --height 40% "${fzf_args[@]}")
 fi
