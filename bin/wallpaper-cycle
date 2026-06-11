@@ -38,12 +38,8 @@ WALLPAPER="$BG_DIR/${WALLS[$IDX]}"
 
 case "$(uname)" in
   Darwin)
-    if command -v wallpaper &>/dev/null; then
-      wallpaper set "$WALLPAPER" --screen=all 2>/dev/null || true
-      ok "wallpaper applied: $WALLPAPER"
-    else
-      info "wallpaper CLI not installed — run 'brew install wallpaper'"
-    fi
+    macos-set-wallpaper "$WALLPAPER" 2>/dev/null || true
+    ok "wallpaper applied: $WALLPAPER"
     ;;
   *)
     swaymsg "output * bg \"$WALLPAPER\" fill"

@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+"""macos-set-wallpaper — set desktop wallpaper across all Spaces on all displays.
+
+Apple's public APIs (NSWorkspace.setDesktopImageURL, osascript "set picture of
+every desktop", the `wallpaper` CLI from Homebrew) only update the visible
+Space per display. This script mutates
+~/Library/Application Support/com.apple.wallpaper/Store/Index.plist directly
+to cover every Space (visible AND invisible), then signals WallpaperAgent to
+reload.
+
+Usage: macos-set-wallpaper <path-to-image>
+
+Safe no-op on non-Darwin and when Index.plist does not exist yet.
+"""
+
+import os
+import plistlib
+import subprocess
+import sys
+import urllib.parse
+
+INDEX_PLIST = os.path.expanduser(
+    "~/Library/Application Support/com.apple.wallpaper/Store/Index.plist"
+)
+
+
+def replace_wallpaper(index_path: str, new_url: str) -> int:
+    with open(index_path, "rb") as f:
+        data = plistlib.load(f)
+
+    count = 0
+
+    def walk(node) -> None:
+        nonlocal count
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if (
+                    k == "Configuration"
+                    and isinstance(v, bytes)
+                    and v[:8] == b"bplist00"
+                ):
+                    try:
+                        inner = plistlib.loads(v)
+                    except Exception:
+                        continue
+                    if isinstance(inner, dict) and inner.get("type") == "imageFile":
+                        inner["url"]["relative"] = new_url
+                        node[k] = plistlib.dumps(inner, fmt=plistlib.FMT_BINARY)
+                        count += 1
+                        continue
+                walk(v)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item)
+
+    walk(data)
+
+    with open(index_path, "wb") as f:
+        plistlib.dump(data, f, fmt=plistlib.FMT_BINARY)
+    return count
+
+
+def main() -> int:
+    if sys.platform != "darwin":
+        return 0
+    if len(sys.argv) != 2:
+        print(f"usage: {sys.argv[0]} <path-to-image>", file=sys.stderr)
+        return 2
+
+    path = os.path.abspath(sys.argv[1])
+    if not os.path.isfile(path):
+        print(f"error: not a file: {path}", file=sys.stderr)
+        return 1
+    if not os.path.isfile(INDEX_PLIST):
+        return 0
+
+    new_url = "file://" + urllib.parse.quote(path, safe="/")
+    n = replace_wallpaper(INDEX_PLIST, new_url)
+    subprocess.run(["killall", "WallpaperAgent"], stderr=subprocess.DEVNULL)
+    print(f"updated {n} wallpaper configurations across all Spaces")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -32,9 +32,3 @@ brew "tmux"
 brew "zsh-syntax-highlighting"
 brew "zsh-completions"
 brew "zsh-autosuggestions"
-
-# ── theme engine (was inline in homebrew/install.sh) ────────────────────────
-# Used by bin/theme-set + bin/wallpaper-cycle for multi-Space + multi-display
-# wallpaper coverage (osascript can only hit the visible Space per display).
-# See THEMING.md → "macOS Support" section.
-brew "wallpaper"

@@ -54,6 +54,7 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
     ├── theme-current               # prints active theme name
     ├── theme-picker                # multi-backend picker (tmux popup, rofi, inline fzf)
     ├── theme-test-macos            # smoke test for macOS support
+    ├── macos-set-wallpaper          # Python helper: wallpaper across all Spaces
     └── wallpaper-cycle-daemon      # Linux respawn wrapper
 ```
 
@@ -509,11 +510,11 @@ Themes can override any generated file by shipping a pre-built version (e.g. a `
 
 ## macOS Support
 
-On macOS, `theme-set` applies the wallpaper, text highlight color, system accent color (closest preset), and appearance mode via `defaults` and the `wallpaper` CLI. Linux-specific components like Sway, Waybar, Dunst, Rofi, and Swaylock remain as no-ops; their reload steps are best-effort and skip silently when their binaries or configs are absent.
+On macOS, `theme-set` applies the wallpaper, text highlight color, system accent color (closest preset), and appearance mode via `defaults` and `bin/macos-set-wallpaper`. Linux-specific components like Sway, Waybar, Dunst, Rofi, and Swaylock remain as no-ops; their reload steps are best-effort and skip silently when their binaries or configs are absent.
 
 ### What gets applied on macOS
 
-- **Wallpaper**: Applied to all Spaces on all displays via the `wallpaper` Homebrew CLI from `themes/<name>/backgrounds/`. The CLI uses Apple's private Spaces API; no AppleScript bridge, no TCC Automation prompt.
+- **Wallpaper**: Applied to every Space on every display via `bin/macos-set-wallpaper`, which mutates `~/Library/Application Support/com.apple.wallpaper/Store/Index.plist` directly and restarts `WallpaperAgent`. Apple's public APIs (`osascript`, `NSWorkspace.setDesktopImageURL`, the `wallpaper` Homebrew CLI) only ever update the visible Space per display, leaving invisible Spaces stuck on the old wallpaper.
 - **Text-selection highlight color**: Set via `defaults write -g AppleHighlightColor`. The theme's `accent` hex is converted to the required "R G B Other" float format.
 - **System accent color**: Set via `defaults write -g AppleAccentColor` using the closest of macOS's 8 presets (red, orange, yellow, green, blue, purple, pink) to the theme's `accent` color.
 - **Appearance mode**: Driven by the `appearance` key in `colors.toml`, this sets `defaults write -g AppleInterfaceStyle Dark` (or deletes the key for light mode).
@@ -526,7 +527,7 @@ The `colors.toml` schema includes an optional `appearance` field. Valid values a
 
 ### Wallpaper rotation on macOS
 
-On macOS, `bin/wallpaper-cycle` acts as a one-shot script that sets the next wallpaper and exits. Requires the `wallpaper` CLI (see Dependencies). Scheduling is handled by launchd via `system/launchd/com.dotfiles.wallpaper-cycle.plist`, which is configured to run every hour. Installation is handled automatically by `script/install` via `system/install.sh`. To manually re-bootstrap the agent:
+On macOS, `bin/wallpaper-cycle` acts as a one-shot script that sets the next wallpaper via `bin/macos-set-wallpaper` and exits. Scheduling is handled by launchd via `system/launchd/com.dotfiles.wallpaper-cycle.plist`, which is configured to run every hour. Installation is handled automatically by `script/install` via `system/install.sh`. To manually re-bootstrap the agent:
 
 ```sh
 launchctl bootout gui/$(id -u)/com.dotfiles.wallpaper-cycle
@@ -539,15 +540,11 @@ The installer instantiates a real plist in `~/Library/LaunchAgents/` rather than
 
 macOS supports 8 preset accent colors: red (0), orange (1), yellow (2), green (3), blue (4), purple (5), and pink (6). Graphite (-1) is excluded from auto-mapping. `theme-set` calculates the closest preset by Euclidean RGB distance to the theme's `accent`. These reference RGB values are approximate and may vary slightly between macOS versions.
 
-### Dependencies
+### How `bin/macos-set-wallpaper` works
 
-macOS wallpaper requires the [`wallpaper` Homebrew CLI](https://github.com/sindresorhus/macos-wallpaper) — a single binary, no transitive deps:
+`Index.plist` stores wallpaper choices at several levels: `SystemDefault.Desktop.Content.Choices[].Configuration`, `Spaces.<UUID>.Default.Desktop.Content.Choices[].Configuration`, `Spaces.<UUID>.Displays.<UUID>.Desktop.Content.Choices[].Configuration`, and `Displays.<UUID>.Desktop.Content.Choices[].Configuration`. Each `Configuration` is a nested binary plist with shape `{type: "imageFile", url: {relative: "file:///path/to/image.jpg"}}`. The script walks the outer plist, decodes every `imageFile` `Configuration`, replaces its `url.relative` with the new wallpaper path, re-encodes, writes the file back, and `killall WallpaperAgent` to force a reload.
 
-```sh
-brew install wallpaper
-```
-
-Installed automatically by `script/install` (which runs `homebrew/install.sh`). If absent, `theme-set` logs a one-line warning and skips wallpaper apply; the rest of the theme still applies (highlight, accent, appearance).
+No Homebrew dependency — uses only Python 3 (bundled with macOS via Command Line Tools) and the standard `plistlib` module. The Apple-private Spaces API is intentionally avoided; this is structural file manipulation that Apple has changed between macOS major versions (10.14 SQLite `desktoppicture.db` → 14+ `Index.plist`), so future versions may require updating the walker.
 
 ### What does NOT change on macOS
 
