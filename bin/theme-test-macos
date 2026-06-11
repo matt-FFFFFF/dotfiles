@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+# Smoke test for macOS theme engine — exits 0 on success, 1 on any failure. Run after theme-set changes.
+
+[[ "$(uname)" != "Darwin" ]] && { echo "skipped on non-Darwin"; exit 0; }
+
+set -u
+
+ORIG=$(theme-current)
+trap '"$HOME/.dotfiles/bin/theme-set" "$ORIG" >/dev/null 2>&1 || true' EXIT
+
+fails=0
+
+pass() {
+  printf 'PASS: %s\n' "$1"
+}
+
+fail() {
+  printf 'FAIL: %s (expected %s, got %s)\n' "$1" "$2" "$3"
+  fails=$((fails + 1))
+}
+
+assert_eq() {
+  desc=$1
+  expected=$2
+  actual=$3
+  if [[ "$actual" == "$expected" ]]; then
+    pass "$desc"
+  else
+    fail "$desc" "$expected" "$actual"
+  fi
+}
+
+assert_regex() {
+  desc=$1
+  expected=$2
+  actual=$3
+  if grep -Eq "$expected" <<<"$actual"; then
+    pass "$desc"
+  else
+    fail "$desc" "/$expected/" "$actual"
+  fi
+}
+
+assert_contains() {
+  desc=$1
+  expected=$2
+  actual=$3
+  if grep -Fq "$expected" <<<"$actual"; then
+    pass "$desc"
+  else
+    fail "$desc" "$expected" "$actual"
+  fi
+}
+
+assert_cmd() {
+  desc=$1
+  shift
+  if "$@" >/dev/null 2>&1; then
+    pass "$desc"
+  else
+    fail "$desc" 0 $?
+  fi
+}
+
+assert_cmd "theme-set tokyo-night" theme-set tokyo-night
+assert_eq "defaults read -g AppleInterfaceStyle" "Dark" "$(defaults read -g AppleInterfaceStyle 2>&1)"
+assert_eq "defaults read -g AppleInterfaceStyleSwitchesAutomatically" "0" "$(defaults read -g AppleInterfaceStyleSwitchesAutomatically 2>&1)"
+assert_eq "defaults read -g AppleAccentColor" "4" "$(defaults read -g AppleAccentColor 2>&1)"
+assert_regex "defaults read -g AppleHighlightColor" '0\.4[0-9]+ 0\.6[0-9]+ 0\.9[0-9]+ Other' "$(defaults read -g AppleHighlightColor 2>&1)"
+assert_contains "osascript desktop wallpaper path" "tokyo-night" "$(osascript -e 'tell application "System Events" to get picture of desktop 1' 2>&1)"
+assert_cmd "theme-set catppuccin-latte" theme-set catppuccin-latte
+assert_regex "defaults read -g AppleInterfaceStyle deleted" 'does not exist' "$(defaults read -g AppleInterfaceStyle 2>&1)"
+assert_cmd "theme-set tokyo-night idempotency" theme-set tokyo-night
+
+exit "$fails"
