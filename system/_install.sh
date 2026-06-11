@@ -19,8 +19,7 @@ fail () {
 info 'Installing base tools'
 
 if [ "$(uname)" = "Darwin" ]; then
-  brew install jq curl wget vim
-  success 'Base tools installed via Homebrew'
+  success 'Base tools managed via homebrew/Brewfile (jq, curl, wget, vim)'
   exit 0
 fi
 

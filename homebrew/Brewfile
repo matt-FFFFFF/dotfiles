@@ -1,0 +1,40 @@
+# Brewfile — macOS-only Homebrew dependencies for matt-FFFFFF/dotfiles.
+#
+# Installed automatically by homebrew/install.sh (which calls `brew bundle`
+# with --file pointing here). Idempotent — brew bundle skips already-installed.
+#
+# To install manually:
+#   brew bundle --file=~/.dotfiles/homebrew/Brewfile
+#
+# To check what's missing without installing:
+#   brew bundle check --file=~/.dotfiles/homebrew/Brewfile --verbose
+#
+# Most CLI tools are managed by mise (see mise/config/config.toml).
+# Use this file ONLY for things mise can't provide: system services, zsh
+# plugin shared libs, GUI helpers, etc.
+#
+# NOTE: mise itself is bootstrapped in mise/_install.sh (runs first), not here.
+
+# ── base tools (was system/_install.sh) ─────────────────────────────────────
+brew "jq"
+brew "wget"
+brew "vim"
+# curl is preinstalled on macOS; the brew version provides newer SSL/HTTP2
+brew "curl"
+
+# ── tmux (was tmux/install.sh) ──────────────────────────────────────────────
+brew "tmux"
+
+# ── zsh plugins (was zsh/install.sh) ────────────────────────────────────────
+# Installed into /opt/homebrew/share for the zsh runtime to source via fpath.
+# zsh/install.sh handles the chmod -R go-w post-install perm fix (compinit
+# requires non-world-writable shared dirs).
+brew "zsh-syntax-highlighting"
+brew "zsh-completions"
+brew "zsh-autosuggestions"
+
+# ── theme engine (was inline in homebrew/install.sh) ────────────────────────
+# Used by bin/theme-set + bin/wallpaper-cycle for multi-Space + multi-display
+# wallpaper coverage (osascript can only hit the visible Space per display).
+# See THEMING.md → "macOS Support" section.
+brew "wallpaper"

@@ -17,8 +17,7 @@ fail () {
 info 'Installing tmux'
 
 if [ "$(uname)" = "Darwin" ]; then
-  brew install tmux
-  success 'tmux installed via Homebrew'
+  success 'tmux managed via homebrew/Brewfile'
   exit 0
 fi
 

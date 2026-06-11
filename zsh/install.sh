@@ -17,9 +17,8 @@ fail () {
 }
 
 if [ "$(uname)" = "Darwin" ]; then
-  brew install zsh-syntax-highlighting zsh-completions zsh-autosuggestions
-  chmod -R go-w '/opt/homebrew/share'
-  success 'zsh plugins installed via Homebrew'
+  chmod -R go-w '/opt/homebrew/share' 2>/dev/null || true
+  success 'zsh plugins managed via homebrew/Brewfile (perms fixed for compinit)'
   exit 0
 fi
 

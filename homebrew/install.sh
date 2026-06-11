@@ -1,22 +1,19 @@
 #!/bin/sh
 
-# Homebrew
-#
-# This installs some of the common dependencies needed (or at least desired)
-# using Homebrew.
+# Homebrew bootstrap + Brewfile install (macOS only).
+# Skips silently on Linux.
 
-# Check for Homebrew
-if test ! $(which brew)
+# Bootstrap Homebrew itself if missing
+if test ! "$(which brew)"
 then
-  echo "  Installing Homebrew."
-
-  # Install the correct homebrew for each OS type
   if test "$(uname)" = "Darwin"
   then
+    echo "  Installing Homebrew."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 fi
 
+# Put brew on PATH for the rest of this script
 if test -x /opt/homebrew/bin/brew
 then
   eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -25,8 +22,9 @@ then
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-# Wallpaper CLI — used by bin/theme-set + bin/wallpaper-cycle on macOS
-# (proper multi-Space + multi-display coverage; replaces fragile osascript path)
-if test "$(uname)" = "Darwin"; then
-  brew install wallpaper
+# Install everything in the Brewfile (idempotent — skips already-installed)
+if test "$(uname)" = "Darwin"
+then
+  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+  brew bundle --file="$SCRIPT_DIR/Brewfile"
 fi
