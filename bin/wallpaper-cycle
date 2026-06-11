@@ -1,29 +1,58 @@
 #!/usr/bin/env bash
-# wallpaper-cycle — rotate through the current theme's backgrounds every hour
+# wallpaper-cycle — apply the next wallpaper from the current theme, once
+#
+# One-shot: read state → apply wallpaper → advance index → exit.
+# Loop/scheduling is the caller's responsibility (see wallpaper-cycle-daemon).
+#
+# Note: `set -e` is deliberately omitted. The Darwin branch tolerates
+# `pgrep`/`osascript` non-zero exits via `|| true` so headless macs (no GUI
+# session) skip cleanly instead of aborting the script.
+
+set -uo pipefail
 
 DOTFILES="$HOME/.dotfiles"
 STATE_FILE="$HOME/.config/themes/wallpaper.index"
 
-while true; do
-  THEME=$("$DOTFILES/bin/theme-current")
-  BG_DIR="$DOTFILES/themes/$THEME/backgrounds"
+# ── helpers ────────────────────────────────────────────────────────────────
 
-  if [[ -d "$BG_DIR" ]]; then
-    mapfile -t WALLS < <(ls -1 "$BG_DIR" | sort)
-    COUNT=${#WALLS[@]}
+info() { printf '\033[34m  ..\033[0m %s\n' "$*"; }
+ok()   { printf '\033[32m  OK\033[0m %s\n' "$*"; }
+die()  { printf '\033[31mERROR\033[0m %s\n' "$*" >&2; exit 1; }
 
-    if [[ $COUNT -gt 0 ]]; then
-      # Read and advance index
-      IDX=$(cat "$STATE_FILE" 2>/dev/null || echo 0)
-      IDX=$(( IDX % COUNT ))
-      WALLPAPER="$BG_DIR/${WALLS[$IDX]}"
+# ── select wallpaper ───────────────────────────────────────────────────────
 
-      swaymsg "output * bg \"$WALLPAPER\" fill"
+THEME=$("$DOTFILES/bin/theme-current")
+BG_DIR="$DOTFILES/themes/$THEME/backgrounds"
 
-      # Persist next index
-      echo $(( (IDX + 1) % COUNT )) > "$STATE_FILE"
+[[ -d "$BG_DIR" ]] || { info "no backgrounds dir for theme: $THEME"; exit 0; }
+
+mapfile -t WALLS < <(ls -1 "$BG_DIR" | sort)
+COUNT=${#WALLS[@]}
+[[ $COUNT -gt 0 ]] || { info "no wallpapers in $BG_DIR"; exit 0; }
+
+# Read and advance index
+IDX=$(cat "$STATE_FILE" 2>/dev/null || echo 0)
+IDX=$(( IDX % COUNT ))
+WALLPAPER="$BG_DIR/${WALLS[$IDX]}"
+
+# ── apply (OS-branched) ────────────────────────────────────────────────────
+
+case "$(uname)" in Darwin)
+    # Darwin: skip on headless (no Dock = no GUI session).
+    if ! pgrep -x Dock &>/dev/null; then
+      info "no GUI session, skipping wallpaper apply"
+      exit 0
     fi
-  fi
+    # Darwin: invoke osascript via System Events to set picture of every desktop.
+    osascript -e 'tell application "System Events" to set picture of every desktop to POSIX file "'"$WALLPAPER"'"' 2>/dev/null || true
+    ok "wallpaper applied: $WALLPAPER"
+    ;;
+  *)
+    swaymsg "output * bg \"$WALLPAPER\" fill"
+    ok "wallpaper applied: $WALLPAPER"
+    ;;
+esac
 
-  sleep 3600
-done
+# ── persist next index ─────────────────────────────────────────────────────
+
+echo $(( (IDX + 1) % COUNT )) > "$STATE_FILE"
