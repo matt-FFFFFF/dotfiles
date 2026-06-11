@@ -516,7 +516,6 @@ On macOS, `theme-set` applies the wallpaper, text highlight color, system accent
 
 - **Wallpaper**: Applied to every Space on every display via `bin/macos-set-wallpaper`, which mutates `~/Library/Application Support/com.apple.wallpaper/Store/Index.plist` directly and restarts `WallpaperAgent`. Apple's public APIs (`osascript`, `NSWorkspace.setDesktopImageURL`, the `wallpaper` Homebrew CLI) only ever update the visible Space per display, leaving invisible Spaces stuck on the old wallpaper.
 - **Text-selection highlight color**: Set via `defaults write -g AppleHighlightColor`. The theme's `accent` hex is converted to the required "R G B Other" float format.
-- **System accent color**: Set via `defaults write -g AppleAccentColor` using the closest of macOS's 8 presets (red, orange, yellow, green, blue, purple, pink) to the theme's `accent` color.
 - **Appearance mode**: Driven by the `appearance` key in `colors.toml`, this sets `defaults write -g AppleInterfaceStyle Dark` (or deletes the key for light mode). The same toggle also writes `AppleIconAppearanceTheme=RegularDark` for dark themes (or deletes it for light) so the system "Icon & widget style" preference follows the appearance, and broadcasts `AppleInterfaceThemeChangedNotification` via `osascript` so already-running apps repoll appearance live.
 - **Auto-switch**: `AppleInterfaceStyleSwitchesAutomatically` is pinned to `false` so the theme choice remains constant.
 - **UI reload**: The `Dock`, `SystemUIServer`, `ControlCenter`, and `Finder` are restarted after `defaults` writes to ensure changes take effect.
@@ -538,7 +537,7 @@ The installer instantiates a real plist in `~/Library/LaunchAgents/` rather than
 
 ### Accent color preset mapping
 
-macOS supports 8 preset accent colors: red (0), orange (1), yellow (2), green (3), blue (4), purple (5), and pink (6). Graphite (-1) is excluded from auto-mapping. `theme-set` calculates the closest preset by Euclidean RGB distance to the theme's `accent`. These reference RGB values are approximate and may vary slightly between macOS versions.
+`theme-set` does NOT touch `AppleAccentColor` — the eight system accent presets are perceptually distinct and the theme `accent` rarely lines up with any of them, so theme-driven auto-mapping mostly looks wrong. Set your system accent manually in System Settings → Appearance and it stays put across `theme-set` runs.
 
 ### How `bin/macos-set-wallpaper` works
 

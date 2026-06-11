@@ -164,24 +164,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
     B_FLOAT=$(printf '%.6f' "$(echo "scale=10; $B_INT / 255" | bc || true)")
     defaults write -g AppleHighlightColor "$R_FLOAT $G_FLOAT $B_FLOAT Other" 2>/dev/null \
       && ok "highlight color: #$ACCENT_HEX → $R_FLOAT $G_FLOAT $B_FLOAT Other" || true
-
-    BEST_IDX=$(python3 -c "
-import colorsys, sys
-r, g, b = $R_INT/255, $G_INT/255, $B_INT/255
-h, s, v = colorsys.rgb_to_hsv(r, g, b)
-hue = h * 360
-if s < 0.10:                 idx = -1  # near-grayscale → graphite (e.g. white theme)
-elif hue < 15 or hue >= 345: idx = 0   # red
-elif hue < 45:               idx = 1   # orange
-elif hue < 65:               idx = 2   # yellow
-elif hue < 150:              idx = 3   # green
-elif hue < 260:              idx = 4   # blue (incl. cyan)
-elif hue < 300:              idx = 5   # purple
-else:                        idx = 6   # pink
-print(idx)
-" 2>/dev/null || echo 4)
-    defaults write -g AppleAccentColor -int "$BEST_IDX" 2>/dev/null \
-      && ok "accent preset: $BEST_IDX" || true
   fi
 
   defaults write -g AppleInterfaceStyleSwitchesAutomatically -bool false 2>/dev/null \

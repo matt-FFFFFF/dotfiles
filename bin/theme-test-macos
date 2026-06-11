@@ -65,7 +65,6 @@ assert_cmd() {
 assert_cmd "theme-set tokyo-night" theme-set tokyo-night
 assert_eq "defaults read -g AppleInterfaceStyle" "Dark" "$(defaults read -g AppleInterfaceStyle 2>&1)"
 assert_eq "defaults read -g AppleInterfaceStyleSwitchesAutomatically" "0" "$(defaults read -g AppleInterfaceStyleSwitchesAutomatically 2>&1)"
-assert_eq "defaults read -g AppleAccentColor" "4" "$(defaults read -g AppleAccentColor 2>&1)"
 assert_regex "defaults read -g AppleHighlightColor" '0\.4[0-9]+ 0\.6[0-9]+ 0\.9[0-9]+ Other' "$(defaults read -g AppleHighlightColor 2>&1)"
 
 # Wallpaper assertion — query Index.plist directly to verify every Configuration
