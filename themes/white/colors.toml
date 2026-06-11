@@ -1,6 +1,7 @@
 # White (light)
 nvim_plugin      = "bjarneo/white.nvim"
 nvim_colorscheme = "white"
+appearance = "light"
 accent             = "#6e6e6e"
 background         = "#ffffff"
 background_alt     = "#f0f0f0"

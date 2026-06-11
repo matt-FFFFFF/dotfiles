@@ -2,6 +2,7 @@
 nvim_plugin      = "catppuccin/nvim"
 nvim_plugin_name = "catppuccin"
 nvim_colorscheme = "catppuccin-latte"
+appearance = "light"
 accent             = "#1e66f5"
 background         = "#eff1f5"
 background_alt     = "#e6e9ef"

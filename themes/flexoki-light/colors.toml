@@ -1,6 +1,7 @@
 # Flexoki Light
 nvim_plugin      = "kepano/flexoki-neovim"
 nvim_colorscheme = "flexoki-light"
+appearance = "light"
 accent             = "#205EA6"
 background         = "#FFFCF0"
 background_alt     = "#F2F0E5"
