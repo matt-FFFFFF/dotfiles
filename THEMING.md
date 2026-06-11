@@ -509,11 +509,11 @@ Themes can override any generated file by shipping a pre-built version (e.g. a `
 
 ## macOS Support
 
-On macOS, `theme-set` applies the wallpaper, text highlight color, system accent color (closest preset), and appearance mode via `defaults` and `osascript`. Linux-specific components like Sway, Waybar, Dunst, Rofi, and Swaylock remain as no-ops; their reload steps are best-effort and skip silently when their binaries or configs are absent.
+On macOS, `theme-set` applies the wallpaper, text highlight color, system accent color (closest preset), and appearance mode via `defaults` and the `wallpaper` CLI. Linux-specific components like Sway, Waybar, Dunst, Rofi, and Swaylock remain as no-ops; their reload steps are best-effort and skip silently when their binaries or configs are absent.
 
 ### What gets applied on macOS
 
-- **Wallpaper**: Applied to all displays and Spaces using `osascript` to set the picture from `themes/<name>/backgrounds/`.
+- **Wallpaper**: Applied to all Spaces on all displays via the `wallpaper` Homebrew CLI from `themes/<name>/backgrounds/`. The CLI uses Apple's private Spaces API; no AppleScript bridge, no TCC Automation prompt.
 - **Text-selection highlight color**: Set via `defaults write -g AppleHighlightColor`. The theme's `accent` hex is converted to the required "R G B Other" float format.
 - **System accent color**: Set via `defaults write -g AppleAccentColor` using the closest of macOS's 8 presets (red, orange, yellow, green, blue, purple, pink) to the theme's `accent` color.
 - **Appearance mode**: Driven by the `appearance` key in `colors.toml`, this sets `defaults write -g AppleInterfaceStyle Dark` (or deletes the key for light mode).
@@ -524,13 +524,9 @@ On macOS, `theme-set` applies the wallpaper, text highlight color, system accent
 
 The `colors.toml` schema includes an optional `appearance` field. Valid values are `"dark"` and `"light"`. If missing, it defaults to `"dark"`. When `theme-set` runs, it explicitly disables `AppleInterfaceStyleSwitchesAutomatically`, ensuring macOS does not flip the appearance at sunrise or sunset.
 
-### First-run: TCC Automation permission
-
-The first time `theme-set` runs from a terminal emulator (e.g., kitty), macOS displays a TCC (Transparency, Consent, and Control) dialog asking if the terminal may control "System Events". You must click **Allow**. If `theme-set` runs non-interactively first (such as via a launchd LaunchAgent), the prompt will not appear and `osascript` calls for wallpaper settings will silently fail. It's recommended to run `theme-set <name>` once interactively before relying on automated rotation.
-
 ### Wallpaper rotation on macOS
 
-On macOS, `bin/wallpaper-cycle` acts as a one-shot script that sets the next wallpaper and exits. Scheduling is handled by launchd via `system/launchd/com.dotfiles.wallpaper-cycle.plist`, which is configured to run every hour. Installation is handled automatically by `script/install` via `system/install.sh`. To manually re-bootstrap the agent:
+On macOS, `bin/wallpaper-cycle` acts as a one-shot script that sets the next wallpaper and exits. Requires the `wallpaper` CLI (see Dependencies). Scheduling is handled by launchd via `system/launchd/com.dotfiles.wallpaper-cycle.plist`, which is configured to run every hour. Installation is handled automatically by `script/install` via `system/install.sh`. To manually re-bootstrap the agent:
 
 ```sh
 launchctl bootout gui/$(id -u)/com.dotfiles.wallpaper-cycle
@@ -542,6 +538,16 @@ The installer instantiates a real plist in `~/Library/LaunchAgents/` rather than
 ### Accent color preset mapping
 
 macOS supports 8 preset accent colors: red (0), orange (1), yellow (2), green (3), blue (4), purple (5), and pink (6). Graphite (-1) is excluded from auto-mapping. `theme-set` calculates the closest preset by Euclidean RGB distance to the theme's `accent`. These reference RGB values are approximate and may vary slightly between macOS versions.
+
+### Dependencies
+
+macOS wallpaper requires the [`wallpaper` Homebrew CLI](https://github.com/sindresorhus/macos-wallpaper) — a single binary, no transitive deps:
+
+```sh
+brew install wallpaper
+```
+
+Installed automatically by `script/install` (which runs `homebrew/install.sh`). If absent, `theme-set` logs a one-line warning and skips wallpaper apply; the rest of the theme still applies (highlight, accent, appearance).
 
 ### What does NOT change on macOS
 

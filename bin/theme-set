@@ -142,18 +142,20 @@ if [[ "$(uname)" == "Darwin" ]]; then
   APPEARANCE=$(toml_str appearance)
   APPEARANCE="${APPEARANCE:-dark}"
 
-  if pgrep -x Dock &>/dev/null; then
+  # 8b. Wallpaper via `wallpaper` CLI (Homebrew, sindresorhus). Covers all
+  # Spaces on all displays — the public `osascript` and NSWorkspace APIs
+  # only hit the visible Space per display.
+  if command -v wallpaper &>/dev/null; then
     BG_DIR="$THEME_DIR/backgrounds"
     if [[ -d "$BG_DIR" ]]; then
-      # shellcheck disable=SC2012 # keep first-image lookup aligned with wallpaper_line generation
       FIRST_BG=$(ls -1 "$BG_DIR" | sort | head -n1)
       if [[ -n "$FIRST_BG" ]]; then
-        osascript -e 'tell application "System Events" to set picture of every desktop to POSIX file "'"$BG_DIR/$FIRST_BG"'"' 2>/dev/null \
-          && ok "wallpaper set: $FIRST_BG" || true
+        wallpaper set "$BG_DIR/$FIRST_BG" --screen=all 2>/dev/null \
+          && ok "wallpaper set (all Spaces): $FIRST_BG" || true
       fi
     fi
   else
-    info "no GUI session — skipping wallpaper apply (TCC Automation requires GUI)"
+    info "wallpaper CLI not installed — run 'brew install wallpaper' (or 'sh homebrew/install.sh')"
   fi
 
   ACCENT_HEX=$(grep '^accent ' "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*#\([0-9a-fA-F]\{6\}\).*/\1/' || true)

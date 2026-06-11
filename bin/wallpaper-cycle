@@ -4,9 +4,8 @@
 # One-shot: read state → apply wallpaper → advance index → exit.
 # Loop/scheduling is the caller's responsibility (see wallpaper-cycle-daemon).
 #
-# Note: `set -e` is deliberately omitted. The Darwin branch tolerates
-# `pgrep`/`osascript` non-zero exits via `|| true` so headless macs (no GUI
-# session) skip cleanly instead of aborting the script.
+# Note: `set -e` is deliberately omitted. Wallpaper apply commands are
+# best-effort so failures never prevent the index-advance write at the bottom.
 
 set -uo pipefail
 
@@ -37,15 +36,14 @@ WALLPAPER="$BG_DIR/${WALLS[$IDX]}"
 
 # ── apply (OS-branched) ────────────────────────────────────────────────────
 
-case "$(uname)" in Darwin)
-    # Darwin: skip on headless (no Dock = no GUI session).
-    if ! pgrep -x Dock &>/dev/null; then
-      info "no GUI session, skipping wallpaper apply"
-      exit 0
+case "$(uname)" in
+  Darwin)
+    if command -v wallpaper &>/dev/null; then
+      wallpaper set "$WALLPAPER" --screen=all 2>/dev/null || true
+      ok "wallpaper applied: $WALLPAPER"
+    else
+      info "wallpaper CLI not installed — run 'brew install wallpaper'"
     fi
-    # Darwin: invoke osascript via System Events to set picture of every desktop.
-    osascript -e 'tell application "System Events" to set picture of every desktop to POSIX file "'"$WALLPAPER"'"' 2>/dev/null || true
-    ok "wallpaper applied: $WALLPAPER"
     ;;
   *)
     swaymsg "output * bg \"$WALLPAPER\" fill"
