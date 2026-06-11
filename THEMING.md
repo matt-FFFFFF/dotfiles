@@ -35,6 +35,11 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
 │       └── backgrounds/
 │           └── 1-mocha.jpg
 │
+├── system/                         # system services and installers
+│   ├── install.sh                  # macOS-guarded LaunchAgent installer
+│   └── launchd/
+│       └── com.dotfiles.wallpaper-cycle.plist
+│
 ├── themed/                         # templates (tracked in git)
 │   ├── sway-theme.conf.tpl
 │   ├── sway-output.conf.tpl
@@ -47,7 +52,9 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
 └── bin/
     ├── theme-set                   # main switching script
     ├── theme-current               # prints active theme name
-    └── theme-picker                # multi-backend picker (tmux popup, rofi, inline fzf)
+    ├── theme-picker                # multi-backend picker (tmux popup, rofi, inline fzf)
+    ├── theme-test-macos            # smoke test for macOS support
+    └── wallpaper-cycle-daemon      # Linux respawn wrapper
 ```
 
 **Generated outputs** — written to `~/.config/` by `theme-set`:
@@ -76,6 +83,7 @@ Every theme must have a `colors.toml` with these keys:
 # Neovim integration (consumed by bin/theme-set + the colour.lua shim)
 nvim_plugin       = "olimorris/onedarkpro.nvim"  # lazy.nvim repo slug
 nvim_colorscheme  = "onedark"                    # name passed to :colorscheme
+appearance         = "dark"                       # "dark" | "light" (macOS only; default "dark")
 # nvim_plugin_name = "onedarkpro.nvim"           # OPTIONAL — only set if the
                                                  # Lazy plugin name differs
                                                  # from the basename of the
@@ -496,3 +504,47 @@ This writes all generated configs from the `cyan` theme (your original palette) 
 4. Run `theme-set <name>`
 
 Themes can override any generated file by shipping a pre-built version (e.g. a `waybar.css` that completely replaces the template output). `theme-set` copies theme-specific files before running templates, and templates skip files that already exist in the output.
+
+---
+
+## macOS Support
+
+On macOS, `theme-set` applies the wallpaper, text highlight color, system accent color (closest preset), and appearance mode via `defaults` and `osascript`. Linux-specific components like Sway, Waybar, Dunst, Rofi, and Swaylock remain as no-ops; their reload steps are best-effort and skip silently when their binaries or configs are absent.
+
+### What gets applied on macOS
+
+- **Wallpaper**: Applied to all displays and Spaces using `osascript` to set the picture from `themes/<name>/backgrounds/`.
+- **Text-selection highlight color**: Set via `defaults write -g AppleHighlightColor`. The theme's `accent` hex is converted to the required "R G B Other" float format.
+- **System accent color**: Set via `defaults write -g AppleAccentColor` using the closest of macOS's 8 presets (red, orange, yellow, green, blue, purple, pink) to the theme's `accent` color.
+- **Appearance mode**: Driven by the `appearance` key in `colors.toml`, this sets `defaults write -g AppleInterfaceStyle Dark` (or deletes the key for light mode).
+- **Auto-switch**: `AppleInterfaceStyleSwitchesAutomatically` is pinned to `false` so the theme choice remains constant.
+- **UI reload**: The `Dock`, `SystemUIServer`, `ControlCenter`, and `Finder` are restarted after `defaults` writes to ensure changes take effect.
+
+### The `appearance` key
+
+The `colors.toml` schema includes an optional `appearance` field. Valid values are `"dark"` and `"light"`. If missing, it defaults to `"dark"`. When `theme-set` runs, it explicitly disables `AppleInterfaceStyleSwitchesAutomatically`, ensuring macOS does not flip the appearance at sunrise or sunset.
+
+### First-run: TCC Automation permission
+
+The first time `theme-set` runs from a terminal emulator (e.g., kitty), macOS displays a TCC (Transparency, Consent, and Control) dialog asking if the terminal may control "System Events". You must click **Allow**. If `theme-set` runs non-interactively first (such as via a launchd LaunchAgent), the prompt will not appear and `osascript` calls for wallpaper settings will silently fail. It's recommended to run `theme-set <name>` once interactively before relying on automated rotation.
+
+### Wallpaper rotation on macOS
+
+On macOS, `bin/wallpaper-cycle` acts as a one-shot script that sets the next wallpaper and exits. Scheduling is handled by launchd via `system/launchd/com.dotfiles.wallpaper-cycle.plist`, which is configured to run every hour. Installation is handled automatically by `script/install` via `system/install.sh`. To manually re-bootstrap the agent:
+
+```sh
+launchctl bootout gui/$(id -u)/com.dotfiles.wallpaper-cycle
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.dotfiles.wallpaper-cycle.plist
+```
+
+The installer instantiates a real plist in `~/Library/LaunchAgents/` rather than a symlink to ensure launchd reliability.
+
+### Accent color preset mapping
+
+macOS supports 8 preset accent colors: red (0), orange (1), yellow (2), green (3), blue (4), purple (5), and pink (6). Graphite (-1) is excluded from auto-mapping. `theme-set` calculates the closest preset by Euclidean RGB distance to the theme's `accent`. These reference RGB values are approximate and may vary slightly between macOS versions.
+
+### What does NOT change on macOS
+
+- **Dock**: Layout, icons, and position are not theme-driven.
+- **Menu bar**: Contents are not affected by the theme engine.
+- **Terminal apps**: Beyond kitty, other terminal emulators (like Ghostty or Terminal.app) do not have templates in this system.
