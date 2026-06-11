@@ -84,6 +84,8 @@ apply_tpl() {
   sed -f "$SED_SCRIPT" "$tpl" > "$dst"
 }
 
+toml_str() { grep "^$1" "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*= *"\(.*\)"/\1/' || true; }
+
 apply_tpl "$THEMED_DIR/sway-theme.conf.tpl"   "$HOME/.config/sway/config.d/05-theme.conf"
 apply_tpl "$THEMED_DIR/sway-output.conf.tpl"  "$HOME/.config/sway/config.d/20-output.conf"
 apply_tpl "$THEMED_DIR/rofi-vars.rasi.tpl"    "$HOME/.config/rofi/theme.rasi"
@@ -136,10 +138,79 @@ if command -v kitty &>/dev/null && [[ -f "$HOME/.config/kitty/colors.conf" ]]; t
   done
 fi
 
+if [[ "$(uname)" == "Darwin" ]]; then
+  APPEARANCE=$(toml_str appearance)
+  APPEARANCE="${APPEARANCE:-dark}"
+
+  if pgrep -x Dock &>/dev/null; then
+    BG_DIR="$THEME_DIR/backgrounds"
+    if [[ -d "$BG_DIR" ]]; then
+      # shellcheck disable=SC2012 # keep first-image lookup aligned with wallpaper_line generation
+      FIRST_BG=$(ls -1 "$BG_DIR" | sort | head -n1)
+      if [[ -n "$FIRST_BG" ]]; then
+        osascript -e 'tell application "System Events" to set picture of every desktop to POSIX file "'"$BG_DIR/$FIRST_BG"'"' 2>/dev/null \
+          && ok "wallpaper set: $FIRST_BG" || true
+      fi
+    fi
+  else
+    info "no GUI session — skipping wallpaper apply (TCC Automation requires GUI)"
+  fi
+
+  ACCENT_HEX=$(grep '^accent ' "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*#\([0-9a-fA-F]\{6\}\).*/\1/' || true)
+  if [[ -n "$ACCENT_HEX" ]]; then
+    R_INT=$((16#${ACCENT_HEX:0:2}))
+    G_INT=$((16#${ACCENT_HEX:2:2}))
+    B_INT=$((16#${ACCENT_HEX:4:2}))
+    R_FLOAT=$(printf '%.6f' "$(echo "scale=10; $R_INT / 255" | bc || true)")
+    G_FLOAT=$(printf '%.6f' "$(echo "scale=10; $G_INT / 255" | bc || true)")
+    B_FLOAT=$(printf '%.6f' "$(echo "scale=10; $B_INT / 255" | bc || true)")
+    defaults write -g AppleHighlightColor "$R_FLOAT $G_FLOAT $B_FLOAT Other" 2>/dev/null \
+      && ok "highlight color: #$ACCENT_HEX → $R_FLOAT $G_FLOAT $B_FLOAT Other" || true
+
+    BEST_IDX=4
+    BEST_DIST=999999
+    while IFS=: read -r idx hex; do
+      pr=$((16#${hex:0:2})); pg=$((16#${hex:2:2})); pb=$((16#${hex:4:2}))
+      dr=$((R_INT-pr)); dg=$((G_INT-pg)); db=$((B_INT-pb))
+      dist=$((dr*dr + dg*dg + db*db))
+      if (( dist < BEST_DIST )); then BEST_DIST=$dist; BEST_IDX=$idx; fi
+    done <<EOF
+0:e0383e
+1:f7821b
+2:febc2e
+3:62ba46
+4:007aff
+5:953d96
+6:f74f9e
+EOF
+    defaults write -g AppleAccentColor -int "$BEST_IDX" 2>/dev/null \
+      && ok "accent preset: $BEST_IDX" || true
+  fi
+
+  defaults write -g AppleInterfaceStyleSwitchesAutomatically -bool false 2>/dev/null \
+    && ok "auto-switch pinned: off" || true
+
+  case "$APPEARANCE" in
+    light)
+      defaults delete -g AppleInterfaceStyle 2>/dev/null || true
+      ok "appearance: light"
+      ;;
+    *)
+      defaults write -g AppleInterfaceStyle Dark 2>/dev/null || true
+      ok "appearance: dark"
+      ;;
+  esac
+
+  killall Dock 2>/dev/null || true
+  killall SystemUIServer 2>/dev/null || true
+  killall ControlCenter 2>/dev/null || true
+  killall Finder 2>/dev/null || true
+  ok "macOS UI reloaded"
+fi
+
 # Neovim — hot-reload colorscheme in any running instances
 # Plugin name and colorscheme name come from colors.toml (single source of truth)
 # tolerate missing keys: grep failing must not kill the script (set -e/pipefail)
-toml_str() { grep "^$1" "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*= *"\(.*\)"/\1/' || true; }
 NVIM_PLUGIN=$(toml_str nvim_plugin)
 NVIM_COLORSCHEME=$(toml_str nvim_colorscheme)
 # nvim_plugin_name overrides when the lazy name differs from the repo slug basename
