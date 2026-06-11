@@ -1,6 +1,7 @@
 # Ristretto
 nvim_plugin      = "gthelding/monokai-pro.nvim"
 nvim_colorscheme = "monokai-pro"
+appearance = "dark"
 accent             = "#f38d70"
 background         = "#2c2525"
 background_alt     = "#342d2d"

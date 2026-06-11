@@ -1,6 +1,7 @@
 # Matte Black
 nvim_plugin      = "tahayvr/matteblack.nvim"
 nvim_colorscheme = "matteblack"
+appearance = "dark"
 accent             = "#e68e0d"
 background         = "#121212"
 background_alt     = "#1a1a1a"

@@ -1,6 +1,7 @@
 # Kanagawa
 nvim_plugin      = "rebelot/kanagawa.nvim"
 nvim_colorscheme = "kanagawa"
+appearance = "dark"
 accent             = "#7e9cd8"
 background         = "#1f1f28"
 background_alt     = "#2a2a37"

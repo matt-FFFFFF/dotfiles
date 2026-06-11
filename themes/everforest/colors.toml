@@ -1,6 +1,7 @@
 # Everforest
 nvim_plugin      = "neanias/everforest-nvim"
 nvim_colorscheme = "everforest"
+appearance = "dark"
 accent             = "#7fbbb3"
 background         = "#2d353b"
 background_alt     = "#343f44"

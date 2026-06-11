@@ -1,6 +1,7 @@
 # Nord
 nvim_plugin      = "arcticicestudio/nord-vim"
 nvim_colorscheme = "nord"
+appearance = "dark"
 accent             = "#88c0d0"
 background         = "#2e3440"
 background_alt     = "#3b4252"

@@ -1,6 +1,7 @@
 # Gruvbox
 nvim_plugin      = "ellisonleao/gruvbox.nvim"
 nvim_colorscheme = "gruvbox"
+appearance = "dark"
 accent             = "#7daea3"
 background         = "#282828"
 background_alt     = "#32302f"

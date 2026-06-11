@@ -1,6 +1,7 @@
 # Cyan — default omarchy palette
 nvim_plugin      = "olimorris/onedarkpro.nvim"
 nvim_colorscheme = "onedark"
+appearance = "dark"
 accent             = "#33ccff"
 background         = "#0d0d0d"
 background_alt     = "#141414"

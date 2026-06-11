@@ -1,6 +1,7 @@
 # Ethereal
 nvim_plugin      = "bjarneo/ethereal.nvim"
 nvim_colorscheme = "ethereal"
+appearance = "dark"
 accent             = "#7d82d9"
 background         = "#060B1E"
 background_alt     = "#0d1428"

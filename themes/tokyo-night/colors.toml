@@ -1,6 +1,7 @@
 # Tokyo Night
 nvim_plugin      = "folke/tokyonight.nvim"
 nvim_colorscheme = "tokyonight-night"
+appearance = "dark"
 accent             = "#7aa2f7"
 background         = "#1a1b26"
 background_alt     = "#24283b"

@@ -1,6 +1,7 @@
 # Vantablack
 nvim_plugin      = "bjarneo/vantablack.nvim"
 nvim_colorscheme = "vantablack"
+appearance = "dark"
 accent             = "#8d8d8d"
 background         = "#0d0d0d"
 background_alt     = "#141414"

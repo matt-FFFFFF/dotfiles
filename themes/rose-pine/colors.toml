@@ -2,6 +2,7 @@
 nvim_plugin      = "rose-pine/neovim"
 nvim_plugin_name = "rose-pine"
 nvim_colorscheme = "rose-pine"
+appearance = "dark"
 accent             = "#c4a7e7"
 background         = "#191724"
 background_alt     = "#1f1d2e"

@@ -1,6 +1,7 @@
 # Osaka Jade
 nvim_plugin      = "ribru17/bamboo.nvim"
 nvim_colorscheme = "bamboo"
+appearance = "dark"
 accent             = "#509475"
 background         = "#111c18"
 background_alt     = "#192820"

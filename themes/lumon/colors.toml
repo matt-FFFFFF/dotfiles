@@ -2,6 +2,7 @@
 nvim_plugin      = "omacom-io/lumon.nvim"
 nvim_plugin_name = "lumon"
 nvim_colorscheme = "lumon"
+appearance = "dark"
 accent             = "#f2fcff"
 background         = "#16242d"
 background_alt     = "#1b2d40"

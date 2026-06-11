@@ -1,6 +1,7 @@
 # Miasma
 nvim_plugin      = "xero/miasma.nvim"
 nvim_colorscheme = "miasma"
+appearance = "dark"
 accent             = "#78824b"
 background         = "#222222"
 background_alt     = "#2a2a2a"

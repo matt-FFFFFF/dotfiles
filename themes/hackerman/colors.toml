@@ -1,6 +1,7 @@
 # Hackerman
 nvim_plugin      = "bjarneo/hackerman.nvim"
 nvim_colorscheme = "hackerman"
+appearance = "dark"
 accent             = "#82FB9C"
 background         = "#0B0C16"
 background_alt     = "#12131f"
