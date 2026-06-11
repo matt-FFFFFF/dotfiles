@@ -190,13 +190,15 @@ print(idx)
   case "$APPEARANCE" in
     light)
       defaults delete -g AppleInterfaceStyle 2>/dev/null || true
+      defaults delete -g AppleIconAppearanceTheme 2>/dev/null || true
       osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to false' 2>/dev/null || true
-      ok "appearance: light"
+      ok "appearance: light (icons: Default)"
       ;;
     *)
       defaults write -g AppleInterfaceStyle Dark 2>/dev/null || true
+      defaults write -g AppleIconAppearanceTheme RegularDark 2>/dev/null || true
       osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true' 2>/dev/null || true
-      ok "appearance: dark"
+      ok "appearance: dark (icons: Dark)"
       ;;
   esac
 

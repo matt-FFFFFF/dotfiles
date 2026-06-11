@@ -517,7 +517,7 @@ On macOS, `theme-set` applies the wallpaper, text highlight color, system accent
 - **Wallpaper**: Applied to every Space on every display via `bin/macos-set-wallpaper`, which mutates `~/Library/Application Support/com.apple.wallpaper/Store/Index.plist` directly and restarts `WallpaperAgent`. Apple's public APIs (`osascript`, `NSWorkspace.setDesktopImageURL`, the `wallpaper` Homebrew CLI) only ever update the visible Space per display, leaving invisible Spaces stuck on the old wallpaper.
 - **Text-selection highlight color**: Set via `defaults write -g AppleHighlightColor`. The theme's `accent` hex is converted to the required "R G B Other" float format.
 - **System accent color**: Set via `defaults write -g AppleAccentColor` using the closest of macOS's 8 presets (red, orange, yellow, green, blue, purple, pink) to the theme's `accent` color.
-- **Appearance mode**: Driven by the `appearance` key in `colors.toml`, this sets `defaults write -g AppleInterfaceStyle Dark` (or deletes the key for light mode).
+- **Appearance mode**: Driven by the `appearance` key in `colors.toml`, this sets `defaults write -g AppleInterfaceStyle Dark` (or deletes the key for light mode). The same toggle also writes `AppleIconAppearanceTheme=RegularDark` for dark themes (or deletes it for light) so the system "Icon & widget style" preference follows the appearance, and broadcasts `AppleInterfaceThemeChangedNotification` via `osascript` so already-running apps repoll appearance live.
 - **Auto-switch**: `AppleInterfaceStyleSwitchesAutomatically` is pinned to `false` so the theme choice remains constant.
 - **UI reload**: The `Dock`, `SystemUIServer`, `ControlCenter`, and `Finder` are restarted after `defaults` writes to ensure changes take effect.
 
