@@ -510,12 +510,11 @@ Themes can override any generated file by shipping a pre-built version (e.g. a `
 
 ## macOS Support
 
-On macOS, `theme-set` applies the wallpaper, text highlight color, system accent color (closest preset), and appearance mode via `defaults` and `bin/macos-set-wallpaper`. Linux-specific components like Sway, Waybar, Dunst, Rofi, and Swaylock remain as no-ops; their reload steps are best-effort and skip silently when their binaries or configs are absent.
+On macOS, `theme-set` applies the wallpaper and appearance mode via `defaults`, `bin/macos-set-wallpaper`, and `osascript`. Linux-specific components like Sway, Waybar, Dunst, Rofi, and Swaylock remain as no-ops; their reload steps are best-effort and skip silently when their binaries or configs are absent.
 
 ### What gets applied on macOS
 
 - **Wallpaper**: Applied to every Space on every display via `bin/macos-set-wallpaper`, which mutates `~/Library/Application Support/com.apple.wallpaper/Store/Index.plist` directly and restarts `WallpaperAgent`. Apple's public APIs (`osascript`, `NSWorkspace.setDesktopImageURL`, the `wallpaper` Homebrew CLI) only ever update the visible Space per display, leaving invisible Spaces stuck on the old wallpaper.
-- **Text-selection highlight color**: Set via `defaults write -g AppleHighlightColor`. The theme's `accent` hex is converted to the required "R G B Other" float format.
 - **Appearance mode**: Driven by the `appearance` key in `colors.toml`, this sets `defaults write -g AppleInterfaceStyle Dark` (or deletes the key for light mode). The same toggle also writes `AppleIconAppearanceTheme=RegularDark` for dark themes (or deletes it for light) so the system "Icon & widget style" preference follows the appearance, and broadcasts `AppleInterfaceThemeChangedNotification` via `osascript` so already-running apps repoll appearance live.
 - **Auto-switch**: `AppleInterfaceStyleSwitchesAutomatically` is pinned to `false` so the theme choice remains constant.
 - **UI reload**: The `Dock`, `SystemUIServer`, `ControlCenter`, and `Finder` are restarted after `defaults` writes to ensure changes take effect.

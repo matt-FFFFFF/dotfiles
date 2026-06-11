@@ -154,18 +154,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
     fi
   fi
 
-  ACCENT_HEX=$(grep '^accent ' "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*#\([0-9a-fA-F]\{6\}\).*/\1/' || true)
-  if [[ -n "$ACCENT_HEX" ]]; then
-    R_INT=$((16#${ACCENT_HEX:0:2}))
-    G_INT=$((16#${ACCENT_HEX:2:2}))
-    B_INT=$((16#${ACCENT_HEX:4:2}))
-    R_FLOAT=$(printf '%.6f' "$(echo "scale=10; $R_INT / 255" | bc || true)")
-    G_FLOAT=$(printf '%.6f' "$(echo "scale=10; $G_INT / 255" | bc || true)")
-    B_FLOAT=$(printf '%.6f' "$(echo "scale=10; $B_INT / 255" | bc || true)")
-    defaults write -g AppleHighlightColor "$R_FLOAT $G_FLOAT $B_FLOAT Other" 2>/dev/null \
-      && ok "highlight color: #$ACCENT_HEX → $R_FLOAT $G_FLOAT $B_FLOAT Other" || true
-  fi
-
   defaults write -g AppleInterfaceStyleSwitchesAutomatically -bool false 2>/dev/null \
     && ok "auto-switch pinned: off" || true
 
