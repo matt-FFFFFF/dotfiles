@@ -26,7 +26,7 @@ Read [mise/config/config.toml](mise/config/config.toml) before adding any CLI to
 - `themed/*.tpl` are mustache-ish templates (`{{ key }}`, `{{ key_strip }}`, `{{ key_rgb }}`).
 - [bin/theme-set](bin/theme-set) renders templates → writes to `~/.config/...` → live-reloads sway/waybar/dunst/kitty/nvim via their respective IPC sockets.
 - [bin/theme-picker](bin/theme-picker) is the fzf/rofi picker. `-v` for verbose, silent by default (important: hotkey use cannot tolerate stdout corrupting the prompt redraw).
-- **`kitty/config/colors.conf` IS tracked but is overwritten on every `theme-set` run.** It will frequently show as dirty in `git status`. Do not commit theme-output changes unless intentional.
+- **`kitty/config/colors.conf` is gitignored** (via `kitty/config/.gitignore`) because it is overwritten on every `theme-set` run. A fresh clone has no `colors.conf` until the first `theme-set <name>` generates one.
 - **kitty live-reload requires `allow_remote_control yes`** (set in [kitty/config/kitty.conf](kitty/config/kitty.conf)) and the socket path `/tmp/kitty.sock*` (configured via `listen_on unix:/tmp/kitty.sock`).
 
 ## Keybind layers

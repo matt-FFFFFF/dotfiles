@@ -68,11 +68,11 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
 | `~/.config/rofi/theme.rasi` | `themed/rofi-vars.rasi.tpl` | no |
 | `~/.config/dunst/dunstrc` | `themed/dunstrc.tpl` | no |
 | `~/.config/swaylock/config` | `themed/swaylock.conf.tpl` | no |
-| `~/.config/kitty/colors.conf` | `themed/kitty-colors.conf.tpl` | **YES** (symlinked into repo) |
+| `~/.config/kitty/colors.conf` | `themed/kitty-colors.conf.tpl` | no (gitignored via `kitty/config/.gitignore`) |
 | `~/.config/themes/current.name` | written by `theme-set` | no |
 | `~/.config/themes/wallpaper.index` | written by `theme-set` | no |
 
-`kitty/config/` is a topic-config dir, so it symlinks to `~/.config/kitty/`. Writing to `~/.config/kitty/colors.conf` therefore writes through the symlink into the repo at `kitty/config/colors.conf`, which **is** tracked. Expect `git status` to frequently show it dirty after running `theme-set`; do not commit unless intentional.
+`kitty/config/` is a topic-config dir, so it symlinks to `~/.config/kitty/`. Writing to `~/.config/kitty/colors.conf` therefore writes through the symlink into the repo at `kitty/config/colors.conf`. That file is gitignored via `kitty/config/.gitignore`, so a fresh clone has no `colors.conf` until `theme-set <name>` generates one — same bootstrap step as the rest of the generated configs.
 
 ---
 
