@@ -22,6 +22,10 @@ brew "vim"
 # curl is preinstalled on macOS; the brew version provides newer SSL/HTTP2
 brew "curl"
 
+# bash is preinstalled on macOS, but it's an old version (3.2) that lacks features and
+# security fixes. The brew version is newer (5.2) and can be set as the default shell.
+brew "bash"
+
 # ── tmux (was tmux/install.sh) ──────────────────────────────────────────────
 brew "tmux"
 

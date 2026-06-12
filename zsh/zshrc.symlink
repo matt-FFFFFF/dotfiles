@@ -223,9 +223,6 @@ if [[ $DOTFILES_OS == linux ]]; then
 fi
 
 if [[ $DOTFILES_OS == darwin ]]; then
-	if [ -e /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-		source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-	fi
 	if [ -e /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]; then
 		source /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 	fi
