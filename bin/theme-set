@@ -182,13 +182,28 @@ if [[ "$(uname)" == "Darwin" ]]; then
   # that cached their cursor at launch stay stale until restart.
   CURSOR_HEX=$(grep '^cursor ' "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*#\([0-9a-fA-F]\{6\}\).*/\1/' || true)
   if [[ -n "$CURSOR_HEX" ]]; then
-    R=$(echo "scale=6; $((16#${CURSOR_HEX:0:2})) / 255" | bc)
-    G=$(echo "scale=6; $((16#${CURSOR_HEX:2:2})) / 255" | bc)
-    B=$(echo "scale=6; $((16#${CURSOR_HEX:4:2})) / 255" | bc)
+    R_INT=$((16#${CURSOR_HEX:0:2}))
+    G_INT=$((16#${CURSOR_HEX:2:2}))
+    B_INT=$((16#${CURSOR_HEX:4:2}))
+    R=$(echo "scale=6; $R_INT / 255" | bc)
+    G=$(echo "scale=6; $G_INT / 255" | bc)
+    B=$(echo "scale=6; $B_INT / 255" | bc)
     defaults write com.apple.universalaccess cursorFill -dict \
       red -float "$R" green -float "$G" blue -float "$B" alpha -float 1.0 2>/dev/null \
       && defaults write com.apple.universalaccess cursorIsCustomized -bool true 2>/dev/null \
-      && ok "cursor: #$CURSOR_HEX" || true
+      && ok "cursor fill: #$CURSOR_HEX" || true
+
+    # Outline = opposite of fill via WCAG relative luminance.
+    # luminance = (0.2126·R + 0.7152·G + 0.0722·B); >0.5 → fill is "light" → outline black.
+    LUM=$(echo "scale=4; (0.2126*$R_INT + 0.7152*$G_INT + 0.0722*$B_INT) / 255" | bc)
+    if [[ $(echo "$LUM > 0.5" | bc) -eq 1 ]]; then
+      OUT=0.0; OUT_NAME=black
+    else
+      OUT=1.0; OUT_NAME=white
+    fi
+    defaults write com.apple.universalaccess cursorOutline -dict \
+      red -float "$OUT" green -float "$OUT" blue -float "$OUT" alpha -float 1.0 2>/dev/null \
+      && ok "cursor outline: $OUT_NAME (fill luminance $LUM)" || true
   fi
 
   killall Dock 2>/dev/null || true
