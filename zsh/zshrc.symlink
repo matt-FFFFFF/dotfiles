@@ -206,7 +206,6 @@ zle -N exit_zsh
 bindkey '^D' exit_zsh
 
 # Highlighting and autosuggestions
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 if [[ $DOTFILES_OS == linux ]]; then
 	# Arch requires AUR package `zsh-fast-syntax-highlighting`
 	if [ -e /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]; then

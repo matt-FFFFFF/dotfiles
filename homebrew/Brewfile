@@ -29,6 +29,6 @@ brew "tmux"
 # Installed into /opt/homebrew/share for the zsh runtime to source via fpath.
 # zsh/install.sh handles the chmod -R go-w post-install perm fix (compinit
 # requires non-world-writable shared dirs).
-brew "zsh-syntax-highlighting"
+brew "zsh-fast-syntax-highlighting"
 brew "zsh-completions"
 brew "zsh-autosuggestions"
