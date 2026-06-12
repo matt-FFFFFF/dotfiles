@@ -160,17 +160,36 @@ if [[ "$(uname)" == "Darwin" ]]; then
   case "$APPEARANCE" in
     light)
       defaults delete -g AppleInterfaceStyle 2>/dev/null || true
-      defaults delete -g AppleIconAppearanceTheme 2>/dev/null || true
+      # Icon theming disabled per user request:
+      # defaults delete -g AppleIconAppearanceTheme 2>/dev/null || true
       osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to false' 2>/dev/null || true
-      ok "appearance: light (icons: Default)"
+      ok "appearance: light"
       ;;
     *)
       defaults write -g AppleInterfaceStyle Dark 2>/dev/null || true
-      defaults write -g AppleIconAppearanceTheme RegularDark 2>/dev/null || true
+      # Icon theming disabled per user request:
+      # defaults write -g AppleIconAppearanceTheme RegularDark 2>/dev/null || true
       osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true' 2>/dev/null || true
-      ok "appearance: dark (icons: Dark)"
+      ok "appearance: dark"
       ;;
   esac
+
+  # Cursor (mouse pointer) fill colour from theme's `cursor` hex.
+  # MUST go through `defaults write` (not direct plist mutation) — cfprefsd
+  # posts the distributed notification that running apps observe to re-acquire
+  # the cursor. Direct plist writes via plistlib bypass cfprefsd and only the
+  # OS-rendered cursor (Dock, SystemUIServer, Finder etc.) updates; user apps
+  # that cached their cursor at launch stay stale until restart.
+  CURSOR_HEX=$(grep '^cursor ' "$THEME_DIR/colors.toml" 2>/dev/null | sed 's/.*#\([0-9a-fA-F]\{6\}\).*/\1/' || true)
+  if [[ -n "$CURSOR_HEX" ]]; then
+    R=$(echo "scale=6; $((16#${CURSOR_HEX:0:2})) / 255" | bc)
+    G=$(echo "scale=6; $((16#${CURSOR_HEX:2:2})) / 255" | bc)
+    B=$(echo "scale=6; $((16#${CURSOR_HEX:4:2})) / 255" | bc)
+    defaults write com.apple.universalaccess cursorFill -dict \
+      red -float "$R" green -float "$G" blue -float "$B" alpha -float 1.0 2>/dev/null \
+      && defaults write com.apple.universalaccess cursorIsCustomized -bool true 2>/dev/null \
+      && ok "cursor: #$CURSOR_HEX" || true
+  fi
 
   killall Dock 2>/dev/null || true
   killall SystemUIServer 2>/dev/null || true
