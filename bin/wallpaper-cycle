@@ -9,8 +9,11 @@
 
 set -uo pipefail
 
-DOTFILES="$HOME/.dotfiles"
-STATE_FILE="$HOME/.config/themes/wallpaper.index"
+# Derive DOTFILES from the script's own location — no dependence on $HOME or
+# any env var (launchd's minimal environment may not set what we expect).
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOTFILES="$(dirname "$SCRIPT_DIR")"
+STATE_FILE="${HOME:-$(echo ~)}/.config/themes/wallpaper.index"
 
 # ── helpers ────────────────────────────────────────────────────────────────
 
