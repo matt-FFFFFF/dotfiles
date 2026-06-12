@@ -25,7 +25,12 @@ BG_DIR="$DOTFILES/themes/$THEME/backgrounds"
 
 [[ -d "$BG_DIR" ]] || { info "no backgrounds dir for theme: $THEME"; exit 0; }
 
-mapfile -t WALLS < <(ls -1 "$BG_DIR" | sort)
+# mapfile is bash 4+; launchd's minimal PATH resolves `env bash` to
+# /bin/bash (3.2.57) which lacks it. Use a portable read loop instead.
+WALLS=()
+while IFS= read -r _wall; do
+  WALLS+=("$_wall")
+done < <(ls -1 "$BG_DIR" | sort)
 COUNT=${#WALLS[@]}
 [[ $COUNT -gt 0 ]] || { info "no wallpapers in $BG_DIR"; exit 0; }
 
@@ -38,7 +43,8 @@ WALLPAPER="$BG_DIR/${WALLS[$IDX]}"
 
 case "$(uname)" in
   Darwin)
-    macos-set-wallpaper "$WALLPAPER" 2>/dev/null || true
+    # Absolute path — launchd PATH doesn't include $DOTFILES/bin
+    "$DOTFILES/bin/macos-set-wallpaper" "$WALLPAPER" 2>/dev/null || true
     ok "wallpaper applied: $WALLPAPER"
     ;;
   *)
