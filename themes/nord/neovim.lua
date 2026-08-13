@@ -1,4 +1,4 @@
 return {
-  { "arcticicestudio/nord-vim", priority = 1000 },
-  { "LazyVim/LazyVim", opts = { colorscheme = "nord" } },
+  { "EdenEast/nightfox.nvim", name = "nightfox.nvim" },
+  { "LazyVim/LazyVim", opts = { colorscheme = "nordfox" } },
 }

@@ -13,7 +13,9 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
 ├── themes/
 │   ├── cyan/                       # default — your existing palette
 │   │   ├── colors.toml
-│   │   └── neovim.lua
+│   │   ├── neovim.lua
+│   │   └── backgrounds/
+│   │       └── 1-cyan.jpg
 │   ├── tokyo-night/
 │   │   ├── colors.toml
 │   │   ├── neovim.lua
@@ -29,11 +31,16 @@ Covered apps: **sway**, **waybar**, **rofi**, **dunst**, **swaylock**, **kitty**
 │   │   ├── neovim.lua
 │   │   └── backgrounds/
 │   │       └── 1-nord.jpg
-│   └── catppuccin-mocha/
-│       ├── colors.toml
-│       ├── neovim.lua
-│       └── backgrounds/
-│           └── 1-mocha.jpg
+│   ├── catppuccin-mocha/
+│   │   ├── colors.toml
+│   │   ├── neovim.lua
+│   │   └── backgrounds/
+│   │       └── 1-mocha.jpg
+│   └── ... (23 themes total — see "Initial Themes" below for the full list;
+│           each follows the same `colors.toml` + `neovim.lua` + `backgrounds/` shape,
+│           translated from Omarchy's palettes and wallpapers into this repo's schema.
+│           Only wallpaper backgrounds are carried over from Omarchy — no logos,
+│           previews, lock-screen art, icon themes, or other app-specific assets.)
 │
 ├── system/                         # system services and installers
 │   ├── install.sh                  # macOS-guarded LaunchAgent installer
@@ -473,15 +480,35 @@ The same physical key (`Alt+T`) works inside tmux and at the native zsh prompt b
 
 ---
 
-## Initial Themes
+## Themes
+
+23 themes ship in `themes/`. `cyan` is the original local palette; the other 22 were translated from [omarchy](https://github.com/basecamp/omarchy)'s palettes into this repo's `colors.toml` schema (see [Schema](#colorstoml-schema) above) — only the accent/background/foreground/etc. hex values and wallpaper backgrounds were carried over. Omarchy's logos, previews, lock-screen art, icon themes, and other app-specific files are not part of this repo.
 
 | Theme | Accent | Background | Neovim plugin |
 |---|---|---|---|
+| **catppuccin-latte** | `#1e66f5` | `#eff1f5` | `catppuccin/nvim` (`catppuccin-latte`) |
+| **catppuccin-mocha** | `#89b4fa` | `#1e1e2e` | `catppuccin/nvim` (`catppuccin-mocha`) |
 | **cyan** | `#33ccff` | `#0d0d0d` | `olimorris/onedarkpro.nvim` (`onedark`) |
+| **ethereal** | `#7d82d9` | `#060B1E` | `bjarneo/ethereal.nvim` (`ethereal`) |
+| **everforest** | `#7fbbb3` | `#2d353b` | `neanias/everforest-nvim` (`everforest`) |
+| **flexoki-light** | `#205EA6` | `#FFFCF0` | `kepano/flexoki-neovim` (`flexoki-light`) |
+| **gruvbox** | `#7daea3` | `#282828` | `ellisonleao/gruvbox.nvim` (`gruvbox`) |
+| **hackerman** | `#82FB9C` | `#0B0C16` | `bjarneo/hackerman.nvim` (`hackerman`) |
+| **kanagawa** | `#dcd7ba` | `#1f1f28` | `rebelot/kanagawa.nvim` (`kanagawa`) |
+| **last-horizon** | `#b59790` | `#0c0b0c` | `bjarneo/aether.nvim` (`aether`) |
+| **lumon** | `#8bc9eb` | `#16242d` | `omacom-io/lumon.nvim` (`lumon`) |
+| **lupine** | `#3264eb` | `#fafafa` | `Shatur/neovim-ayu` (`ayu-light`) |
+| **matte-black** | `#e68e0d` | `#121212` | `tahayvr/matteblack.nvim` (`matteblack`) |
+| **miasma** | `#78824b` | `#222222` | `xero/miasma.nvim` (`miasma`) |
+| **nord** | `#81a1c1` | `#2e3440` | `EdenEast/nightfox.nvim` (`nordfox`) |
+| **osaka-jade** | `#509475` | `#111c18` | `ribru17/bamboo.nvim` (`bamboo`) |
+| **retro-82** | `#faa968` | `#05182e` | `OldJobobo/retro-82.nvim` (`retro-82`) |
+| **ristretto** | `#f38d70` | `#2c2525` | `gthelding/monokai-pro.nvim` (`monokai-pro`) |
+| **rose-pine** | `#56949f` | `#faf4ed` | `rose-pine/neovim` (`rose-pine-dawn`) |
+| **solitude** | `#798186` | `#101315` | `ficcdaf/ashen.nvim` (`ashen`) |
 | **tokyo-night** | `#7aa2f7` | `#1a1b26` | `folke/tokyonight.nvim` (`tokyonight-night`) |
-| **rose-pine** | `#c4a7e7` | `#191724` | `rose-pine/neovim` (`rose-pine`) |
-| **nord** | `#88c0d0` | `#2e3440` | `arcticicestudio/nord-vim` (`nord`) |
-| **catppuccin-mocha** | `#cba6f7` | `#1e1e2e` | `catppuccin/nvim` (`catppuccin-mocha`) |
+| **vantablack** | `#8d8d8d` | `#000000` | `bjarneo/vantablack.nvim` (`vantablack`) |
+| **white** | `#6e6e6e` | `#ffffff` | `bjarneo/white.nvim` (`white`) |
 
 ---
 
@@ -504,7 +531,7 @@ This writes all generated configs from the `cyan` theme (your original palette) 
 3. Optionally add background images to `~/.dotfiles/themes/<name>/backgrounds/`
 4. Run `theme-set <name>`
 
-Themes can override any generated file by shipping a pre-built version (e.g. a `waybar.css` that completely replaces the template output). `theme-set` copies theme-specific files before running templates, and templates skip files that already exist in the output.
+`theme-set` always renders the same central templates in `themed/*.tpl` against the new theme's `colors.toml` — it does not read or copy any per-theme override files, and there is no mechanism for a theme to ship a pre-built replacement for a generated file (e.g. its own `waybar.css`). Every theme drives the same templates through the same substitution.
 
 ---
 
