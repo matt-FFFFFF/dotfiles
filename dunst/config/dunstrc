@@ -32,7 +32,7 @@
     horizontal_padding = 12
     text_icon_padding = 8
     frame_width = 2
-    frame_color = "#7e9cd8"
+    frame_color = "#3264eb"
     gap_size = 6
     separator_color = frame
     sort = yes
@@ -83,23 +83,23 @@
 # ── Urgency levels ──────────────────────────────────────────────────────────
 
 [urgency_low]
-    background = "#1f1f28"
-    foreground = "#727169"
-    frame_color = "#54546d"
+    background = "#fafafa"
+    foreground = "#757575"
+    frame_color = "#9e9e9e"
     timeout = 4
     default_icon = dialog-information
 
 [urgency_normal]
-    background = "#1f1f28"
-    foreground = "#dcd7ba"
-    frame_color = "#7e9cd8"
+    background = "#fafafa"
+    foreground = "#212121"
+    frame_color = "#3264eb"
     timeout = 6
     default_icon = dialog-information
 
 [urgency_critical]
-    background = "#1f1f28"
-    foreground = "#c34043"
-    frame_color = "#c34043"
+    background = "#fafafa"
+    foreground = "#c900c4"
+    frame_color = "#c900c4"
     timeout = 0
     default_icon = dialog-error
 
@@ -108,8 +108,8 @@
 # Screenshot notifications — green accent
 [screenshots]
     summary = "Screenshot*"
-    frame_color = "#76946a"
-    foreground  = "#76946a"
+    frame_color = "#4a2fd0"
+    foreground  = "#4a2fd0"
     timeout = 3
 
 # Volume / brightness — short timeout, low urgency style
@@ -124,6 +124,6 @@
 # Nightlight
 [nightlight]
     summary = "Nightlight*"
-    frame_color = "#c0a36e"
-    foreground  = "#c0a36e"
+    frame_color = "#026fde"
+    foreground  = "#026fde"
     timeout = 3
