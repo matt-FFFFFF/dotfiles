@@ -9,8 +9,6 @@ bind-key C-a send-prefix
 # send C-a to applications
 bind-key a send-keys C-a
 
-set-option -g default-command "reattach-to-user-namespace -l $SHELL"
-
 set -gq allow-passthrough on
 set-option -g extended-keys on
 set-option -as terminal-features 'tmux-256color*:extkeys'

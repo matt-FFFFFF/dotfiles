@@ -29,6 +29,12 @@ brew "bash"
 # ── tmux (was tmux/install.sh) ──────────────────────────────────────────────
 brew "tmux"
 
+# ── Touch ID for sudo inside tmux ────────────────────────────────────────────
+# pam_tid.so can't reach the Touch ID service from tmux's background session;
+# pam_reattach moves the authenticating process into the active login session
+# first. Configured in /etc/pam.d/sudo_local as `auth optional ... ignore_ssh`.
+brew "pam-reattach"
+
 # ── zsh plugins (was zsh/install.sh) ────────────────────────────────────────
 # Installed into /opt/homebrew/share for the zsh runtime to source via fpath.
 # zsh/install.sh handles the chmod -R go-w post-install perm fix (compinit
